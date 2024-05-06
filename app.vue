@@ -1,5 +1,14 @@
+<script setup lang="ts">
+useSeoMeta({
+  title: 'NuxtHub Starter',
+  description: 'A Nuxt template to build your next project quickly.',
+})
+</script>
+
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+  <UNotifications />
+  <UModals />
 </template>
