@@ -22,5 +22,5 @@ bun install
 - start dev server
 
 ```bash
-bun dev
+bun run dev
 ```
