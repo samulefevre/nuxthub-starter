@@ -14,10 +14,10 @@
     "db:generate": "drizzle-kit generate:sqlite"
   },
   "dependencies": {
-    "@nuxt/eslint": "^0.3.12",
+    "@nuxt/eslint": "^0.3.13",
     "@nuxt/ui-pro": "^1.2.0",
-    "@nuxthub/core": "^0.5.16",
-    "drizzle-orm": "^0.30.10",
+    "@nuxthub/core": "^0.6.4",
+    "drizzle-orm": "^0.31.1",
     "nuxt": "^3.11.2",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
@@ -29,11 +29,11 @@
     "@nuxt/ui": "^2.16.0",
     "@nuxtjs/i18n": "^8.3.1",
     "@vue/test-utils": "^2.4.6",
-    "drizzle-kit": "^0.21.1",
-    "happy-dom": "^14.10.1",
-    "nuxt-auth-utils": "^0.0.24",
-    "playwright-core": "^1.44.0",
+    "drizzle-kit": "^0.22.2",
+    "happy-dom": "^14.12.0",
+    "nuxt-auth-utils": "^0.0.25",
+    "playwright-core": "^1.44.1",
     "vitest": "^1.6.0",
-    "wrangler": "^3.55.0"
+    "wrangler": "^3.59.0"
   }
 }
