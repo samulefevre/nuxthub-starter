@@ -4,7 +4,7 @@ import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
 export const users = sqliteTable('users', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
-  email: text('email').notNull(),
+  email: text('email').unique().notNull(),
   avatar: text('avatar').notNull(),
   role: text('role', { enum: ['user', 'admin'] }).notNull().default('user'),
   lastLogin: integer('last_login', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
@@ -32,3 +32,14 @@ export const credentialsRelations = relations(credentials, ({ one }) => ({
     references: [users.id],
   }),
 }))
+
+export const magicLinks = sqliteTable('magic_links', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  email: text('email').unique().notNull(),
+  token: text('token').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()).$onUpdateFn(() => new Date()),
+  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull().$defaultFn(() =>
+    new Date(Date.now() + 5 * 60 * 1000), // 5 minutes,
+  ),
+})

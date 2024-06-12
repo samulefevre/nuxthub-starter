@@ -1,12 +1,12 @@
 {
-  "version": "5",
+  "version": "7",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1714975872601,
-      "tag": "0000_shiny_jackpot",
+      "version": "6",
+      "when": 1718106473478,
+      "tag": "0000_fast_zemo",
       "breakpoints": true
     }
   ]

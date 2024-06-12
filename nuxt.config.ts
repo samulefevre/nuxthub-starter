@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   extends: ['@nuxt/ui-pro'],
   modules: [
     '@nuxt/test-utils/module',
+    '@vue-email/nuxt',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/eslint',
@@ -11,7 +12,14 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     '@nuxt/image',
     '@nuxtjs/i18n',
+
   ],
+  runtimeConfig: {
+    public: {
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    },
+    resendApiKey: '',
+  },
   eslint: {
     config: {
       stylistic: {
