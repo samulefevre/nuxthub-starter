@@ -2,13 +2,18 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
+  // Nuxt 4 directory structure and features
+  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
+  future: { compatibilityVersion: 4 },
+  // Nuxt Modules
+  // https://nuxt.com/modules
   modules: [
+    '@nuxthub/core',
     '@nuxt/test-utils/module',
     '@vue-email/nuxt',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/eslint',
-    '@nuxthub/core',
     'nuxt-auth-utils',
     '@nuxt/image',
     '@nuxtjs/i18n',
@@ -66,5 +71,8 @@ export default defineNuxtConfig({
   content: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
+  },
+  ui: {
+    icons: ['simple-icons'],
   },
 })
