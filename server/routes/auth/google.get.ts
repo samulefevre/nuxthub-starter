@@ -12,6 +12,11 @@ export default oauth.googleEventHandler({
         name: googleUser.name,
         email: googleUser.email,
         avatar: googleUser.picture,
+      }).onConflictDoUpdate({
+        target: tables.users.email,
+        set: {
+          lastLogin: new Date(),
+        },
       }).returning().get()
 
       if (!newUser) {
