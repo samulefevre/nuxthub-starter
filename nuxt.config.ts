@@ -1,3 +1,5 @@
+import vue from '@vitejs/plugin-vue'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -10,14 +12,12 @@ export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
     '@nuxt/test-utils/module',
-    '@vue-email/nuxt',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/eslint',
     'nuxt-auth-utils',
     '@nuxt/image',
     '@nuxtjs/i18n',
-
   ],
   runtimeConfig: {
     public: {
@@ -44,6 +44,10 @@ export default defineNuxtConfig({
     experimental: {
       // Enable Server API documentation within NuxtHub
       openAPI: true,
+    },
+    rollupConfig: {
+      // @ts-expect-error - Vite config
+      plugins: [vue()],
     },
   },
   routeRules: {
