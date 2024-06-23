@@ -28,10 +28,11 @@ export default defineEventHandler(async (event) => {
       return sendRedirect(event, '/app')
     }
 
+    const name = existingMagicLink.email.split('@')[0]
+
     const newUser = await useDrizzle().insert(tables.users).values({
-      name: '',
+      name,
       email: existingMagicLink.email,
-      avatar: '',
     }).returning().get()
 
     await deleteMagicLink(token)

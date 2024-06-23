@@ -22,7 +22,7 @@ CREATE TABLE `users` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
-	`avatar` text NOT NULL,
+	`avatar` text,
 	`role` text DEFAULT 'user' NOT NULL,
 	`last_login` integer NOT NULL,
 	`created_at` integer NOT NULL,

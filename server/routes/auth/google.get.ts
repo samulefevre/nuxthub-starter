@@ -62,14 +62,20 @@ export default oauth.googleEventHandler({
       })
     }
 
+    let name = user.name
+    if (!name) {
+      name = googleUser.name
+    }
+
     await useDrizzle().update(tables.users).set({
       lastLogin: new Date(),
+      name,
     }).where(eq(tables.users.id, user.id))
 
     await setUserSession(event, {
       user: {
         id: user.id,
-        name: user.name,
+        name,
         email: user.email,
         avatarUrl: user.avatar,
         role: user.role,
