@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import type { HeaderLink } from '@nuxt/ui-pro/types'
 
-const { loggedIn, clear } = useUserSession()
+const { loggedIn } = useUserSession()
 
-const links = [
+const links: HeaderLink[] = [
   { label: 'Home', to: '/' },
-] satisfies HeaderLink[]
-
-const logout = async () => {
-  await clear()
-  await navigateTo('/')
-}
+]
 </script>
 
 <template>
@@ -20,11 +15,7 @@ const logout = async () => {
   >
     <template #right>
       <template v-if="loggedIn">
-        <UButton
-          label="Logout"
-          variant="soft"
-          @click="logout"
-        />
+        <UserMenuAvatarDropdown />
       </template>
       <template v-else>
         <UButton

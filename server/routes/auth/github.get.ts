@@ -10,7 +10,6 @@ export default oauth.githubEventHandler({
       const newUser = await useDrizzle().insert(tables.users).values({
         name: githubUser.name || githubUser.login,
         email: githubUser.email,
-        avatar: githubUser.avatar_url,
       }).onConflictDoUpdate({
         target: tables.users.email,
         set: {
@@ -22,6 +21,23 @@ export default oauth.githubEventHandler({
         throw createError({
           statusCode: 500,
           message: 'Failed to create user',
+        })
+      }
+
+      let avatar = null
+      const file = await imageRepository().getFileFromUrl(githubUser.avatar_url)
+
+      if (file) {
+        const blob = await imageRepository().saveAvatar({
+          file,
+          userId: newUser.id,
+        })
+
+        avatar = blob.pathname
+
+        await userRepository().updateAvatarPath({
+          userId: newUser.id,
+          avatarPath: avatar,
         })
       }
 
@@ -43,7 +59,7 @@ export default oauth.githubEventHandler({
           id: newUser.id,
           name: newUser.name,
           email: newUser.email,
-          avatarUrl: newUser.avatar,
+          avatarUrl: avatar,
           role: newUser.role,
         },
         loggedInAt: Date.now(),

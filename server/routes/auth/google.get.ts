@@ -11,7 +11,6 @@ export default oauth.googleEventHandler({
       const newUser = await useDrizzle().insert(tables.users).values({
         name: googleUser.name,
         email: googleUser.email,
-        avatar: googleUser.picture,
       }).onConflictDoUpdate({
         target: tables.users.email,
         set: {
@@ -23,6 +22,23 @@ export default oauth.googleEventHandler({
         throw createError({
           statusCode: 500,
           message: 'Failed to create user',
+        })
+      }
+
+      let avatar = null
+      const file = await imageRepository().getFileFromUrl(googleUser.picture)
+
+      if (file) {
+        const blob = await imageRepository().saveAvatar({
+          file,
+          userId: newUser.id,
+        })
+
+        avatar = blob.pathname
+
+        await userRepository().updateAvatarPath({
+          userId: newUser.id,
+          avatarPath: avatar,
         })
       }
 
@@ -44,7 +60,7 @@ export default oauth.googleEventHandler({
           id: newUser.id,
           name: newUser.name,
           email: newUser.email,
-          avatarUrl: newUser.avatar,
+          avatarUrl: avatar,
           role: newUser.role,
         },
         loggedInAt: Date.now(),

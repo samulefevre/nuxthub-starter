@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   // Nuxt Modules
   // https://nuxt.com/modules
   modules: [
+    '@vueuse/nuxt',
     '@nuxthub/core',
     '@nuxt/test-utils/module',
     '@nuxt/content',
