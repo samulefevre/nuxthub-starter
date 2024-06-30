@@ -5,9 +5,10 @@
     </h1>
 
     <div class="flex flex-col gap-6">
-      <FormAuthGoogle />
+      <AuthFormGoogle />
+      <AuthFormGithub />
       <UDivider label="Or" />
-      <FormAuthEmail />
+      <AuthFormEmail />
     </div>
   </div>
 </template>
