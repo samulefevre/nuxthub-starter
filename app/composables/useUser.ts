@@ -1,7 +1,6 @@
 import { FetchError } from 'ofetch'
 
 export function useUser() {
-  const { $userRepository } = useNuxtApp()
   const { fetch: refreshSession } = useUserSession()
 
   const toast = useToast()
@@ -19,7 +18,7 @@ export function useUser() {
     const image = files.item(0) as File
 
     try {
-      const res = await $userRepository.updateAvatar(image)
+      const res = await userRepository.updateAvatar(image)
       if (res.ok) {
         toast.add({
           title: 'Your avatar has been updated',
