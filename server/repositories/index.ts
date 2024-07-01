@@ -1,7 +1,7 @@
-import { imageRepository } from './imageRepository'
-import { userRepository } from './userRepository'
+import { DrizzleImageRepository } from './drizzleImageRepository'
+import { DrizzleUserRepository } from './drizzleUserRepository'
 
 export {
-  imageRepository,
-  userRepository,
+  DrizzleImageRepository,
+  DrizzleUserRepository,
 }

@@ -17,7 +17,7 @@ export default eventHandler(async (event) => {
 
   const fileName = `avatar-${randomUUID()}`
 
-  const currentUser = await userRepository().getUser(user.id)
+  const currentUser = await userRepository.getUser(user.id)
 
   if (!currentUser) {
     throw createError({ statusCode: 404, message: 'User not found' })
@@ -32,7 +32,7 @@ export default eventHandler(async (event) => {
     prefix: `${user.id}`,
   })
 
-  const updatedUser = await userRepository().updateAvatarPath({
+  const updatedUser = await userRepository.updateAvatarPath({
     userId: user.id,
     avatarPath: blob.pathname,
   })
