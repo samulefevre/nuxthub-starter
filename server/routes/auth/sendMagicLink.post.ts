@@ -37,10 +37,3 @@ export default defineEventHandler(async (event) => {
     },
   }
 })
-
-/* async function sendMagicLink(email: string) {
-  // Send email
-  console.log(`Sending magic link to ${email}`)
-
-  // await useEmail(event).sendMagicLink(email)
-} */

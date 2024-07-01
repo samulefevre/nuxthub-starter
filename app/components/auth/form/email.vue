@@ -17,9 +17,6 @@ const state = reactive({
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  // Do something with data
-  console.log(event.data)
-
   try {
     isSubmitting.value = true
 

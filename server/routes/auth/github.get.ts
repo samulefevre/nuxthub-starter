@@ -3,7 +3,6 @@ export default oauth.githubEventHandler({
     emailRequired: true,
   },
   async onSuccess(event, { user: githubUser }) {
-    console.log('githubUser', githubUser)
     const credential = await useDrizzle().select().from(tables.credentials).where(and(eq(tables.credentials.providerKey, githubUser.id.toString()))).get()
 
     if (!credential) {
