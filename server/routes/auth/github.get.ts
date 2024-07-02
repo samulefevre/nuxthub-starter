@@ -24,17 +24,17 @@ export default oauth.githubEventHandler({
       }
 
       let avatar = null
-      const file = await imageRepository().getFileFromUrl(githubUser.avatar_url)
+      const file = await imageRepository.getFileFromUrl(githubUser.avatar_url)
 
       if (file) {
-        const blob = await imageRepository().saveAvatar({
+        const blob = await imageRepository.saveAvatar({
           file,
           userId: newUser.id,
         })
 
         avatar = blob.pathname
 
-        await userRepository().updateAvatarPath({
+        await userRepository.updateAvatarPath({
           userId: newUser.id,
           avatarPath: avatar,
         })

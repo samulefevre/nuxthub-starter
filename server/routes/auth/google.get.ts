@@ -26,17 +26,17 @@ export default oauth.googleEventHandler({
       }
 
       let avatar = null
-      const file = await imageRepository().getFileFromUrl(googleUser.picture)
+      const file = await imageRepository.getFileFromUrl(googleUser.picture)
 
       if (file) {
-        const blob = await imageRepository().saveAvatar({
+        const blob = await imageRepository.saveAvatar({
           file,
           userId: newUser.id,
         })
 
         avatar = blob.pathname
 
-        await userRepository().updateAvatarPath({
+        await userRepository.updateAvatarPath({
           userId: newUser.id,
           avatarPath: avatar,
         })
