@@ -13,10 +13,7 @@ export class ApiUserRepository implements UserRepository {
       })
 
       if (!res.ok) {
-        throw createError({
-          statusCode: 500,
-          message: 'Failed to update avatar',
-        })
+        throw new Error('Failed to update avatar')
       }
 
       return res
@@ -33,6 +30,35 @@ export class ApiUserRepository implements UserRepository {
         statusCode: 500,
         message: 'Failed to update avatar',
       })
+    }
+  }
+
+  async sendDeleteAccountEmail() {
+    try {
+      await $fetch('/api/users/sendDeleteAccountEmail', {
+        method: 'POST',
+      })
+    }
+    catch (error) {
+      throw new Error('Failed to send delete account email')
+    }
+  }
+
+  async deleteAccount({ token }: { token: string }) {
+    try {
+      await $fetch('/api/users/deleteAccount', {
+        method: 'POST',
+        body: {
+          token,
+        },
+      })
+    }
+    catch (error) {
+      if (error instanceof FetchError) {
+        throw new Error(error.data.message)
+      }
+
+      throw new Error('Failed to delete account')
     }
   }
 }

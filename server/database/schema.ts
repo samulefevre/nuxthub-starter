@@ -43,3 +43,11 @@ export const magicLinks = sqliteTable('magic_links', {
     new Date(Date.now() + 5 * 60 * 1000), // 5 minutes,
   ),
 })
+
+export const deleteAccountTokens = sqliteTable('delete_account_tokens', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  userId: integer('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  token: text('token').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()).$onUpdateFn(() => new Date()),
+})

@@ -1,13 +1,18 @@
 import { Resend } from 'resend'
-import type { H3Event } from 'h3'
 import { render } from '@vue-email/render'
 import magicLink from '~/components/emails/magicLink.vue'
+import deleteAccount from '~/components/emails/deleteAccount.vue'
 
-export function useEmail(event: H3Event) {
-  const config = useRuntimeConfig(event)
-  const { resendApiKey } = config
-  const { baseUrl } = config.public
-
+export function useEmail({
+  resendApiKey,
+  baseUrl,
+  fromEmail,
+}: {
+  resendApiKey: string
+  baseUrl: string
+  fromEmail: string
+},
+) {
   interface EmailOptions {
     from: string
     to: string
@@ -37,7 +42,7 @@ export function useEmail(event: H3Event) {
     })
 
     const options: EmailOptions = {
-      from: 'onboarding@resend.dev',
+      from: fromEmail,
       to: email,
       subject: 'Login with email',
       html: template,
@@ -46,7 +51,26 @@ export function useEmail(event: H3Event) {
     await _sendEmail(options)
   }
 
+  const sendDeleteAccountEmail = async ({ email, token }: {
+    email: string
+    token: string
+  }) => {
+    const template = await render(deleteAccount, {
+      url: `${baseUrl}/deleteAccount?token=${token}`,
+    })
+
+    const options: EmailOptions = {
+      from: fromEmail,
+      to: email,
+      subject: 'Delete account',
+      html: template,
+    }
+
+    await _sendEmail(options)
+  }
+
   return {
     sendMagicLink,
+    sendDeleteAccountEmail,
   }
 }

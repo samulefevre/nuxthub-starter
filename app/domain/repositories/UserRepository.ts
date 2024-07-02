@@ -5,4 +5,6 @@ export interface UserRepository {
       avatarPath: string
     }
   >
+  sendDeleteAccountEmail(): Promise<void>
+  deleteAccount({ token }: { token: string }): Promise<void>
 }

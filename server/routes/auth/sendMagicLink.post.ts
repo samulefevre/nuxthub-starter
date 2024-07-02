@@ -2,6 +2,11 @@ import { z } from 'zod'
 import { randomUUID } from 'uncrypto'
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig(event)
+  const { resendApiKey } = config
+  const { baseUrl } = config.public
+  const { fromEmail } = config.emails
+
   const schema = z.object({
     email: z.string().email('Invalid email'),
   })
@@ -11,8 +16,11 @@ export default defineEventHandler(async (event) => {
   const existingMagicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
 
   if (existingMagicLink) {
-    // await sendMagicLink(email)
-    await useEmail(event).sendMagicLink(email, existingMagicLink.token)
+    await useEmail({
+      resendApiKey,
+      baseUrl,
+      fromEmail,
+    }).sendMagicLink(email, existingMagicLink.token)
 
     return {
       ok: true,
@@ -27,8 +35,7 @@ export default defineEventHandler(async (event) => {
     token: randomUUID(),
   }).returning().get()
 
-  // await sendMagicLink(email)
-  await useEmail(event).sendMagicLink(email, insertedMagicLink.token)
+  await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, insertedMagicLink.token)
 
   return {
     ok: true,

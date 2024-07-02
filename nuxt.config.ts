@@ -25,6 +25,9 @@ export default defineNuxtConfig({
       baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     },
     resendApiKey: '',
+    emails: {
+      fromEmail: 'onboarding@resend.dev',
+    },
   },
   eslint: {
     config: {
