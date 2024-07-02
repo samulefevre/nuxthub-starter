@@ -1,4 +1,4 @@
-import { randomUUID } from 'uncrypto'
+import { updateAvatarUseCase } from '~~/server/domain/usecases/users'
 
 export default eventHandler(async (event) => {
   const { user } = await requireUserSession(event)
@@ -15,27 +15,7 @@ export default eventHandler(async (event) => {
     types: ['image'],
   })
 
-  const fileName = `avatar-${randomUUID()}`
-
-  const currentUser = await userRepository.getUser(user.id)
-
-  if (!currentUser) {
-    throw createError({ statusCode: 404, message: 'User not found' })
-  }
-
-  if (currentUser.avatar) {
-    await hubBlob().delete(currentUser.avatar)
-  }
-
-  const blob = await hubBlob().put(fileName, file, {
-    addRandomSuffix: false,
-    prefix: `${user.id}`,
-  })
-
-  const updatedUser = await userRepository.updateAvatarPath({
-    userId: user.id,
-    avatarPath: blob.pathname,
-  })
+  const { updatedUser, blob } = await updateAvatarUseCase(file, user.id)
 
   await setUserSession(event, {
     user: {

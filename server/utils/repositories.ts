@@ -1,4 +1,4 @@
-import { DrizzleImageRepository, DrizzleUserRepository } from '@@/server/repositories/index'
+import { DrizzleImageRepository, DrizzleUserRepository } from '~~/server/domain/repositories/index'
 
 const imageRepository = new DrizzleImageRepository()
 const userRepository = new DrizzleUserRepository()
