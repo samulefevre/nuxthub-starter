@@ -1,66 +1,79 @@
-import { describe, it, expect } from 'vitest'
-// import { FetchError } from 'ofetch'
+import { describe, it, expect, beforeEach, vi, test } from 'vitest'
 import { registerEndpoint } from '@nuxt/test-utils/runtime'
+
 import { ApiUserRepository } from '@/domain/repositories/ApiUserRepository'
 
-// Mocking global functions and objects
-/* global.FormData = class FormData {
-  append() {}
-}
-global.$fetch = vi.fn() */
-
 describe('ApiUserRepository', () => {
-  describe('updateAvatar', () => {
-    registerEndpoint('/api/users/updateAvatar',
-      {
-        method: 'POST',
-        handler: () => ({ ok: true }),
-      })
+  const getFakeCall = vi.fn()
+  // registerEndpoint('/api/users/updateAvatar', getFakeCall)
 
-    it('should update avatar successfully', async () => {
-      const userRepository = new ApiUserRepository()
+  registerEndpoint('/api/users/updateAvatar', {
+    method: 'POST',
+    handler: getFakeCall,
+  })
+
+  let userRepository: ApiUserRepository
+
+  beforeEach(() => {
+    // vi.resetAllMocks()
+
+    userRepository = new ApiUserRepository()
+  })
+
+  describe('updateAvatar', () => {
+    test('should update avatar successfully', async () => {
+      // registerEndpoint('/api/users/updateAvatar', () => ({ ok: true }))
+      getFakeCall.mockImplementation(() => ({ ok: true }))
+
+      // const userRepository = new ApiUserRepository()
 
       // expect return true
       await expect(userRepository.updateAvatar(new File([], 'avatar.png'))).resolves.toStrictEqual({ ok: true })
 
       /* await expect(userRepository.updateAvatar(new File([], 'avatar.png'))).resolves.not.toThrow() */
     })
-  })
 
-  describe('avatar failure', () => {
-    registerEndpoint('/api/users/updateAvatar',
-      {
-        method: 'POST',
-        handler: () => ({ ok: false }),
+    test('should throw error on fetch failure', async () => {
+      // registerEndpoint('/api/users/updateAvatar', () => {
+      // throw new Error('Failed to update avatar')
+      // })
+
+      getFakeCall.mockImplementation(() => {
+        throw new Error('Failed to update avatar')
       })
 
-    it('should throw error on fetch failure', async () => {
-      const userRepository = new ApiUserRepository()
+      // const userRepository = new ApiUserRepository()
       // global.$fetch.mockRejectedValueOnce(new FetchError('Failed to update avatar', { statusCode: 400 }))
 
       await expect(userRepository.updateAvatar(new File([], 'avatar.png'))).rejects.toThrow('Failed to update avatar')
     })
 
-    it('should handle unexpected errors', async () => {
-      const userRepository = new ApiUserRepository()
+    test('should handle unexpected errors', async () => {
+      // registerEndpoint('/api/users/updateAvatar', () => {
+      //  throw new Error('Unexpected error')
+      // })
+
+      getFakeCall.mockImplementation(() => new Error('Unexpected error'))
+
+      // const userRepository = new ApiUserRepository()
       // global.$fetch.mockRejectedValueOnce(new Error('Unexpected error'))
       /* registerEndpoint('/api/users/updateAvatar',
         {
           method: 'POST',
           handler: () => { throw new Error('Unexpected error') },
         }) */
-      await expect(userRepository.updateAvatar(new File([], 'avatar.png'))).rejects.toThrow('Failed to update avatar')
+      await expect(userRepository.updateAvatar(new File([], 'avatar.png'))).rejects.toThrow('Unexpected error')
     })
   })
 
   describe('sendDeleteAccountEmail', () => {
-    registerEndpoint('/api/users/sendDeleteAccountEmail',
-      {
-        method: 'POST',
-        handler: () => ({}),
-      })
-
     it('should send delete account email successfully', async () => {
+      registerEndpoint('/api/users/sendDeleteAccountEmail',
+        {
+          method: 'POST',
+          handler: () => ({}),
+        })
+
       const userRepository = new ApiUserRepository()
       // global.$fetch.mockResolvedValueOnce({})
       /* registerEndpoint('/api/users/sendDeleteAccountEmail',
