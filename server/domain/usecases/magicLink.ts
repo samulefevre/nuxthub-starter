@@ -14,13 +14,13 @@ export const sendMagicLinkUseCase = async ({ email,
 }
 
 export const loginWithMagicLinkUseCase = async (token: string): Promise<User | undefined> => {
-  const existingMagicLink = await magicLinkRepository.getMagicLink(token)
+  const existingMagicLink = await magicLinkRepository.getMagicLinkByToken(token)
 
   if (!existingMagicLink) {
     throw new Error('Magic link not found')
   }
 
-  if (new Date(existingMagicLink.tokenExpiresAt).getTime() < Date.now()) {
+  if (existingMagicLink.tokenExpiresAt < new Date()) {
     await magicLinkRepository.deleteMagicLink(token)
     throw new Error('Magic link expired')
   }
