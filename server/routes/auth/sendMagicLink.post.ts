@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { randomUUID } from 'uncrypto'
+import { sendMagicLinkUseCase } from '~~/server/domain/usecases/magicLink'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
@@ -13,34 +13,15 @@ export default defineEventHandler(async (event) => {
 
   const { email } = await readValidatedBody(event, schema.parse)
 
-  const existingMagicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
-
-  if (existingMagicLink) {
-    await useEmail({
-      resendApiKey,
-      baseUrl,
-      fromEmail,
-    }).sendMagicLink(email, existingMagicLink.token)
-
-    return {
-      ok: true,
-      body: {
-        email,
-      },
-    }
-  }
-
-  const insertedMagicLink = await useDrizzle().insert(tables.magicLinks).values({
+  await sendMagicLinkUseCase({
     email,
-    token: randomUUID(),
-  }).returning().get()
-
-  await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, insertedMagicLink.token)
+    resendApiKey,
+    baseUrl,
+    fromEmail,
+  })
 
   return {
     ok: true,
-    body: {
-      email,
-    },
+    message: 'Magic link sent',
   }
 })

@@ -11,6 +11,8 @@ type Schema = z.output<typeof schema>
 const emailSend = ref(false)
 const isSubmitting = ref(false)
 
+const toast = useToast()
+
 const state = reactive({
   email: undefined,
   password: undefined,
@@ -31,7 +33,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     }
   }
   catch (error) {
-    console.error(error)
+    toast.add({
+      title: 'Failed to send email',
+      color: 'red',
+    })
   }
   finally {
     isSubmitting.value = false

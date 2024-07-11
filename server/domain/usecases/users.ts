@@ -1,5 +1,37 @@
 import { randomUUID } from 'uncrypto'
 
+export const signInUseCase = async ({ email, name, avatarUrl }: { email: string, name: string, avatarUrl?: string }) => {
+  let existingUser = await userRepository.getUserByEmail(email)
+
+  if (!existingUser) {
+    existingUser = await userRepository.createUser({ email, name })
+
+    if (!avatarUrl) {
+      return existingUser
+    }
+
+    const file = await imageRepository.getFileFromUrl(avatarUrl)
+
+    if (file) {
+      const blob = await imageRepository.saveAvatar({
+        file,
+        userId: existingUser.id,
+      })
+
+      const avatar = blob.pathname
+
+      existingUser = await userRepository.updateUser({
+        userId: existingUser.id,
+        updatedUser: {
+          avatar: avatar,
+        },
+      })
+    }
+  }
+
+  return existingUser
+}
+
 export const updateAvatarUseCase = async (file: File, userId: number) => {
   const fileName = `avatar-${randomUUID()}`
 
@@ -18,9 +50,11 @@ export const updateAvatarUseCase = async (file: File, userId: number) => {
     prefix: `${userId}`,
   })
 
-  const updatedUser = await userRepository.updateAvatarPath({
-    userId: userId,
-    avatarPath: blob.pathname,
+  const updatedUser = await userRepository.updateUser({
+    userId,
+    updatedUser: {
+      avatar: blob.pathname,
+    },
   })
 
   return {

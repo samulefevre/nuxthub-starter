@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1719104010780,
-      "tag": "0000_massive_black_widow",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1719883791411,
-      "tag": "0001_clear_sharon_carter",
+      "when": 1720658828400,
+      "tag": "0000_unknown_sunfire",
       "breakpoints": true
     }
   ]
