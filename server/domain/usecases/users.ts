@@ -23,7 +23,7 @@ export const signInUseCase = async ({ email, name, avatarUrl }: { email: string,
       existingUser = await userRepository.updateUser({
         userId: existingUser.id,
         updatedUser: {
-          avatar: avatar,
+          avatar,
         },
       })
     }

@@ -4,11 +4,9 @@ import vue from '@vitejs/plugin-vue'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
-
   // Nuxt 4 directory structure and features
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
   future: { compatibilityVersion: 4 },
-
   // Nuxt Modules
   // https://nuxt.com/modules
   modules: [
@@ -22,7 +20,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/i18n',
   ],
-
   runtimeConfig: {
     public: {
       baseUrl: process.env.BASE_URL || 'http://localhost:3000',
@@ -32,7 +29,6 @@ export default defineNuxtConfig({
       fromEmail: 'onboarding@resend.dev',
     },
   },
-
   eslint: {
     config: {
       stylistic: {
@@ -42,14 +38,12 @@ export default defineNuxtConfig({
       },
     },
   },
-
   hub: {
     database: true,
     kv: true,
     blob: true,
     cache: true,
   },
-
   nitro: {
     experimental: {
       // Enable Server API documentation within NuxtHub
@@ -60,13 +54,11 @@ export default defineNuxtConfig({
       plugins: [vue()],
     },
   },
-
   routeRules: {
     '/app/**': {
       appMiddleware: ['auth'],
     },
   },
-
   i18n: {
     locales: [
       {
@@ -84,12 +76,10 @@ export default defineNuxtConfig({
     // vueI18n: './i18n.config.ts',
     strategy: 'prefix_and_default',
   },
-
   content: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
   },
-
   ui: {
     icons: ['simple-icons'],
   },

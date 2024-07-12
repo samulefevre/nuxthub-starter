@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { loginWithMagicLinkUseCase } from '~~/server/domain/usecases/magicLink'
+import { loginWithMagicLinkUseCase } from '~~/server/domain/usecases/magicLinks'
 
 export default defineEventHandler(async (event) => {
   const schema = z.object({
@@ -8,15 +8,10 @@ export default defineEventHandler(async (event) => {
 
   const { token } = await getValidatedQuery(event, schema.parse)
 
-  // return sendRedirect(event, '/')
-
   try {
     const user = await loginWithMagicLinkUseCase(token)
 
-    console.log('USER', user)
-
     if (!user) {
-      console.log('Magic exp')
       return sendRedirect(event, '/auth/magicLinkExpired')
     }
 
@@ -34,7 +29,6 @@ export default defineEventHandler(async (event) => {
     return sendRedirect(event, '/app')
   }
   catch (error) {
-    console.log('Error', error)
     return sendRedirect(event, '/auth/magicLinkExpired')
   }
 })

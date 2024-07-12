@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { sendMagicLinkUseCase } from '~~/server/domain/usecases/magicLink'
+import { sendMagicLinkUseCase } from '~~/server/domain/usecases/magicLinks'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
