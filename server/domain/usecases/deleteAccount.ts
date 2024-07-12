@@ -7,7 +7,7 @@ export const sendDeleteAccountEmailUseCase = async ({ userId, resendApiKey, base
   const user = await userRepository.getUser(userId)
 
   if (!user) {
-    throw createError({ statusCode: 404, message: 'User not found' })
+    throw new Error('User not found')
   }
 
   const token = await userRepository.createDeleteAccountToken({
@@ -28,13 +28,20 @@ export const deleteAccountUseCase = async ({ userId, token }: { userId: number, 
   const verifiedToken = await userRepository.getDeleteAccountToken({ userId, token })
 
   if (!verifiedToken) {
-    throw createError({ statusCode: 404, message: 'Token not found' })
+    console.log('Token not found')
+    // throw new Error('Token not found')
+    /* throw createError({
+      statusCode: 400,
+      statusMessage: 'Token not found',
+    }) */
+    return undefined
   }
 
   const currentUser = await userRepository.getUser(userId)
 
   if (!currentUser) {
-    throw createError({ statusCode: 404, message: 'User not found' })
+    // throw new Error('User not found')
+    return undefined
   }
 
   if (currentUser.avatar) {

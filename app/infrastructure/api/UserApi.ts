@@ -1,13 +1,12 @@
 import { FetchError } from 'ofetch'
-import type { UserRepository } from './UserRepository'
 
-export class ApiUserRepository implements UserRepository {
-  async updateAvatar(avatar: File) {
+export class UserApi {
+  async updateAvatar(avatar: File): Promise<void> {
     try {
       const formData = new FormData()
       formData.append('file', avatar)
 
-      const res = await $fetch('/api/users/updateAvatar', {
+      const res = await $fetch(`/api/users/updateAvatar`, {
         method: 'POST',
         body: formData,
       })
@@ -15,8 +14,6 @@ export class ApiUserRepository implements UserRepository {
       if (!res.ok) {
         throw new Error('Failed to update avatar')
       }
-
-      return res
     }
     catch (error) {
       if (error instanceof FetchError) {
@@ -33,9 +30,9 @@ export class ApiUserRepository implements UserRepository {
     }
   }
 
-  async sendDeleteAccountEmail() {
+  async sendDeleteAccountEmail(): Promise<void> {
     try {
-      await $fetch('/api/users/sendDeleteAccountEmail', {
+      await $fetch(`/api/users/sendDeleteAccountEmail`, {
         method: 'POST',
       })
     }
@@ -44,21 +41,12 @@ export class ApiUserRepository implements UserRepository {
     }
   }
 
-  async deleteAccount({ token }: { token: string }) {
-    try {
-      await $fetch('/api/users/deleteAccount', {
-        method: 'POST',
-        body: {
-          token,
-        },
-      })
-    }
-    catch (error) {
-      if (error instanceof FetchError) {
-        throw new Error(error.data.message)
-      }
-
-      throw new Error('Failed to delete account')
-    }
+  async deleteAccount({ token }: { token: string }): Promise<void> {
+    return $fetch('/api/users/deleteAccount', {
+      method: 'POST',
+      body: {
+        token,
+      },
+    })
   }
 }

@@ -1,7 +1,7 @@
 import { randomUUID } from 'uncrypto'
-import type { ImageRepository } from './imageRepository'
+import type { IImageRepository } from '../../domain/repositories/IImageRepository'
 
-export class DrizzleImageRepository implements ImageRepository {
+export class DrizzleImageRepository implements IImageRepository {
   saveAvatar = async ({
     file,
     userId,

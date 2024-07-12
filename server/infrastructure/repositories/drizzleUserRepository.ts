@@ -1,7 +1,7 @@
 import { randomUUID } from 'uncrypto'
-import type { UserRepository } from './userRepository'
+import type { IUserRepository } from '../../domain/repositories/IUserRepository'
 
-export class DrizzleUserRepository implements UserRepository {
+export class DrizzleUserRepository implements IUserRepository {
   createUser = async ({
     email,
     name,
@@ -72,7 +72,9 @@ export class DrizzleUserRepository implements UserRepository {
   }
 
   deleteUser = async ({ userId }: { userId: number }) => {
-    await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
+    const user = await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
+
+    return user
   }
 
   createDeleteAccountToken = async ({
@@ -97,11 +99,7 @@ export class DrizzleUserRepository implements UserRepository {
         eq(tables.deleteAccountTokens.userId, userId),
       )).get()
 
-    if (!deleteAccountToken) {
-      throw new Error('Invalid token')
-    }
-
-    return token
+    return deleteAccountToken
   }
 
   removeDeleteAccountToken = async ({ userId, token }: { userId: number, token: string }) => {

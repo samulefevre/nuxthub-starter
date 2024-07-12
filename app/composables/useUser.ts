@@ -1,7 +1,7 @@
 import { FetchError } from 'ofetch'
 
 export function useUser() {
-  const { fetch: refreshSession } = useUserSession()
+  const { fetch: refreshSession, clear } = useUserSession()
 
   const toast = useToast()
 
@@ -18,12 +18,11 @@ export function useUser() {
     const image = files.item(0) as File
 
     try {
-      const res = await userRepository.updateAvatar(image)
-      if (res.ok) {
-        toast.add({
-          title: 'Your avatar has been updated',
-        })
-      }
+      await userRepository.updateAvatar(image)
+
+      toast.add({
+        title: 'Your avatar has been updated',
+      })
     }
     catch (error) {
       if (error instanceof FetchError) {
@@ -66,20 +65,24 @@ export function useUser() {
   const confirmDeleteAccount = async ({ token }: { token: string }) => {
     try {
       await userRepository.deleteAccount({ token })
+
+      // await clear()
+      // await navigateTo('/')
+
       toast.add({
         title: 'Your account has been deleted',
       })
     }
     catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof FetchError) {
         toast.add({
-          title: error.message,
+          title: error.data.message,
           color: 'red',
         })
       }
 
       toast.add({
-        title: 'Failed to delete account',
+        title: 'Failed to delete account2',
         color: 'red',
       })
     }

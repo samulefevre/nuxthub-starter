@@ -1,6 +1,6 @@
 import type { BlobObject } from '@nuxthub/core'
 
-export interface ImageRepository {
+export interface IImageRepository {
   saveAvatar({
     file,
     userId,

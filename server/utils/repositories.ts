@@ -1,19 +1,18 @@
 import {
-  DrizzleImageRepository,
-  DrizzleUserRepository,
   DrizzleCredentialRepository,
+  DrizzleImageRepository,
   DrizzleMagicLinkRepository,
-} from '~~/server/domain/repositories/index'
+  DrizzleUserRepository,
+} from '~~/server/infrastructure/repositories/index'
 
-const imageRepository = new DrizzleImageRepository()
-const userRepository = new DrizzleUserRepository()
 const credentialRepository = new DrizzleCredentialRepository()
-
+const imageRepository = new DrizzleImageRepository()
 const magicLinkRepository = new DrizzleMagicLinkRepository()
+const userRepository = new DrizzleUserRepository()
 
 export {
-  userRepository,
-  imageRepository,
   credentialRepository,
+  imageRepository,
   magicLinkRepository,
+  userRepository,
 }

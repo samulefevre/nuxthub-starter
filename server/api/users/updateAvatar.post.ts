@@ -1,6 +1,6 @@
 import { updateAvatarUseCase } from '~~/server/domain/usecases/users'
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
 
   const form = await readFormData(event)

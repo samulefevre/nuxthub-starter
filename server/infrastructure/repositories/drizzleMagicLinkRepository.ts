@@ -1,7 +1,7 @@
 import { randomUUID } from 'uncrypto'
-import type { MagicLinkRepository } from './magicLinkRepository'
+import type { IMagicLinkRepository } from '../../domain/repositories/IMagicLinkRepository'
 
-export class DrizzleMagicLinkRepository implements MagicLinkRepository {
+export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
   async getMagicLinkByToken(token: string): Promise<MagicLink | undefined> {
     const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.token, token)).get()
 

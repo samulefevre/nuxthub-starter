@@ -1,4 +1,4 @@
-export interface CredentialRepository {
+export interface ICredentialRepository {
   createCredential({
     userId,
     providerId,

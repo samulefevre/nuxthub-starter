@@ -1,12 +1,11 @@
-import { DrizzleImageRepository } from './drizzleImageRepository'
-import { DrizzleUserRepository } from './drizzleUserRepository'
-import { DrizzleCredentialRepository } from './drizzleCredentialRepository'
-
-import { DrizzleMagicLinkRepository } from './drizzleMagicLinkRepository'
+import { ICredentialRepository } from './ICredentialRepository'
+import { IImageRepository } from './IImageRepository'
+import { IMagicLinkRepository } from './IMagicLinkRepository'
+import { IUserRepository } from './IUserRepository'
 
 export {
-  DrizzleImageRepository,
-  DrizzleUserRepository,
-  DrizzleCredentialRepository,
-  DrizzleMagicLinkRepository,
+  ICredentialRepository,
+  IImageRepository,
+  IMagicLinkRepository,
+  IUserRepository,
 }

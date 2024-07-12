@@ -1,6 +1,6 @@
-import type { CredentialRepository } from './credentialRepository'
+import type { ICredentialRepository } from '../../domain/repositories/ICredentialRepository'
 
-export class DrizzleCredentialRepository implements CredentialRepository {
+export class DrizzleCredentialRepository implements ICredentialRepository {
   createCredential = async ({
     userId,
     providerId,

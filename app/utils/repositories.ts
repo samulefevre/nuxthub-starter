@@ -1,6 +1,7 @@
-import { ApiUserRepository } from '~/domain/repositories/ApiUserRepository'
+import { UserRepository } from '~/infrastructure/repositories/UserRepository'
+import { UserApi } from '~/infrastructure/api/UserApi'
 
-const userRepository = new ApiUserRepository()
+const userRepository = new UserRepository(new UserApi())
 
 export {
   userRepository,
