@@ -26,7 +26,7 @@ export function useEmail({
     }
 
     const resend = new Resend(resendApiKey)
-    const { error } = await resend.emails.send(options)
+    const { error, data } = await resend.emails.send(options)
 
     if (error) {
       throw createError({
@@ -34,6 +34,8 @@ export function useEmail({
         message: error.message,
       })
     }
+
+    return data
   }
 
   const sendMagicLink = async (email: string, token: string) => {
@@ -48,7 +50,7 @@ export function useEmail({
       html: template,
     }
 
-    await _sendEmail(options)
+    return await _sendEmail(options)
   }
 
   const sendDeleteAccountEmail = async ({ email, token }: {
@@ -66,7 +68,7 @@ export function useEmail({
       html: template,
     }
 
-    await _sendEmail(options)
+    return await _sendEmail(options)
   }
 
   return {

@@ -1,3 +1,4 @@
+import { useEmail } from '@@/server/utils/email'
 import type { IMagicLinkRepository, IUserRepository } from '../repositories'
 
 export const sendMagicLinkUseCase = async ({
@@ -19,7 +20,9 @@ export const sendMagicLinkUseCase = async ({
     throw new Error('Failed to create magic link')
   }
 
-  await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, newMagicLink.token)
+  const res = await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, newMagicLink.token)
+
+  return res
 }
 
 interface ILoginWithMagicLink {

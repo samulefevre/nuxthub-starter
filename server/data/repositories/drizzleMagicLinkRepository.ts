@@ -13,6 +13,12 @@ export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
     this._db = db
   }
 
+  async getMagicLinkByEmail(email: string): Promise<MagicLink | undefined> {
+    const magicLink = await this._db.select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
+
+    return magicLink
+  }
+
   async getMagicLinkByToken(token: string): Promise<MagicLink | undefined> {
     const magicLink = await this._db.select().from(tables.magicLinks).where(eq(tables.magicLinks.token, token)).get()
 
