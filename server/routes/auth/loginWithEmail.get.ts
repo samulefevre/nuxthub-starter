@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { DrizzleMagicLinkRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { loginWithMagicLinkUseCase } from '~~/server/domain/usecases/magicLinks'
 
 export default defineEventHandler(async (event) => {
@@ -10,7 +11,8 @@ export default defineEventHandler(async (event) => {
 
   try {
     const user = await loginWithMagicLinkUseCase({
-      magicLinkRepository: magicLinkRepository,
+      magicLinkRepository: new DrizzleMagicLinkRepository(useDrizzle()),
+      userRepository: new DrizzleUserRepository(useDrizzle()),
       token,
     })
 

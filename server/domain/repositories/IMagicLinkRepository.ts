@@ -1,5 +1,5 @@
 export interface IMagicLinkRepository {
   getMagicLinkByToken(token: string): Promise<MagicLink | undefined>
-  upsertMagicLink(email: string): Promise<string>
-  deleteMagicLink(email: string): Promise<void>
+  upsertMagicLink(email: string): Promise<MagicLink | undefined>
+  deleteMagicLink(email: string): Promise<MagicLink | undefined>
 }

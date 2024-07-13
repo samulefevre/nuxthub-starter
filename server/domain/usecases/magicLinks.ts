@@ -1,4 +1,4 @@
-import type { IMagicLinkRepository } from '../repositories'
+import type { IMagicLinkRepository, IUserRepository } from '../repositories'
 
 export const sendMagicLinkUseCase = async ({
   magicLinkRepository,
@@ -13,18 +13,24 @@ export const sendMagicLinkUseCase = async ({
   baseUrl: string
   fromEmail: string
 }) => {
-  const token = await magicLinkRepository.upsertMagicLink(email)
+  const newMagicLink = await magicLinkRepository.upsertMagicLink(email)
 
-  await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, token)
+  if (!newMagicLink) {
+    throw new Error('Failed to create magic link')
+  }
+
+  await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, newMagicLink.token)
 }
 
 interface ILoginWithMagicLink {
   magicLinkRepository: IMagicLinkRepository
+  userRepository: IUserRepository
   token: string
 }
 
 export const loginWithMagicLinkUseCase = async ({
   magicLinkRepository,
+  userRepository,
   token,
 }: ILoginWithMagicLink): Promise<User | undefined> => {
   const existingMagicLink = await magicLinkRepository.getMagicLinkByToken(token)

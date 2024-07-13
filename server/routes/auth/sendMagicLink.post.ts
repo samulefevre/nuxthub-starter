@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { DrizzleMagicLinkRepository } from '~~/server/data/repositories'
 import { sendMagicLinkUseCase } from '~~/server/domain/usecases/magicLinks'
 
 export default defineEventHandler(async (event) => {
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const { email } = await readValidatedBody(event, schema.parse)
 
   await sendMagicLinkUseCase({
-    magicLinkRepository: magicLinkRepository,
+    magicLinkRepository: new DrizzleMagicLinkRepository(useDrizzle()),
     email,
     resendApiKey,
     baseUrl,
