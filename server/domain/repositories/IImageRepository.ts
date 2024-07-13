@@ -8,5 +8,5 @@ export interface IImageRepository {
     file: File
     userId: number
   }): Promise<BlobObject>
-  getFileFromUrl(url: string): Promise<File>
+  getFileFromUrl(url: string): Promise<File | undefined>
 }

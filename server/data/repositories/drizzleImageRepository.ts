@@ -1,4 +1,5 @@
 import { randomUUID } from 'uncrypto'
+import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
 import type { IImageRepository } from '../../domain/repositories/IImageRepository'
 
 export class DrizzleImageRepository implements IImageRepository {
@@ -20,16 +21,28 @@ export class DrizzleImageRepository implements IImageRepository {
 
   getFileFromUrl = async (url: string) => {
     try {
-      const res = await fetch(url)
-      const resBlob = await res.blob()
+      const res = await $fetch.raw(url, { responseType: 'arrayBuffer' })
+
+      const contentType = res.headers.get('Content-Type')
+
+      if (!contentType || !contentType.startsWith('image/')) {
+        return undefined
+      }
+
+      if (!res) {
+        return undefined
+      }
+
+      const blob = res._data as ArrayBuffer
+
       const fileExt = url.split('.').pop()
 
-      const file = new File([resBlob], `avatar.${fileExt}`, { type: `image/${fileExt}` })
+      const file = new File([blob], `avatar.${fileExt}`, { type: `image/${fileExt}` })
 
       return file
     }
     catch (error) {
-      throw new Error('Failed to fetch file from url')
+      return undefined
     }
   }
 }

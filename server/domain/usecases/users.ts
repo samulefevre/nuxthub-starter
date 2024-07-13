@@ -1,8 +1,9 @@
 import { randomUUID } from 'uncrypto'
-import type { IUserRepository } from '../repositories'
+import type { IImageRepository, IUserRepository } from '../repositories'
 
 interface ISignin {
   userRepository: IUserRepository
+  imageRepository: IImageRepository
   email: string
   name: string
   avatarUrl?: string
@@ -10,6 +11,7 @@ interface ISignin {
 
 export const signInUseCase = async ({
   userRepository,
+  imageRepository,
   email,
   name,
   avatarUrl,

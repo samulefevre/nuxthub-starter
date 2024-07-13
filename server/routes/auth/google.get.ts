@@ -1,4 +1,4 @@
-import { DrizzleUserRepository } from '~~/server/data/repositories'
+import { DrizzleImageRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { signInUseCase } from '~~/server/domain/usecases/users'
 
 export default oauth.googleEventHandler({
@@ -10,6 +10,7 @@ export default oauth.googleEventHandler({
   async onSuccess(event, { user: googleUser }) {
     const user = await signInUseCase({
       userRepository: new DrizzleUserRepository(useDrizzle()),
+      imageRepository: new DrizzleImageRepository(),
       email: googleUser.email,
       name: googleUser.name,
       avatarUrl: googleUser.picture,
