@@ -28,20 +28,13 @@ export const deleteAccountUseCase = async ({ userId, token }: { userId: number, 
   const verifiedToken = await userRepository.getDeleteAccountToken({ userId, token })
 
   if (!verifiedToken) {
-    console.log('Token not found')
-    // throw new Error('Token not found')
-    /* throw createError({
-      statusCode: 400,
-      statusMessage: 'Token not found',
-    }) */
-    return undefined
+    throw new Error('Token not found')
   }
 
   const currentUser = await userRepository.getUser(userId)
 
   if (!currentUser) {
-    // throw new Error('User not found')
-    return undefined
+    throw new Error('User not found')
   }
 
   if (currentUser.avatar) {
