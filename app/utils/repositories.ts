@@ -1,7 +1,6 @@
-import { UserRepository } from '~/infrastructure/repositories/UserRepository'
-import { UserApi } from '~/infrastructure/api/UserApi'
+import { UserRepository } from '@/data/repositories/UserRepository'
 
-const userRepository = new UserRepository(new UserApi())
+const userRepository = new UserRepository()
 
 export {
   userRepository,

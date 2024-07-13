@@ -1,6 +1,7 @@
 import { FetchError } from 'ofetch'
+import type { IUserRepository } from '~/domain/repositories/IUserRepository'
 
-export class UserApi {
+export class UserRepository implements IUserRepository {
   async updateAvatar(avatar: File): Promise<void> {
     try {
       const formData = new FormData()

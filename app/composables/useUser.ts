@@ -66,8 +66,8 @@ export function useUser() {
     try {
       await userRepository.deleteAccount({ token })
 
-      // await clear()
-      // await navigateTo('/')
+      await clear()
+      await navigateTo('/')
 
       toast.add({
         title: 'Your account has been deleted',
