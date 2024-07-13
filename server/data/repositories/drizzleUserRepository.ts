@@ -3,6 +3,7 @@ import type { DrizzleD1Database } from 'drizzle-orm/d1'
 import type * as schema from '@@/server/database/schema'
 import * as tables from '@@/server/database/schema'
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
+import { eq, and } from 'drizzle-orm'
 import type { IUserRepository } from '../../domain/repositories/IUserRepository'
 
 export class DrizzleUserRepository implements IUserRepository {
