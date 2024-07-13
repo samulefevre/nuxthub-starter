@@ -1,6 +1,19 @@
 import { randomUUID } from 'uncrypto'
+import type { IUserRepository } from '../repositories'
 
-export const signInUseCase = async ({ email, name, avatarUrl }: { email: string, name: string, avatarUrl?: string }) => {
+interface ISignin {
+  userRepository: IUserRepository
+  email: string
+  name: string
+  avatarUrl?: string
+}
+
+export const signInUseCase = async ({
+  userRepository,
+  email,
+  name,
+  avatarUrl,
+}: ISignin) => {
   let existingUser = await userRepository.getUserByEmail(email)
 
   if (!existingUser) {
@@ -26,13 +39,27 @@ export const signInUseCase = async ({ email, name, avatarUrl }: { email: string,
           avatar,
         },
       })
+
+      if (!existingUser) {
+        throw new Error('User not found')
+      }
     }
   }
 
   return existingUser
 }
 
-export const updateAvatarUseCase = async (file: File, userId: number) => {
+interface IUpdateAvatar {
+  userRepository: IUserRepository
+  file: File
+  userId: number
+}
+
+export const updateAvatarUseCase = async ({
+  userRepository,
+  file,
+  userId,
+}: IUpdateAvatar) => {
   const fileName = `avatar-${randomUUID()}`
 
   const currentUser = await userRepository.getUser(userId)
@@ -56,6 +83,10 @@ export const updateAvatarUseCase = async (file: File, userId: number) => {
       avatar: blob.pathname,
     },
   })
+
+  if (!updatedUser) {
+    throw new Error('User not found')
+  }
 
   return {
     updatedUser,

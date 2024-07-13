@@ -3,7 +3,7 @@ import {
   DrizzleImageRepository,
   DrizzleMagicLinkRepository,
   DrizzleUserRepository,
-} from '~~/server/infrastructure/repositories/index'
+} from '@@/server/data/repositories'
 
 const credentialRepository = new DrizzleCredentialRepository()
 const imageRepository = new DrizzleImageRepository()

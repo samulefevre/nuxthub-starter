@@ -8,6 +8,7 @@ export default oauth.googleEventHandler({
   },
   async onSuccess(event, { user: googleUser }) {
     const user = await signInUseCase({
+      userRepository: userRepository,
       email: googleUser.email,
       name: googleUser.name,
       avatarUrl: googleUser.picture,

@@ -15,7 +15,11 @@ export default defineEventHandler(async (event) => {
     types: ['image'],
   })
 
-  const { updatedUser, blob } = await updateAvatarUseCase(file, user.id)
+  const { updatedUser, blob } = await updateAvatarUseCase({
+    userRepository: userRepository,
+    file,
+    userId: user.id,
+  })
 
   await setUserSession(event, {
     user: {

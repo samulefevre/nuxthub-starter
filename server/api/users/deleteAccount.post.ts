@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
   const { token } = await readValidatedBody(event, schema.parse)
 
   await deleteAccountUseCase({
+    userRepository: userRepository,
     userId: user.id,
     token,
   })

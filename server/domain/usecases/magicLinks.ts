@@ -1,8 +1,13 @@
-export const sendMagicLinkUseCase = async ({ email,
+import type { IMagicLinkRepository } from '../repositories'
+
+export const sendMagicLinkUseCase = async ({
+  magicLinkRepository,
+  email,
   resendApiKey,
   baseUrl,
   fromEmail,
 }: {
+  magicLinkRepository: IMagicLinkRepository
   email: string
   resendApiKey: string
   baseUrl: string
@@ -13,7 +18,15 @@ export const sendMagicLinkUseCase = async ({ email,
   await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, token)
 }
 
-export const loginWithMagicLinkUseCase = async (token: string): Promise<User | undefined> => {
+interface ILoginWithMagicLink {
+  magicLinkRepository: IMagicLinkRepository
+  token: string
+}
+
+export const loginWithMagicLinkUseCase = async ({
+  magicLinkRepository,
+  token,
+}: ILoginWithMagicLink): Promise<User | undefined> => {
   const existingMagicLink = await magicLinkRepository.getMagicLinkByToken(token)
 
   if (!existingMagicLink) {

@@ -6,6 +6,7 @@ export default oauth.githubEventHandler({
   },
   async onSuccess(event, { user: githubUser }) {
     const user = await signInUseCase({
+      userRepository: userRepository,
       email: githubUser.email,
       name: githubUser.name,
       avatarUrl: githubUser.avatar_url,

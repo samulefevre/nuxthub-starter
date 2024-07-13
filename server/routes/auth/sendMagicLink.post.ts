@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
   const { email } = await readValidatedBody(event, schema.parse)
 
   await sendMagicLinkUseCase({
+    magicLinkRepository: magicLinkRepository,
     email,
     resendApiKey,
     baseUrl,

@@ -9,7 +9,10 @@ export default defineEventHandler(async (event) => {
   const { token } = await getValidatedQuery(event, schema.parse)
 
   try {
-    const user = await loginWithMagicLinkUseCase(token)
+    const user = await loginWithMagicLinkUseCase({
+      magicLinkRepository: magicLinkRepository,
+      token,
+    })
 
     if (!user) {
       return sendRedirect(event, '/auth/magicLinkExpired')

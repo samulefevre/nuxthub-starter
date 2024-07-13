@@ -1,4 +1,13 @@
-export const sendDeleteAccountEmailUseCase = async ({ userId, resendApiKey, baseUrl, fromEmail }: {
+import type { IUserRepository } from '../repositories'
+
+export const sendDeleteAccountEmailUseCase = async ({
+  userRepository,
+  userId,
+  resendApiKey,
+  baseUrl,
+  fromEmail,
+}: {
+  userRepository: IUserRepository
   userId: number
   resendApiKey: string
   baseUrl: string
@@ -24,7 +33,15 @@ export const sendDeleteAccountEmailUseCase = async ({ userId, resendApiKey, base
   })
 }
 
-export const deleteAccountUseCase = async ({ userId, token }: { userId: number, token: string }) => {
+export const deleteAccountUseCase = async ({
+  userRepository,
+  userId,
+  token,
+}: {
+  userRepository: IUserRepository
+  userId: number
+  token: string
+}) => {
   const verifiedToken = await userRepository.getDeleteAccountToken({ userId, token })
 
   if (!verifiedToken) {

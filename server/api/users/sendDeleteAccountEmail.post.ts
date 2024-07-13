@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
   const { fromEmail } = config.emails
 
   await sendDeleteAccountEmailUseCase({
+    userRepository: userRepository,
     userId: user.id,
     resendApiKey,
     baseUrl,
