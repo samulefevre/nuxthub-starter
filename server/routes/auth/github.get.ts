@@ -1,4 +1,5 @@
 import { signInUseCase } from '@@/server/domain/usecases/users'
+import { DrizzleUserRepository } from '~~/server/data/repositories'
 
 export default oauth.githubEventHandler({
   config: {
@@ -6,7 +7,7 @@ export default oauth.githubEventHandler({
   },
   async onSuccess(event, { user: githubUser }) {
     const user = await signInUseCase({
-      userRepository: userRepository,
+      userRepository: new DrizzleUserRepository(useDrizzle()),
       email: githubUser.email,
       name: githubUser.name,
       avatarUrl: githubUser.avatar_url,

@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@nuxthub/core',
-    // '@nuxt/test-utils/module',
+    '@nuxt/test-utils/module',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/eslint',

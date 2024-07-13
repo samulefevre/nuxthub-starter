@@ -1,7 +1,17 @@
 import { randomUUID } from 'uncrypto'
+import type { DrizzleD1Database } from 'drizzle-orm/d1'
+import type * as schema from '@@/server/database/schema'
+import * as tables from '@@/server/database/schema'
+import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
 import type { IUserRepository } from '../../domain/repositories/IUserRepository'
 
 export class DrizzleUserRepository implements IUserRepository {
+  private _db: DrizzleD1Database<typeof schema> | BetterSQLite3Database<typeof schema>
+
+  constructor(db: DrizzleD1Database<typeof schema> | BetterSQLite3Database<typeof schema>) {
+    this._db = db
+  }
+
   createUser = async ({
     email,
     name,
@@ -9,7 +19,7 @@ export class DrizzleUserRepository implements IUserRepository {
     email: string
     name: string
   }) => {
-    const user = await useDrizzle().insert(tables.users).values({
+    const user = await this._db.insert(tables.users).values({
       name,
       email,
     }).onConflictDoUpdate({
@@ -18,10 +28,6 @@ export class DrizzleUserRepository implements IUserRepository {
         lastLogin: new Date(),
       },
     }).returning().get()
-
-    if (!user) {
-      throw new Error('Failed to create user')
-    }
 
     return user
   }
@@ -39,7 +45,7 @@ export class DrizzleUserRepository implements IUserRepository {
     //  uppercasing the first letter of each word
     name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 
-    const user = await useDrizzle().insert(tables.users).values({
+    const user = await this._db.insert(tables.users).values({
       name,
       email,
     }).returning().get()
@@ -52,11 +58,11 @@ export class DrizzleUserRepository implements IUserRepository {
   }
 
   getUser = async (userId: number) => {
-    return await useDrizzle().select().from(tables.users).where(eq(tables.users.id, userId)).get()
+    return await this._db.select().from(tables.users).where(eq(tables.users.id, userId)).get()
   }
 
   getUserByEmail = async (email: string) => {
-    const user = await useDrizzle().select().from(tables.users).where(eq(tables.users.email, email)).get()
+    const user = this._db.select().from(tables.users).where(eq(tables.users.email, email)).get()
 
     return user
   }
@@ -68,11 +74,11 @@ export class DrizzleUserRepository implements IUserRepository {
     userId: number
     updatedUser: Partial<User>
   }) => {
-    return await useDrizzle().update(tables.users).set(updatedUser).where(eq(tables.users.id, userId)).returning().get()
+    return await this._db.update(tables.users).set(updatedUser).where(eq(tables.users.id, userId)).returning().get()
   }
 
   deleteUser = async ({ userId }: { userId: number }) => {
-    const user = await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
+    const user = this._db.delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
 
     return user
   }
@@ -84,7 +90,7 @@ export class DrizzleUserRepository implements IUserRepository {
   }) => {
     const token = randomUUID()
 
-    await useDrizzle().insert(tables.deleteAccountTokens).values({
+    await this._db.insert(tables.deleteAccountTokens).values({
       token,
       userId,
     })
@@ -93,7 +99,7 @@ export class DrizzleUserRepository implements IUserRepository {
   }
 
   getDeleteAccountToken = async ({ userId, token }: { userId: number, token: string }) => {
-    const deleteAccountToken = await useDrizzle().select().from(tables.deleteAccountTokens).where(
+    const deleteAccountToken = await this._db.select().from(tables.deleteAccountTokens).where(
       and(
         eq(tables.deleteAccountTokens.token, token),
         eq(tables.deleteAccountTokens.userId, userId),
@@ -103,7 +109,7 @@ export class DrizzleUserRepository implements IUserRepository {
   }
 
   removeDeleteAccountToken = async ({ userId, token }: { userId: number, token: string }) => {
-    await useDrizzle().delete(tables.deleteAccountTokens).where(
+    await this._db.delete(tables.deleteAccountTokens).where(
       and(
         eq(tables.deleteAccountTokens.token, token),
         eq(tables.deleteAccountTokens.userId, userId),

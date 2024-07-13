@@ -1,3 +1,4 @@
+import { DrizzleUserRepository } from '~~/server/data/repositories'
 import { updateAvatarUseCase } from '~~/server/domain/usecases/users'
 
 export default defineEventHandler(async (event) => {
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
   })
 
   const { updatedUser, blob } = await updateAvatarUseCase({
-    userRepository: userRepository,
+    userRepository: new DrizzleUserRepository(useDrizzle()),
     file,
     userId: user.id,
   })
