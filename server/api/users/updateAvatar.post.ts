@@ -1,8 +1,8 @@
-import { DrizzleUserRepository } from '~~/server/data/repositories'
-import { updateAvatarUseCase } from '~~/server/domain/usecases/users'
-
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
+
+  const nitroApp = useNitroApp()
+  const { updateAvatarUseCase } = nitroApp
 
   const form = await readFormData(event)
   const file = form.get('file') as File
@@ -17,8 +17,7 @@ export default defineEventHandler(async (event) => {
   })
 
   try {
-    const { updatedUser, blob } = await updateAvatarUseCase({
-      userRepository: new DrizzleUserRepository(useDrizzle()),
+    const { updatedUser, blob } = await updateAvatarUseCase.execute({
       file,
       userId: user.id,
     })
