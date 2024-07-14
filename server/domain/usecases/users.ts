@@ -67,7 +67,7 @@ export const updateAvatarUseCase = async ({
   const currentUser = await userRepository.getUser(userId)
 
   if (!currentUser) {
-    throw createError({ statusCode: 404, message: 'User not found' })
+    throw new Error('User not found')
   }
 
   if (currentUser.avatar) {
@@ -87,7 +87,7 @@ export const updateAvatarUseCase = async ({
   })
 
   if (!updatedUser) {
-    throw new Error('User not found')
+    throw new Error('User not updated')
   }
 
   return {

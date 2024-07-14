@@ -16,24 +16,40 @@ export default defineEventHandler(async (event) => {
     types: ['image'],
   })
 
-  const { updatedUser, blob } = await updateAvatarUseCase({
-    userRepository: new DrizzleUserRepository(useDrizzle()),
-    file,
-    userId: user.id,
-  })
+  try {
+    const { updatedUser, blob } = await updateAvatarUseCase({
+      userRepository: new DrizzleUserRepository(useDrizzle()),
+      file,
+      userId: user.id,
+    })
 
-  await setUserSession(event, {
-    user: {
-      id: updatedUser.id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      avatarUrl: updatedUser.avatar,
-      role: updatedUser.role,
-    },
-  })
+    await setUserSession(event, {
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        avatarUrl: updatedUser.avatar,
+        role: updatedUser.role,
+      },
+    })
 
-  return {
-    ok: true,
-    avatarPath: blob.pathname,
+    return {
+      ok: true,
+      avatarPath: blob.pathname,
+    }
+  }
+  catch (error) {
+    if (error instanceof Error) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: error.message,
+      })
+    }
+
+    throw createError(
+      {
+        statusCode: 500,
+        statusMessage: 'Failed to update avatar',
+      })
   }
 })
