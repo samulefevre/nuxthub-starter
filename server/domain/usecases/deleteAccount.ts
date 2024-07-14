@@ -1,3 +1,4 @@
+import { useEmail } from '@@/server/utils/email'
 import type { IUserRepository } from '../repositories'
 
 export const sendDeleteAccountEmailUseCase = async ({
@@ -23,7 +24,7 @@ export const sendDeleteAccountEmailUseCase = async ({
     userId: user.id,
   })
 
-  await useEmail({
+  return await useEmail({
     resendApiKey,
     baseUrl,
     fromEmail,
