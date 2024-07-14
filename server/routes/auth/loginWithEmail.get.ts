@@ -1,8 +1,9 @@
 import { z } from 'zod'
-import { DrizzleMagicLinkRepository, DrizzleUserRepository } from '~~/server/data/repositories'
-import { loginWithMagicLinkUseCase } from '~~/server/domain/usecases/magicLinks'
 
 export default defineEventHandler(async (event) => {
+  const nitroApp = useNitroApp()
+  const { loginWithMagicLinkUseCase } = nitroApp
+
   const schema = z.object({
     token: z.string(),
   })
@@ -10,9 +11,7 @@ export default defineEventHandler(async (event) => {
   const { token } = await getValidatedQuery(event, schema.parse)
 
   try {
-    const user = await loginWithMagicLinkUseCase({
-      magicLinkRepository: new DrizzleMagicLinkRepository(useDrizzle()),
-      userRepository: new DrizzleUserRepository(useDrizzle()),
+    const user = await loginWithMagicLinkUseCase.execute({
       token,
     })
 

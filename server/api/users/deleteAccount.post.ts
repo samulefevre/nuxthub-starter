@@ -1,8 +1,9 @@
 import { z } from 'zod'
-import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
-import { deleteAccountUseCase } from '~~/server/domain/usecases/deleteAccount'
 
 export default defineEventHandler(async (event) => {
+  const nitroApp = useNitroApp()
+  const { deleteAccountUseCase } = nitroApp
+
   const { user } = await requireUserSession(event)
 
   const schema = z.object({
@@ -11,9 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const { token } = await readValidatedBody(event, schema.parse)
 
-  await deleteAccountUseCase({
-    userRepository: new DrizzleUserRepository(useDrizzle()),
-    deleteAccountTokenRepository: new DrizzleDeleteAccountTokenRepository(useDrizzle()),
+  await deleteAccountUseCase.execute({
     userId: user.id,
     token,
   })

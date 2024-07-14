@@ -1,11 +1,17 @@
 import { randomUUID } from 'uncrypto'
 import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
-import type { IUserRepository } from '../repositories'
+import type { IUserRepository } from '@@/server/domain/repositories'
+
+interface IUpdateAvatar {
+  file: File
+  userId: number
+  currentAvatar?: string
+}
 
 export class UpdateAvatarUseCase {
   constructor(private userRepository: IUserRepository) { }
 
-  async execute({ file, userId, currentAvatar }: { file: File, userId: number, currentAvatar?: string }) {
+  async execute({ file, userId, currentAvatar }: IUpdateAvatar) {
     const fileName = `avatar-${randomUUID()}`
 
     if (currentAvatar) {

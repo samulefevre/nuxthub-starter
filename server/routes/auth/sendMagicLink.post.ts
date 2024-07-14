@@ -1,8 +1,9 @@
 import { z } from 'zod'
-import { DrizzleMagicLinkRepository } from '~~/server/data/repositories'
-import { sendMagicLinkUseCase } from '~~/server/domain/usecases/magicLinks'
 
 export default defineEventHandler(async (event) => {
+  const nitroApp = useNitroApp()
+  const { sendMagicLinkUseCase } = nitroApp
+
   const config = useRuntimeConfig(event)
   const { resendApiKey } = config
   const { baseUrl } = config.public
@@ -14,8 +15,7 @@ export default defineEventHandler(async (event) => {
 
   const { email } = await readValidatedBody(event, schema.parse)
 
-  await sendMagicLinkUseCase({
-    magicLinkRepository: new DrizzleMagicLinkRepository(useDrizzle()),
+  await sendMagicLinkUseCase.execute({
     email,
     resendApiKey,
     baseUrl,

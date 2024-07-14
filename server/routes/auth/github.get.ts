@@ -1,14 +1,12 @@
-import { signInUseCase } from '@@/server/domain/usecases/users'
-import { DrizzleImageRepository, DrizzleUserRepository } from '~~/server/data/repositories'
-
 export default oauth.githubEventHandler({
   config: {
     emailRequired: true,
   },
   async onSuccess(event, { user: githubUser }) {
-    const user = await signInUseCase({
-      userRepository: new DrizzleUserRepository(useDrizzle()),
-      imageRepository: new DrizzleImageRepository(),
+    const nitroApp = useNitroApp()
+    const { signInUseCase } = nitroApp
+
+    const user = await signInUseCase.execute({
       email: githubUser.email,
       name: githubUser.name,
       avatarUrl: githubUser.avatar_url,

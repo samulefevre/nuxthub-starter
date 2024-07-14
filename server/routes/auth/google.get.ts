@@ -1,6 +1,3 @@
-import { DrizzleImageRepository, DrizzleUserRepository } from '~~/server/data/repositories'
-import { signInUseCase } from '~~/server/domain/usecases/users'
-
 export default oauth.googleEventHandler({
   config: {
     authorizationParams: {
@@ -8,9 +5,10 @@ export default oauth.googleEventHandler({
     },
   },
   async onSuccess(event, { user: googleUser }) {
-    const user = await signInUseCase({
-      userRepository: new DrizzleUserRepository(useDrizzle()),
-      imageRepository: new DrizzleImageRepository(),
+    const nitroApp = useNitroApp()
+    const { signInUseCase } = nitroApp
+
+    const user = await signInUseCase.execute({
       email: googleUser.email,
       name: googleUser.name,
       avatarUrl: googleUser.picture,

@@ -1,7 +1,7 @@
-import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
-import { sendDeleteAccountEmailUseCase } from '~~/server/domain/usecases/deleteAccount'
-
 export default defineEventHandler(async (event) => {
+  const nitroApp = useNitroApp()
+  const { sendDeleteAccountEmailUseCase } = nitroApp
+
   const { user } = await requireUserSession(event)
 
   const config = useRuntimeConfig(event)
@@ -9,9 +9,7 @@ export default defineEventHandler(async (event) => {
   const { baseUrl } = config.public
   const { fromEmail } = config.emails
 
-  await sendDeleteAccountEmailUseCase({
-    userRepository: new DrizzleUserRepository(useDrizzle()),
-    deleteAccountTokenRepository: new DrizzleDeleteAccountTokenRepository(useDrizzle()),
+  await sendDeleteAccountEmailUseCase.execute({
     userId: user.id,
     resendApiKey,
     baseUrl,

@@ -8,7 +8,7 @@ import type { Database } from 'better-sqlite3'
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
 import { DrizzleMagicLinkRepository, DrizzleUserRepository } from '~~/server/data/repositories'
-import { loginWithMagicLinkUseCase, sendMagicLinkUseCase } from '~~/server/domain/usecases/magicLinks'
+import { LoginWithMagicLinkUseCase, SendMagicLinkUseCase } from '~~/server/domain/usecases'
 
 describe('magicLinks usecases', () => {
   const userData = { email: 'test@example.com', name: 'Test User', avatarUrl: 'https://example.com/avatar.png' }
@@ -20,8 +20,11 @@ describe('magicLinks usecases', () => {
   }))
 
   let db: BetterSQLite3Database<typeof schema>
-  let repository: DrizzleMagicLinkRepository
+  let magicLinkRepository: DrizzleMagicLinkRepository
   let userRepository: DrizzleUserRepository
+
+  let sendMagicLinkUseCase: SendMagicLinkUseCase
+  let loginWithMagicLinkUseCase: LoginWithMagicLinkUseCase
 
   let sqlite: Database
 
@@ -31,29 +34,23 @@ describe('magicLinks usecases', () => {
 
     migrate(db, { migrationsFolder: 'server/database/migrations' })
 
-    repository = new DrizzleMagicLinkRepository(db)
+    magicLinkRepository = new DrizzleMagicLinkRepository(db)
     userRepository = new DrizzleUserRepository(db)
+
+    sendMagicLinkUseCase = new SendMagicLinkUseCase(magicLinkRepository)
+
+    loginWithMagicLinkUseCase = new LoginWithMagicLinkUseCase(
+      userRepository,
+      magicLinkRepository,
+    )
   })
 
   afterEach(() => {
     sqlite.close()
   })
 
-  it('should send a new magic link', async () => {
-    const magicLinkSent = await sendMagicLinkUseCase({
-      magicLinkRepository: repository,
-      email: userData.email,
-      resendApiKey: 'dummy',
-      baseUrl: 'http://localhost:3000',
-      fromEmail: 'dummy',
-    })
-
-    expect(magicLinkSent).toBeDefined()
-  })
-
   it('should login with magic link', async () => {
-    const magicLinkSent = await sendMagicLinkUseCase({
-      magicLinkRepository: repository,
+    const magicLinkSent = await sendMagicLinkUseCase.execute({
       email: userData.email,
       resendApiKey: 'dummy',
       baseUrl: 'http://localhost:3000',
@@ -62,14 +59,12 @@ describe('magicLinks usecases', () => {
 
     expect(magicLinkSent).toBeDefined()
 
-    const magicLink = await repository.getMagicLinkByEmail(userData.email)
+    const magicLink = await magicLinkRepository.getMagicLinkByEmail(userData.email)
 
     expect(magicLink).toBeDefined()
     expect(magicLink!.token).toBeDefined()
 
-    const user = await loginWithMagicLinkUseCase({
-      magicLinkRepository: repository,
-      userRepository,
+    const user = await loginWithMagicLinkUseCase.execute({
       token: magicLink!.token,
     })
 
@@ -78,8 +73,7 @@ describe('magicLinks usecases', () => {
   })
 
   it('should not login with invalid magic link', async () => {
-    const magicLinkSent = await sendMagicLinkUseCase({
-      magicLinkRepository: repository,
+    const magicLinkSent = await sendMagicLinkUseCase.execute({
       email: userData.email,
       resendApiKey: 'dummy',
       baseUrl: 'http://localhost:3000',
@@ -89,9 +83,7 @@ describe('magicLinks usecases', () => {
     expect(magicLinkSent).toBeDefined()
 
     try {
-      await loginWithMagicLinkUseCase({
-        magicLinkRepository: repository,
-        userRepository,
+      await loginWithMagicLinkUseCase.execute({
         token: 'invalid-token',
       })
     }
