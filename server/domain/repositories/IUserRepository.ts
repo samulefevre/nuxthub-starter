@@ -8,7 +8,4 @@ export interface IUserRepository {
     updatedUser: Partial<User>
   }): Promise<User | undefined>
   deleteUser({ userId }: { userId: number }): Promise<User | undefined>
-  createDeleteAccountToken({ userId }: { userId: number }): Promise<string>
-  getDeleteAccountToken({ userId, token }: { userId: number, token: string }): Promise<DeleteAccountToken | undefined>
-  removeDeleteAccountToken({ userId, token }: { userId: number, token: string }): Promise<void>
 }

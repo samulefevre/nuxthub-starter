@@ -1,9 +1,8 @@
-import { randomUUID } from 'uncrypto'
 import type { DrizzleD1Database } from 'drizzle-orm/d1'
 import type * as schema from '@@/server/database/schema'
 import * as tables from '@@/server/database/schema'
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
-import { eq, and } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import type { IUserRepository } from '../../domain/repositories/IUserRepository'
 
 export class DrizzleUserRepository implements IUserRepository {
@@ -82,38 +81,5 @@ export class DrizzleUserRepository implements IUserRepository {
     const user = this._db.delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
 
     return user
-  }
-
-  createDeleteAccountToken = async ({
-    userId,
-  }: {
-    userId: number
-  }) => {
-    const token = randomUUID()
-
-    await this._db.insert(tables.deleteAccountTokens).values({
-      token,
-      userId,
-    })
-
-    return token
-  }
-
-  getDeleteAccountToken = async ({ userId, token }: { userId: number, token: string }) => {
-    const deleteAccountToken = await this._db.select().from(tables.deleteAccountTokens).where(
-      and(
-        eq(tables.deleteAccountTokens.token, token),
-        eq(tables.deleteAccountTokens.userId, userId),
-      )).get()
-
-    return deleteAccountToken
-  }
-
-  removeDeleteAccountToken = async ({ userId, token }: { userId: number, token: string }) => {
-    await this._db.delete(tables.deleteAccountTokens).where(
-      and(
-        eq(tables.deleteAccountTokens.token, token),
-        eq(tables.deleteAccountTokens.userId, userId),
-      )).returning().get()
   }
 }

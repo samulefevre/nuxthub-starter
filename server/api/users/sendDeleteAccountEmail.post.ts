@@ -1,4 +1,4 @@
-import { DrizzleUserRepository } from '~~/server/data/repositories'
+import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { sendDeleteAccountEmailUseCase } from '~~/server/domain/usecases/deleteAccount'
 
 export default defineEventHandler(async (event) => {
@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
 
   await sendDeleteAccountEmailUseCase({
     userRepository: new DrizzleUserRepository(useDrizzle()),
+    deleteAccountTokenRepository: new DrizzleDeleteAccountTokenRepository(useDrizzle()),
     userId: user.id,
     resendApiKey,
     baseUrl,

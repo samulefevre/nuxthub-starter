@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DrizzleUserRepository } from '~~/server/data/repositories'
+import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { deleteAccountUseCase } from '~~/server/domain/usecases/deleteAccount'
 
 export default defineEventHandler(async (event) => {
@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
 
   await deleteAccountUseCase({
     userRepository: new DrizzleUserRepository(useDrizzle()),
+    deleteAccountTokenRepository: new DrizzleDeleteAccountTokenRepository(useDrizzle()),
     userId: user.id,
     token,
   })

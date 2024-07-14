@@ -7,7 +7,7 @@ import type { Database } from 'better-sqlite3'
 
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
-import { DrizzleUserRepository } from '~~/server/data/repositories'
+import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { sendDeleteAccountEmailUseCase, deleteAccountUseCase } from '~~/server/domain/usecases/deleteAccount'
 
 describe('deleteAccount usecases', () => {
@@ -22,6 +22,7 @@ describe('deleteAccount usecases', () => {
 
   let db: BetterSQLite3Database<typeof schema>
   let userRepository: DrizzleUserRepository
+  let deleteAccountTokenRepository: DrizzleDeleteAccountTokenRepository
 
   let sqlite: Database
 
@@ -32,6 +33,7 @@ describe('deleteAccount usecases', () => {
     migrate(db, { migrationsFolder: 'server/database/migrations' })
 
     userRepository = new DrizzleUserRepository(db)
+    deleteAccountTokenRepository = new DrizzleDeleteAccountTokenRepository(db)
   })
 
   afterEach(() => {
@@ -45,6 +47,7 @@ describe('deleteAccount usecases', () => {
 
     const deleteAccountEmailSent = await sendDeleteAccountEmailUseCase({
       userRepository,
+      deleteAccountTokenRepository,
       userId: user.id,
       resendApiKey: 'dummy',
       baseUrl: 'http://localhost:3000',
@@ -59,16 +62,17 @@ describe('deleteAccount usecases', () => {
 
     expect(user).toBeDefined()
 
-    const token = await userRepository.createDeleteAccountToken({
+    const deleteAccountToken = await deleteAccountTokenRepository.upsertDeleteAccountToken({
       userId: user.id,
     })
 
-    expect(token).toBeDefined()
+    expect(deleteAccountToken.token).toBeDefined()
 
     const deleteAccount = await deleteAccountUseCase({
       userRepository,
+      deleteAccountTokenRepository,
       userId: user.id,
-      token,
+      token: deleteAccountToken.token,
     })
 
     expect(deleteAccount).toBeDefined()
@@ -85,6 +89,7 @@ describe('deleteAccount usecases', () => {
 
     await expect(deleteAccountUseCase({
       userRepository,
+      deleteAccountTokenRepository,
       userId: user.id,
       token: 'invalid',
     })).rejects.toThrow('Token not found')

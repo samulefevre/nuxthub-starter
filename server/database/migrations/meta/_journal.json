@@ -8,6 +8,20 @@
       "when": 1720658828400,
       "tag": "0000_unknown_sunfire",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1720919198781,
+      "tag": "0001_loud_microbe",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1720922426284,
+      "tag": "0002_condemned_scalphunter",
+      "breakpoints": true
     }
   ]
 }

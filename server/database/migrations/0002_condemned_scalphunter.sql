@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `delete_account_tokens_user_id_unique` ON `delete_account_tokens` (`user_id`);

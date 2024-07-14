@@ -1,14 +1,16 @@
 import { useEmail } from '@@/server/utils/email'
-import type { IUserRepository } from '../repositories'
+import type { IDeleteAccountTokenRepository, IUserRepository } from '../repositories'
 
 export const sendDeleteAccountEmailUseCase = async ({
   userRepository,
+  deleteAccountTokenRepository,
   userId,
   resendApiKey,
   baseUrl,
   fromEmail,
 }: {
   userRepository: IUserRepository
+  deleteAccountTokenRepository: IDeleteAccountTokenRepository
   userId: number
   resendApiKey: string
   baseUrl: string
@@ -20,9 +22,13 @@ export const sendDeleteAccountEmailUseCase = async ({
     throw new Error('User not found')
   }
 
-  const token = await userRepository.createDeleteAccountToken({
+  const deleteAccountToken = await deleteAccountTokenRepository.upsertDeleteAccountToken({
     userId: user.id,
   })
+
+  if (!deleteAccountToken) {
+    throw new Error('Delete account token not created')
+  }
 
   return await useEmail({
     resendApiKey,
@@ -30,23 +36,30 @@ export const sendDeleteAccountEmailUseCase = async ({
     fromEmail,
   }).sendDeleteAccountEmail({
     email: user.email,
-    token,
+    token: deleteAccountToken.token,
   })
 }
 
 export const deleteAccountUseCase = async ({
   userRepository,
+  deleteAccountTokenRepository,
   userId,
   token,
 }: {
   userRepository: IUserRepository
+  deleteAccountTokenRepository: IDeleteAccountTokenRepository
   userId: number
   token: string
 }) => {
-  const verifiedToken = await userRepository.getDeleteAccountToken({ userId, token })
+  const verifiedToken = await deleteAccountTokenRepository.getDeleteAccountToken({ userId, token })
 
   if (!verifiedToken) {
     throw new Error('Token not found')
+  }
+
+  if (verifiedToken.tokenExpiresAt < new Date()) {
+    await deleteAccountTokenRepository.removeDeleteAccountToken({ userId, token })
+    throw new Error('Token expired')
   }
 
   const currentUser = await userRepository.getUser(userId)
@@ -59,7 +72,7 @@ export const deleteAccountUseCase = async ({
     await hubBlob().delete(userId.toString())
   }
 
-  await userRepository.removeDeleteAccountToken({ userId, token })
+  await deleteAccountTokenRepository.removeDeleteAccountToken({ userId, token })
 
   const deletedUser = await userRepository.deleteUser({ userId })
 
