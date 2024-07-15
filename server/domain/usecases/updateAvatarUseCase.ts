@@ -1,6 +1,4 @@
-import { randomUUID } from 'uncrypto'
-import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
-import type { IUserRepository } from '@@/server/domain/repositories'
+import type { IImageRepository, IUserRepository } from '@@/server/domain/repositories'
 
 interface IUpdateAvatar {
   file: File
@@ -9,20 +7,19 @@ interface IUpdateAvatar {
 }
 
 export class UpdateAvatarUseCase {
-  constructor(private userRepository: IUserRepository) { }
+  constructor(
+    private userRepository: IUserRepository,
+    private imageRepository: IImageRepository,
+  ) { }
 
   async execute({ file, userId, currentAvatar }: IUpdateAvatar) {
-    const fileName = `avatar-${randomUUID()}`
-
     if (currentAvatar) {
-      console.log('Deleting current avatar', currentAvatar)
-      await hubBlob().delete(currentAvatar)
+      await this.imageRepository.deleteAvatar(currentAvatar)
     }
 
-    // TODO: Add this to the image repository
-    const blob = await hubBlob().put(fileName, file, {
-      addRandomSuffix: false,
-      prefix: `${userId}`,
+    const blob = await this.imageRepository.saveAvatar({
+      file,
+      userId,
     })
 
     if (!blob.pathname) {

@@ -19,6 +19,11 @@ export class DrizzleImageRepository implements IImageRepository {
     return blob
   }
 
+  deleteAvatar = async (pathname: string) => {
+    await hubBlob().delete(pathname)
+    return { pathname }
+  }
+
   getFileFromUrl = async (url: string) => {
     try {
       const res = await $fetch.raw(url, { responseType: 'arrayBuffer' })

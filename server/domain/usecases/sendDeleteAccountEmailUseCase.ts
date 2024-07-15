@@ -1,24 +1,30 @@
 import type { IDeleteAccountTokenRepository, IUserRepository } from '@@/server/domain/repositories'
-
-import { useEmail } from '@@/server/utils/email'
+import type { IEmailService } from '@@/server/domain/services'
 
 interface ISendDeleteAccountEmail {
   userId: number
-  resendApiKey: string
-  baseUrl: string
-  fromEmail: string
 }
 
 export class SendDeleteAccountEmailUseCase {
-  constructor(
-    private readonly userRepository: IUserRepository,
-    private readonly deleteAccountTokenRepository: IDeleteAccountTokenRepository,
-  ) { }
+  private readonly userRepository: IUserRepository
+  private readonly deleteAccountTokenRepository: IDeleteAccountTokenRepository
+  private readonly emailService: IEmailService
 
-  async execute({ userId,
-    resendApiKey,
-    baseUrl,
-    fromEmail }: ISendDeleteAccountEmail) {
+  constructor({
+    userRepository,
+    deleteAccountTokenRepository,
+    emailService,
+  }: {
+    userRepository: IUserRepository
+    deleteAccountTokenRepository: IDeleteAccountTokenRepository
+    emailService: IEmailService
+  }) {
+    this.userRepository = userRepository
+    this.deleteAccountTokenRepository = deleteAccountTokenRepository
+    this.emailService = emailService
+  }
+
+  async execute({ userId }: ISendDeleteAccountEmail) {
     const user = await this.userRepository.getUser(userId)
 
     if (!user) {
@@ -33,12 +39,7 @@ export class SendDeleteAccountEmailUseCase {
       throw new Error('Delete account token not created')
     }
 
-    // TODO: email service
-    return await useEmail({
-      resendApiKey,
-      baseUrl,
-      fromEmail,
-    }).sendDeleteAccountEmail({
+    return await this.emailService.sendDeleteAccountEmail({
       email: user.email,
       token: deleteAccountToken.token,
     })

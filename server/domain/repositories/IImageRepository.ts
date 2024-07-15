@@ -1,4 +1,4 @@
-import type { BlobObject } from '@nuxthub/core'
+import type { Image } from '@@/server/domain/entities/imageEntity'
 
 export interface IImageRepository {
   saveAvatar({
@@ -7,6 +7,7 @@ export interface IImageRepository {
   }: {
     file: File
     userId: number
-  }): Promise<BlobObject>
+  }): Promise<Image>
+  deleteAvatar(pathname: string): Promise<Image>
   getFileFromUrl(url: string): Promise<File | undefined>
 }

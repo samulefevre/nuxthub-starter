@@ -9,6 +9,7 @@ import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
 import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { SendDeleteAccountEmailUseCase } from '~~/server/domain/usecases'
+import type { IEmailService } from '~~/server/domain/services'
 
 describe('deleteAccount usecases', () => {
   const userData = { email: 'test@example.com', name: 'Test User', avatarUrl: 'https://example.com/avatar.png' }
@@ -20,9 +21,16 @@ describe('deleteAccount usecases', () => {
     })),
   }))
 
+  const mockEmailService: IEmailService = {
+    sendMagicLink: async () => ({ ok: true }),
+    sendDeleteAccountEmail: async () => ({ ok: true }),
+  }
+
   let db: BetterSQLite3Database<typeof schema>
   let userRepository: DrizzleUserRepository
   let deleteAccountTokenRepository: DrizzleDeleteAccountTokenRepository
+
+  // let emailService: IEmailService
 
   let sendDeleteAccountEmailUseCase: SendDeleteAccountEmailUseCase
 
@@ -37,10 +45,11 @@ describe('deleteAccount usecases', () => {
     userRepository = new DrizzleUserRepository(db)
     deleteAccountTokenRepository = new DrizzleDeleteAccountTokenRepository(db)
 
-    sendDeleteAccountEmailUseCase = new SendDeleteAccountEmailUseCase(
+    sendDeleteAccountEmailUseCase = new SendDeleteAccountEmailUseCase({
       userRepository,
       deleteAccountTokenRepository,
-    )
+      emailService: mockEmailService,
+    })
   })
 
   afterEach(() => {
@@ -54,9 +63,6 @@ describe('deleteAccount usecases', () => {
 
     const deleteAccountEmailSent = await sendDeleteAccountEmailUseCase.execute({
       userId: user.id,
-      resendApiKey: 'dummy',
-      baseUrl: 'http://localhost:3000',
-      fromEmail: 'dummy',
     })
 
     expect(deleteAccountEmailSent).toBeDefined()

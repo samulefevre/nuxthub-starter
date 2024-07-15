@@ -9,6 +9,7 @@ import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
 import { DrizzleMagicLinkRepository } from '~~/server/data/repositories'
 import { SendMagicLinkUseCase } from '~~/server/domain/usecases'
+import type { IEmailService } from '~~/server/domain/services'
 
 describe('magicLinks usecases', () => {
   const userData = { email: 'test@example.com', name: 'Test User', avatarUrl: 'https://example.com/avatar.png' }
@@ -18,6 +19,11 @@ describe('magicLinks usecases', () => {
       sendMagicLink: vi.fn().mockResolvedValue({ ok: true }),
     })),
   }))
+
+  const mockEmailService: IEmailService = {
+    sendMagicLink: async () => ({ ok: true }),
+    sendDeleteAccountEmail: async () => ({ ok: true }),
+  }
 
   let db: BetterSQLite3Database<typeof schema>
   let magicLinkRepository: DrizzleMagicLinkRepository
@@ -33,7 +39,10 @@ describe('magicLinks usecases', () => {
     migrate(db, { migrationsFolder: 'server/database/migrations' })
 
     magicLinkRepository = new DrizzleMagicLinkRepository(db)
-    sendMagicLinkUseCase = new SendMagicLinkUseCase(magicLinkRepository)
+    sendMagicLinkUseCase = new SendMagicLinkUseCase({
+      magicLinkRepository,
+      emailService: mockEmailService,
+    })
   })
 
   afterEach(() => {
@@ -43,9 +52,6 @@ describe('magicLinks usecases', () => {
   it('should send a new magic link', async () => {
     const magicLinkSent = await sendMagicLinkUseCase.execute({
       email: userData.email,
-      resendApiKey: 'dummy',
-      baseUrl: 'http://localhost:3000',
-      fromEmail: 'dummy',
     })
 
     expect(magicLinkSent).toBeDefined()

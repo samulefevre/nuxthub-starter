@@ -1,4 +1,4 @@
-import type { IDeleteAccountTokenRepository, IUserRepository } from '@@/server/domain/repositories'
+import type { IDeleteAccountTokenRepository, IImageRepository, IUserRepository } from '@@/server/domain/repositories'
 
 interface IDeleteAccount {
   userId: number
@@ -9,6 +9,7 @@ export class DeleteAccountUseCase {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly deleteAccountTokenRepository: IDeleteAccountTokenRepository,
+    private readonly imageRepository: IImageRepository,
   ) { }
 
   async execute({ userId,
@@ -31,7 +32,7 @@ export class DeleteAccountUseCase {
     }
 
     if (currentUser.avatar) {
-      await hubBlob().delete(userId.toString())
+      await this.imageRepository.deleteAvatar(userId.toString())
     }
 
     await this.deleteAccountTokenRepository.removeDeleteAccountToken({ userId, token })

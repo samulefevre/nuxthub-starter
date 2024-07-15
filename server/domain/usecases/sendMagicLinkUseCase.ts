@@ -1,24 +1,28 @@
 import type { IMagicLinkRepository } from '@@/server/domain/repositories'
 
-import { useEmail } from '@@/server/utils/email'
+import type { IEmailService } from '@@/server/domain/services'
 
 interface ISendMagicLink {
   email: string
-  resendApiKey: string
-  baseUrl: string
-  fromEmail: string
 }
 
 export class SendMagicLinkUseCase {
-  constructor(
-    private readonly magicLinkRepository: IMagicLinkRepository,
-  ) { }
+  private readonly magicLinkRepository: IMagicLinkRepository
+  private readonly emailService: IEmailService
+
+  constructor({
+    magicLinkRepository,
+    emailService,
+  }: {
+    magicLinkRepository: IMagicLinkRepository
+    emailService: IEmailService
+  }) {
+    this.magicLinkRepository = magicLinkRepository
+    this.emailService = emailService
+  }
 
   async execute({
     email,
-    resendApiKey,
-    baseUrl,
-    fromEmail,
   }: ISendMagicLink) {
     const newMagicLink = await this.magicLinkRepository.upsertMagicLink(email)
 
@@ -26,8 +30,7 @@ export class SendMagicLinkUseCase {
       throw new Error('Failed to create magic link')
     }
 
-    // TODO: email service
-    const res = await useEmail({ resendApiKey, baseUrl, fromEmail }).sendMagicLink(email, newMagicLink.token)
+    const res = await this.emailService.sendMagicLink({ email, token: newMagicLink.token })
 
     return res
   }

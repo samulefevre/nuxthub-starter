@@ -13,7 +13,7 @@ import { registerEndpoint } from '@nuxt/test-utils/runtime'
 import { send } from 'h3'
 
 // import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
-import { DrizzleUserRepository } from '~~/server/data/repositories'
+import { DrizzleUserRepository, DrizzleImageRepository } from '~~/server/data/repositories'
 import { UpdateAvatarUseCase } from '~~/server/domain/usecases/updateAvatarUseCase.js'
 
 describe('updateAvatar usecases', () => {
@@ -43,6 +43,7 @@ describe('updateAvatar usecases', () => {
 
   let db: BetterSQLite3Database<typeof schema>
   let userRepository: DrizzleUserRepository
+  let imageRepository: DrizzleImageRepository
   let updateAvatarUseCase: UpdateAvatarUseCase
 
   let sqlite: Database
@@ -54,8 +55,9 @@ describe('updateAvatar usecases', () => {
     migrate(db, { migrationsFolder: 'server/database/migrations' })
 
     userRepository = new DrizzleUserRepository(db)
+    imageRepository = new DrizzleImageRepository()
 
-    updateAvatarUseCase = new UpdateAvatarUseCase(userRepository)
+    updateAvatarUseCase = new UpdateAvatarUseCase(userRepository, imageRepository)
   })
 
   afterEach(() => {

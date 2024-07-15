@@ -9,6 +9,7 @@ import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
 import { DrizzleMagicLinkRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { LoginWithMagicLinkUseCase, SendMagicLinkUseCase } from '~~/server/domain/usecases'
+import type { IEmailService } from '~~/server/domain/services'
 
 describe('magicLinks usecases', () => {
   const userData = { email: 'test@example.com', name: 'Test User', avatarUrl: 'https://example.com/avatar.png' }
@@ -18,6 +19,11 @@ describe('magicLinks usecases', () => {
       sendMagicLink: vi.fn().mockResolvedValue({ ok: true }),
     })),
   }))
+
+  const mockEmailService: IEmailService = {
+    sendMagicLink: async () => ({ ok: true }),
+    sendDeleteAccountEmail: async () => ({ ok: true }),
+  }
 
   let db: BetterSQLite3Database<typeof schema>
   let magicLinkRepository: DrizzleMagicLinkRepository
@@ -37,7 +43,10 @@ describe('magicLinks usecases', () => {
     magicLinkRepository = new DrizzleMagicLinkRepository(db)
     userRepository = new DrizzleUserRepository(db)
 
-    sendMagicLinkUseCase = new SendMagicLinkUseCase(magicLinkRepository)
+    sendMagicLinkUseCase = new SendMagicLinkUseCase({
+      magicLinkRepository,
+      emailService: mockEmailService,
+    })
 
     loginWithMagicLinkUseCase = new LoginWithMagicLinkUseCase(
       userRepository,

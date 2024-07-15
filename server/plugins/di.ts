@@ -13,9 +13,15 @@ import {
   DeleteAccountUseCase,
   SendDeleteAccountEmailUseCase,
 } from '@@/server/domain/usecases'
+import { EmailService } from '@@/server/data/services'
 
 export default defineNitroPlugin((nitroApp) => {
   onHubReady(async () => {
+    const config = useRuntimeConfig()
+    const { resendApiKey } = config
+    const { baseUrl } = config.public
+    const { fromEmail } = config.emails
+
     const db = useDrizzle()
 
     const deleteAccountTokenRepository = new DrizzleDeleteAccountTokenRepository(db)
@@ -23,21 +29,32 @@ export default defineNitroPlugin((nitroApp) => {
     const imageRepository = new DrizzleImageRepository()
     const magicLinkRepository = new DrizzleMagicLinkRepository(db)
 
+    const emailService = new EmailService({
+      apiKey: resendApiKey,
+      baseUrl,
+      fromEmail,
+    })
+
     const deleteAccountUseCase = new DeleteAccountUseCase(
       userRepository,
       deleteAccountTokenRepository,
+      imageRepository,
     )
 
-    const updateAvatarUseCase = new UpdateAvatarUseCase(userRepository)
+    const updateAvatarUseCase = new UpdateAvatarUseCase(userRepository, imageRepository)
     const signInUseCase = new SignInUseCase(
       userRepository,
       imageRepository,
     )
-    const sendDeleteAccountEmailUseCase = new SendDeleteAccountEmailUseCase(
+    const sendDeleteAccountEmailUseCase = new SendDeleteAccountEmailUseCase({
       userRepository,
       deleteAccountTokenRepository,
-    )
-    const sendMagicLinkUseCase = new SendMagicLinkUseCase(magicLinkRepository)
+      emailService,
+    })
+    const sendMagicLinkUseCase = new SendMagicLinkUseCase({
+      magicLinkRepository,
+      emailService,
+    })
     const loginWithMagicLinkUseCase = new LoginWithMagicLinkUseCase(
       userRepository,
       magicLinkRepository,

@@ -7,7 +7,7 @@ import type { Database } from 'better-sqlite3'
 
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
-import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
+import { DrizzleDeleteAccountTokenRepository, DrizzleImageRepository, DrizzleUserRepository } from '~~/server/data/repositories'
 import { DeleteAccountUseCase } from '~~/server/domain/usecases'
 
 describe('deleteAccount usecases', () => {
@@ -23,6 +23,7 @@ describe('deleteAccount usecases', () => {
   let db: BetterSQLite3Database<typeof schema>
   let userRepository: DrizzleUserRepository
   let deleteAccountTokenRepository: DrizzleDeleteAccountTokenRepository
+  let imageRepository: DrizzleImageRepository
 
   let deleteAccountUseCase: DeleteAccountUseCase
 
@@ -36,8 +37,9 @@ describe('deleteAccount usecases', () => {
 
     userRepository = new DrizzleUserRepository(db)
     deleteAccountTokenRepository = new DrizzleDeleteAccountTokenRepository(db)
+    imageRepository = new DrizzleImageRepository()
 
-    deleteAccountUseCase = new DeleteAccountUseCase(userRepository, deleteAccountTokenRepository)
+    deleteAccountUseCase = new DeleteAccountUseCase(userRepository, deleteAccountTokenRepository, imageRepository)
   })
 
   afterEach(() => {
