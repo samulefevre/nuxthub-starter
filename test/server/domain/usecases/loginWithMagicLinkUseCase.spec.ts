@@ -61,9 +61,6 @@ describe('magicLinks usecases', () => {
   it('should login with magic link', async () => {
     const magicLinkSent = await sendMagicLinkUseCase.execute({
       email: userData.email,
-      resendApiKey: 'dummy',
-      baseUrl: 'http://localhost:3000',
-      fromEmail: 'dummy',
     })
 
     expect(magicLinkSent).toBeDefined()
@@ -84,9 +81,6 @@ describe('magicLinks usecases', () => {
   it('should not login with invalid magic link', async () => {
     const magicLinkSent = await sendMagicLinkUseCase.execute({
       email: userData.email,
-      resendApiKey: 'dummy',
-      baseUrl: 'http://localhost:3000',
-      fromEmail: 'dummy',
     })
 
     expect(magicLinkSent).toBeDefined()
