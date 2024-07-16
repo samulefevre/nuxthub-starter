@@ -22,15 +22,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
     isSubmitting.value = true
 
-    const res = await $fetch('/auth/sendMagicLink', {
-      method: 'POST',
-      body: JSON.stringify(event.data),
-    })
+    await useUsersApi().sendMagicLink(event.data.email)
 
-    if (res.ok) {
-      emailSend.value = true
-      state.email = undefined
-    }
+    emailSend.value = true
+    state.email = undefined
   }
   catch (error) {
     toast.add({

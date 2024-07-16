@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { confirmDeleteAccount } = useUser()
+const { confirmDeleteAccount } = useSettings()
 
 const route = useRoute()
 const token = route.query.token as string

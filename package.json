@@ -50,6 +50,6 @@
     "playwright-core": "^1.45.1",
     "vitest": "2.0.3",
     "vue-tsc": "^2.0.26",
-    "wrangler": "^3.64.0"
+    "wrangler": "3.63.0"
   }
 }

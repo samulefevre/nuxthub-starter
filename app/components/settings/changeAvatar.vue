@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { user } = useUserSession()
-const { chooseFile } = useUser()
+const { chooseFile } = useSettings()
 </script>
 
 <template>

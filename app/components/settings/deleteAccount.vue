@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { sendDeleteAccountEmail } = useUser()
+const { sendDeleteAccountEmail } = useSettings()
 </script>
 
 <template>

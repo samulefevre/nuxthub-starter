@@ -1,6 +1,6 @@
-import { FetchError } from 'ofetch'
+import { useUsersApi } from '../utils/useUsersApi'
 
-export function useUser() {
+export function useSettings() {
   const { fetch: refreshSession, clear } = useUserSession()
 
   const toast = useToast()
@@ -18,45 +18,33 @@ export function useUser() {
     const image = files.item(0) as File
 
     try {
-      await userRepository.updateAvatar(image)
+      await useUsersApi().updateAvatar(image)
 
       toast.add({
         title: 'Your avatar has been updated',
       })
     }
     catch (error) {
-      if (error instanceof FetchError) {
-        toast.add({
-          title: error.data.message,
-          color: 'red',
-        })
-
-        return
-      }
-
-      if (error instanceof Error) {
-        toast.add({
-          title: 'Failed to update avatar',
-          description: error.message,
-          color: 'red',
-        })
-
-        return
-      }
+      toast.add({
+        title: (error as Error).message,
+        color: 'red',
+      })
     }
+
     await refreshSession()
   })
 
   const sendDeleteAccountEmail = async () => {
     try {
-      await userRepository.sendDeleteAccountEmail()
+      await useUsersApi().sendDeleteAccountEmail()
+
       toast.add({
         title: 'Delete account email has been sent',
       })
     }
     catch (error) {
       toast.add({
-        title: 'Failed to send delete account email',
+        title: (error as Error).message,
         color: 'red',
       })
     }
@@ -64,7 +52,7 @@ export function useUser() {
 
   const confirmDeleteAccount = async ({ token }: { token: string }) => {
     try {
-      await userRepository.deleteAccount({ token })
+      await useUsersApi().confirmDeleteAccount({ token })
 
       await clear()
       await navigateTo('/')
@@ -74,15 +62,8 @@ export function useUser() {
       })
     }
     catch (error) {
-      if (error instanceof FetchError) {
-        toast.add({
-          title: error.data.message,
-          color: 'red',
-        })
-      }
-
       toast.add({
-        title: 'Failed to delete account2',
+        title: (error as Error).message,
         color: 'red',
       })
     }
