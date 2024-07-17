@@ -12,7 +12,7 @@ export default oauth.googleEventHandler({
 
     consola.info('signInUseCase', signInUseCase)
 
-    const user = await signInUseCase.execute({
+    const user = await nitroApp.signInUseCase.execute({
       email: googleUser.email,
       name: googleUser.name,
       avatarUrl: googleUser.picture,
