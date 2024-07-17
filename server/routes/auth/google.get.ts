@@ -8,6 +8,13 @@ export default oauth.googleEventHandler({
     const nitroApp = useNitroApp()
     const { signInUseCase } = nitroApp
 
+    console.log('NitroApp', nitroApp)
+
+    throw createError({
+      status: 500,
+      message: JSON.stringify(nitroApp),
+    })
+
     const user = await signInUseCase.execute({
       email: googleUser.email,
       name: googleUser.name,
