@@ -7,8 +7,8 @@ import type {
   UpdateAvatarUseCase,
 } from '@@/server/domain/usecases'
 
-declare module 'nitropack' {
-  interface NitroApp {
+declare module 'h3' {
+  interface H3EventContext {
     deleteAccountUseCase: DeleteAccountUseCase
     loginWithMagicLinkUseCase: LoginWithMagicLinkUseCase
     sendDeleteAccountEmailUseCase: SendDeleteAccountEmailUseCase

@@ -1,13 +1,7 @@
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const nitroApp = useNitroApp()
-  const { sendMagicLinkUseCase } = nitroApp
-
-  const config = useRuntimeConfig(event)
-  const { resendApiKey } = config
-  const { baseUrl } = config.public
-  const { fromEmail } = config.emails
+  const { sendMagicLinkUseCase } = event.context
 
   const schema = z.object({
     email: z.string().email('Invalid email'),
@@ -17,9 +11,6 @@ export default defineEventHandler(async (event) => {
 
   await sendMagicLinkUseCase.execute({
     email,
-    resendApiKey,
-    baseUrl,
-    fromEmail,
   })
 
   return {

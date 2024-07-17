@@ -1,3 +1,5 @@
+import consola from 'consola'
+
 export default oauth.googleEventHandler({
   config: {
     authorizationParams: {
@@ -5,15 +7,9 @@ export default oauth.googleEventHandler({
     },
   },
   async onSuccess(event, { user: googleUser }) {
-    const nitroApp = useNitroApp()
-    const { signInUseCase } = nitroApp
+    const { signInUseCase } = event.context
 
-    console.log('NitroApp', nitroApp)
-
-    throw createError({
-      status: 500,
-      message: JSON.stringify(nitroApp),
-    })
+    consola.log('signInUseCase', signInUseCase)
 
     const user = await signInUseCase.execute({
       email: googleUser.email,

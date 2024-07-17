@@ -60,11 +60,13 @@ export default defineNitroPlugin((nitroApp) => {
       magicLinkRepository,
     )
 
-    nitroApp.deleteAccountUseCase = deleteAccountUseCase
-    nitroApp.updateAvatarUseCase = updateAvatarUseCase
-    nitroApp.signInUseCase = signInUseCase
-    nitroApp.sendDeleteAccountEmailUseCase = sendDeleteAccountEmailUseCase
-    nitroApp.sendMagicLinkUseCase = sendMagicLinkUseCase
-    nitroApp.loginWithMagicLinkUseCase = loginWithMagicLinkUseCase
+    nitroApp.hooks.hook('request', (event) => {
+      event.context.deleteAccountUseCase = deleteAccountUseCase
+      event.context.updateAvatarUseCase = updateAvatarUseCase
+      event.context.signInUseCase = signInUseCase
+      event.context.sendDeleteAccountEmailUseCase = sendDeleteAccountEmailUseCase
+      event.context.sendMagicLinkUseCase = sendMagicLinkUseCase
+      event.context.loginWithMagicLinkUseCase = loginWithMagicLinkUseCase
+    })
   })
 })
