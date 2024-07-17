@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const { deleteAccountUseCase } = event.context
+  const nitroApp = useNitroApp()
+  const { deleteAccountUseCase } = nitroApp
 
   const { user } = await requireUserSession(event)
 

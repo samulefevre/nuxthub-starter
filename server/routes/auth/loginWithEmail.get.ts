@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const { loginWithMagicLinkUseCase } = event.context
+  const nitroApp = useNitroApp()
+  const { loginWithMagicLinkUseCase } = nitroApp
 
   const schema = z.object({
     token: z.string(),

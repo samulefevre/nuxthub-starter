@@ -1,3 +1,5 @@
+import { consola } from 'consola'
+
 import {
   DrizzleDeleteAccountTokenRepository,
   DrizzleImageRepository,
@@ -60,13 +62,13 @@ export default defineNitroPlugin((nitroApp) => {
       magicLinkRepository,
     )
 
-    nitroApp.hooks.hook('request', (event) => {
-      event.context.deleteAccountUseCase = deleteAccountUseCase
-      event.context.updateAvatarUseCase = updateAvatarUseCase
-      event.context.signInUseCase = signInUseCase
-      event.context.sendDeleteAccountEmailUseCase = sendDeleteAccountEmailUseCase
-      event.context.sendMagicLinkUseCase = sendMagicLinkUseCase
-      event.context.loginWithMagicLinkUseCase = loginWithMagicLinkUseCase
-    })
+    nitroApp.deleteAccountUseCase = deleteAccountUseCase
+    nitroApp.updateAvatarUseCase = updateAvatarUseCase
+    nitroApp.signInUseCase = signInUseCase
+    nitroApp.sendDeleteAccountEmailUseCase = sendDeleteAccountEmailUseCase
+    nitroApp.sendMagicLinkUseCase = sendMagicLinkUseCase
+    nitroApp.loginWithMagicLinkUseCase = loginWithMagicLinkUseCase
+
+    consola.success('Dependency injection complete')
   })
 })

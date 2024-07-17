@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
-
-  const { updateAvatarUseCase } = event.context
+  const nitroApp = useNitroApp()
+  const { updateAvatarUseCase } = nitroApp
 
   const form = await readFormData(event)
   const file = form.get('file') as File
