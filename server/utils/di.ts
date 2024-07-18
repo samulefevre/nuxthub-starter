@@ -1,5 +1,3 @@
-import { consola } from 'consola'
-
 import {
   DrizzleDeleteAccountTokenRepository,
   DrizzleImageRepository,
@@ -38,9 +36,7 @@ interface Instance {
 let instance: Instance | null = null
 
 export const useDI = (db: DrizzleD1Database<typeof schema>, event: H3Event) => {
-  consola.info('useDI')
   if (!instance) {
-    consola.info('useDI: creating instance')
     const config = useRuntimeConfig(event)
     const { resendApiKey } = config
     const { baseUrl } = config.public

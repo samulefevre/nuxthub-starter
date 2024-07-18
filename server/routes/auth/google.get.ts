@@ -1,5 +1,3 @@
-import consola from 'consola'
-
 export default oauth.googleEventHandler({
   config: {
     authorizationParams: {
@@ -8,8 +6,6 @@ export default oauth.googleEventHandler({
   },
   async onSuccess(event, { user: googleUser }) {
     const { signInUseCase } = useDI(useDrizzle(), event)
-
-    consola.info('signInUseCase', signInUseCase)
 
     const user = await signInUseCase.execute({
       email: googleUser.email,
