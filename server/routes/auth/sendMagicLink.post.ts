@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const nitroApp = useNitroApp()
-  const { sendMagicLinkUseCase } = nitroApp
+  const { sendMagicLinkUseCase } = useDI(useDrizzle(), event)
 
   const schema = z.object({
     email: z.string().email('Invalid email'),

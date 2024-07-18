@@ -16,15 +16,35 @@ import {
   SendDeleteAccountEmailUseCase,
 } from '@@/server/domain/usecases'
 import { EmailService } from '@@/server/data/services'
+import type { DrizzleD1Database } from 'drizzle-orm/d1'
 
-export default defineNitroPlugin((nitroApp) => {
-  onHubReady(async () => {
-    const config = useRuntimeConfig()
+import type * as schema from '@@/server/database/schema'
+import type { H3Event } from 'h3'
+
+interface Instance {
+  deleteAccountTokenRepository: DrizzleDeleteAccountTokenRepository
+  userRepository: DrizzleUserRepository
+  imageRepository: DrizzleImageRepository
+  magicLinkRepository: DrizzleMagicLinkRepository
+  emailService: EmailService
+  deleteAccountUseCase: DeleteAccountUseCase
+  updateAvatarUseCase: UpdateAvatarUseCase
+  signInUseCase: SignInUseCase
+  sendDeleteAccountEmailUseCase: SendDeleteAccountEmailUseCase
+  sendMagicLinkUseCase: SendMagicLinkUseCase
+  loginWithMagicLinkUseCase: LoginWithMagicLinkUseCase
+}
+
+let instance: Instance | null = null
+
+export const useDI = (db: DrizzleD1Database<typeof schema>, event: H3Event) => {
+  consola.info('useDI')
+  if (!instance) {
+    consola.info('useDI: creating instance')
+    const config = useRuntimeConfig(event)
     const { resendApiKey } = config
     const { baseUrl } = config.public
     const { fromEmail } = config.emails
-
-    const db = useDrizzle()
 
     const deleteAccountTokenRepository = new DrizzleDeleteAccountTokenRepository(db)
     const userRepository = new DrizzleUserRepository(db)
@@ -62,13 +82,20 @@ export default defineNitroPlugin((nitroApp) => {
       magicLinkRepository,
     )
 
-    nitroApp.deleteAccountUseCase = deleteAccountUseCase
-    nitroApp.updateAvatarUseCase = updateAvatarUseCase
-    nitroApp.signInUseCase = signInUseCase
-    nitroApp.sendDeleteAccountEmailUseCase = sendDeleteAccountEmailUseCase
-    nitroApp.sendMagicLinkUseCase = sendMagicLinkUseCase
-    nitroApp.loginWithMagicLinkUseCase = loginWithMagicLinkUseCase
+    instance = {
+      deleteAccountTokenRepository,
+      userRepository,
+      imageRepository,
+      magicLinkRepository,
+      emailService,
+      deleteAccountUseCase,
+      updateAvatarUseCase,
+      signInUseCase,
+      sendDeleteAccountEmailUseCase,
+      sendMagicLinkUseCase,
+      loginWithMagicLinkUseCase,
+    }
+  }
 
-    consola.success('Dependency injection complete')
-  })
-})
+  return instance
+}

@@ -3,8 +3,7 @@ export default oauth.githubEventHandler({
     emailRequired: true,
   },
   async onSuccess(event, { user: githubUser }) {
-    const nitroApp = useNitroApp()
-    const { signInUseCase } = nitroApp
+    const { signInUseCase } = useDI(useDrizzle(), event)
 
     const user = await signInUseCase.execute({
       email: githubUser.email,

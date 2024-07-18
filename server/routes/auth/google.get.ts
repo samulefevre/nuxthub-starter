@@ -7,12 +7,11 @@ export default oauth.googleEventHandler({
     },
   },
   async onSuccess(event, { user: googleUser }) {
-    const nitroApp = useNitroApp()
-    const { signInUseCase } = nitroApp
+    const { signInUseCase } = useDI(useDrizzle(), event)
 
     consola.info('signInUseCase', signInUseCase)
 
-    const user = await nitroApp.signInUseCase.execute({
+    const user = await signInUseCase.execute({
       email: googleUser.email,
       name: googleUser.name,
       avatarUrl: googleUser.picture,

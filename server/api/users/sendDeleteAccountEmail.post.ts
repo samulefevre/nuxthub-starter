@@ -1,6 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const nitroApp = useNitroApp()
-  const { sendDeleteAccountEmailUseCase } = nitroApp
+  const { sendDeleteAccountEmailUseCase } = useDI(useDrizzle(), event)
 
   const { user } = await requireUserSession(event)
 
