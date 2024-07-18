@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <AppHeader />
     <UContainer>
       <UMain class="my-6">
         <slot />
