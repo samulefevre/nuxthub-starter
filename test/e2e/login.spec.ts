@@ -1,5 +1,3 @@
-// @vitest-environment node
-
 import { test, expect } from '@nuxt/test-utils/playwright'
 
 test('login', async ({ page, goto }) => {
@@ -8,13 +6,15 @@ test('login', async ({ page, goto }) => {
   await expect(page).toHaveTitle('Login')
 })
 
-/* import { createPage, setup, url } from '@nuxt/test-utils/e2e'
+/*
+import { fileURLToPath } from 'node:url'
+import { createPage, setup, url } from '@nuxt/test-utils/e2e'
 
 import { describe, test, expect } from 'vitest'
 
 describe('Login', async () => {
   await setup({
-
+    rootDir: './../../',
   })
 
   test('login', async () => {
@@ -26,4 +26,6 @@ describe('Login', async () => {
     // expect(title).toBe('Login')
     expect(true).toBe(true)
   })
-}) */
+})
+
+*/

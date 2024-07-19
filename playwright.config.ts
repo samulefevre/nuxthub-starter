@@ -9,7 +9,7 @@ export default defineConfig<ConfigOptions>({
     },
   },
   timeout: 400000,
-  testDir: fileURLToPath(new URL('test/e2e', import.meta.url)),
+  testDir: fileURLToPath(new URL('./test/e2e', import.meta.url)),
   fullyParallel: true,
   // ...
 })
