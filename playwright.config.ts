@@ -8,7 +8,8 @@ export default defineConfig<ConfigOptions>({
       rootDir: fileURLToPath(new URL('.', import.meta.url)),
     },
   },
-  timeout: 5000000000000,
+  timeout: 400000,
   testDir: fileURLToPath(new URL('test/e2e', import.meta.url)),
+  fullyParallel: true,
   // ...
 })
