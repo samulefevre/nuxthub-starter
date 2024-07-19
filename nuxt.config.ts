@@ -10,9 +10,9 @@ export default defineNuxtConfig({
   // Nuxt Modules
   // https://nuxt.com/modules
   modules: [
+    '@nuxt/test-utils/module',
     '@vueuse/nuxt',
     '@nuxthub/core',
-    '@nuxt/test-utils/module',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/eslint',
