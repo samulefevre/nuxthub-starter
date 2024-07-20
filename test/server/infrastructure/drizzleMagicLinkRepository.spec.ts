@@ -7,7 +7,7 @@ import SQLiteDB from 'better-sqlite3'
 import type { Database } from 'better-sqlite3'
 
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
-import { DrizzleMagicLinkRepository } from '~~/server/application/repositories'
+import { DrizzleMagicLinkRepository } from '~~/server/infrastructure/repositories'
 
 const userData = { email: 'test@example.com', name: 'Test User' }
 

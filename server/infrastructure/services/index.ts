@@ -1,1 +1,1 @@
-export { IEmailService } from '@@/server/infrastructure/services/IEmailService'
+export { EmailService } from '@@/server/infrastructure/services/emailService'

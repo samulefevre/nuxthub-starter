@@ -1,13 +1,13 @@
-import { ICredentialRepository } from './ICredentialRepository'
-import { IDeleteAccountTokenRepository } from './IDeleteAccountTokenRepository'
-import { IImageRepository } from './IImageRepository'
-import { IMagicLinkRepository } from './IMagicLinkRepository'
-import { IUserRepository } from './IUserRepository'
+import { DrizzleCredentialRepository } from './drizzleCredentialRepository'
+import { DrizzleDeleteAccountTokenRepository } from './drizzleDeleteAccountTokenRepository'
+import { DrizzleImageRepository } from './drizzleImageRepository'
+import { DrizzleMagicLinkRepository } from './drizzleMagicLinkRepository'
+import { DrizzleUserRepository } from './drizzleUserRepository'
 
 export {
-  ICredentialRepository,
-  IDeleteAccountTokenRepository,
-  IImageRepository,
-  IMagicLinkRepository,
-  IUserRepository,
+  DrizzleCredentialRepository,
+  DrizzleDeleteAccountTokenRepository,
+  DrizzleImageRepository,
+  DrizzleMagicLinkRepository,
+  DrizzleUserRepository,
 }
