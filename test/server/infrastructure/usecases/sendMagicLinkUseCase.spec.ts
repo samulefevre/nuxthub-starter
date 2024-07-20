@@ -7,9 +7,9 @@ import type { Database } from 'better-sqlite3'
 
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
-import { DrizzleMagicLinkRepository } from '~~/server/data/repositories'
-import { SendMagicLinkUseCase } from '~~/server/domain/usecases'
-import type { IEmailService } from '~~/server/domain/services'
+import { DrizzleMagicLinkRepository } from '~~/server/application/repositories'
+import { SendMagicLinkUseCase } from '~~/server/infrastructure/usecases'
+import type { IEmailService } from '~~/server/infrastructure/services'
 
 describe('magicLinks usecases', () => {
   const userData = { email: 'test@example.com', name: 'Test User', avatarUrl: 'https://example.com/avatar.png' }

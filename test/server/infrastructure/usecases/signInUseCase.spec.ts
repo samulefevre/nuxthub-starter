@@ -11,8 +11,8 @@ import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 import { registerEndpoint } from '@nuxt/test-utils/runtime'
 
 import { send } from 'h3'
-import { SignInUseCase } from '@@/server/domain/usecases'
-import { DrizzleImageRepository, DrizzleUserRepository } from '~~/server/data/repositories'
+import { SignInUseCase } from '@@/server/infrastructure/usecases'
+import { DrizzleImageRepository, DrizzleUserRepository } from '~~/server/application/repositories'
 
 describe('users usecases', () => {
   const image = fs.readFileSync('test/images/avatar-man.jpg')

@@ -3,7 +3,7 @@ import {
   DrizzleImageRepository,
   DrizzleMagicLinkRepository,
   DrizzleUserRepository,
-} from '@@/server/data/repositories'
+} from '@@/server/application/repositories'
 
 import {
   UpdateAvatarUseCase,
@@ -12,8 +12,8 @@ import {
   SignInUseCase,
   DeleteAccountUseCase,
   SendDeleteAccountEmailUseCase,
-} from '@@/server/domain/usecases'
-import { EmailService } from '@@/server/data/services'
+} from '@@/server/infrastructure/usecases'
+import { EmailService } from '@@/server/application/services'
 import type { DrizzleD1Database } from 'drizzle-orm/d1'
 
 import type * as schema from '@@/server/database/schema'

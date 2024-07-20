@@ -7,8 +7,9 @@ import type { Database } from 'better-sqlite3'
 
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
-import { DrizzleDeleteAccountTokenRepository, DrizzleImageRepository, DrizzleUserRepository } from '~~/server/data/repositories'
-import { DeleteAccountUseCase } from '~~/server/domain/usecases'
+import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/application/repositories'
+import { SendDeleteAccountEmailUseCase } from '~~/server/infrastructure/usecases'
+import type { IEmailService } from '~~/server/infrastructure/services'
 
 describe('deleteAccount usecases', () => {
   const userData = { email: 'test@example.com', name: 'Test User', avatarUrl: 'https://example.com/avatar.png' }
@@ -20,12 +21,18 @@ describe('deleteAccount usecases', () => {
     })),
   }))
 
+  const mockEmailService: IEmailService = {
+    sendMagicLink: async () => ({ ok: true }),
+    sendDeleteAccountEmail: async () => ({ ok: true }),
+  }
+
   let db: BetterSQLite3Database<typeof schema>
   let userRepository: DrizzleUserRepository
   let deleteAccountTokenRepository: DrizzleDeleteAccountTokenRepository
-  let imageRepository: DrizzleImageRepository
 
-  let deleteAccountUseCase: DeleteAccountUseCase
+  // let emailService: IEmailService
+
+  let sendDeleteAccountEmailUseCase: SendDeleteAccountEmailUseCase
 
   let sqlite: Database
 
@@ -37,46 +44,27 @@ describe('deleteAccount usecases', () => {
 
     userRepository = new DrizzleUserRepository(db)
     deleteAccountTokenRepository = new DrizzleDeleteAccountTokenRepository(db)
-    imageRepository = new DrizzleImageRepository()
 
-    deleteAccountUseCase = new DeleteAccountUseCase(userRepository, deleteAccountTokenRepository, imageRepository)
+    sendDeleteAccountEmailUseCase = new SendDeleteAccountEmailUseCase({
+      userRepository,
+      deleteAccountTokenRepository,
+      emailService: mockEmailService,
+    })
   })
 
   afterEach(() => {
     sqlite.close()
   })
 
-  it('should delete the account', async () => {
+  it('should send a delete account email', async () => {
     const user = await userRepository.createUser(userData)
 
     expect(user).toBeDefined()
 
-    const deleteAccountToken = await deleteAccountTokenRepository.upsertDeleteAccountToken({
+    const deleteAccountEmailSent = await sendDeleteAccountEmailUseCase.execute({
       userId: user.id,
     })
 
-    expect(deleteAccountToken.token).toBeDefined()
-
-    const deleteAccount = await deleteAccountUseCase.execute({
-      userId: user.id,
-      token: deleteAccountToken.token,
-    })
-
-    expect(deleteAccount).toBeDefined()
-
-    const deletedUser = await userRepository.getUser(user.id)
-
-    expect(deletedUser).toBeUndefined()
-  })
-
-  it('should throw an error if the token is not found', async () => {
-    const user = await userRepository.createUser(userData)
-
-    expect(user).toBeDefined()
-
-    await expect(deleteAccountUseCase.execute({
-      userId: user.id,
-      token: 'invalid',
-    })).rejects.toThrow('Token not found')
+    expect(deleteAccountEmailSent).toBeDefined()
   })
 })

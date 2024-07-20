@@ -8,7 +8,7 @@ import type { Database } from 'better-sqlite3'
 
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
 
-import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/data/repositories'
+import { DrizzleDeleteAccountTokenRepository, DrizzleUserRepository } from '~~/server/application/repositories'
 
 const userData = { email: 'test@example.com', name: 'Test User' }
 

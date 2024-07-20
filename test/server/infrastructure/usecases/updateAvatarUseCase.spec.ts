@@ -13,8 +13,8 @@ import { registerEndpoint } from '@nuxt/test-utils/runtime'
 import { send } from 'h3'
 
 // import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
-import { DrizzleUserRepository, DrizzleImageRepository } from '~~/server/data/repositories'
-import { UpdateAvatarUseCase } from '~~/server/domain/usecases/updateAvatarUseCase.js'
+import { DrizzleUserRepository, DrizzleImageRepository } from '~~/server/application/repositories'
+import { UpdateAvatarUseCase } from '~~/server/infrastructure/usecases/updateAvatarUseCase.js'
 
 describe('updateAvatar usecases', () => {
   const image = fs.readFileSync('test/images/avatar-man.jpg')
