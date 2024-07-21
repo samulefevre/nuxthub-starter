@@ -4,7 +4,7 @@ import type * as schema from '@@/server/database/schema'
 import * as tables from '@@/server/database/schema'
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
 import { eq, and } from 'drizzle-orm'
-import type { IDeleteAccountTokenRepository } from '@@/server/domain/repositories'
+import type { IDeleteAccountTokenRepository } from '@@/server/application/repositories'
 
 export class DrizzleDeleteAccountTokenRepository implements IDeleteAccountTokenRepository {
   private _db: DrizzleD1Database<typeof schema> | BetterSQLite3Database<typeof schema>

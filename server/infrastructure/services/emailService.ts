@@ -1,7 +1,7 @@
 import { render } from '@vue-email/render'
 import { Resend } from 'resend'
 
-import type { IEmailService } from '@@/server/domain/services/IEmailService'
+import type { IEmailService } from '@@/server/application/services/IEmailService'
 import magicLink from '@/components/emails/magicLink.vue'
 import deleteAccount from '@/components/emails/deleteAccount.vue'
 

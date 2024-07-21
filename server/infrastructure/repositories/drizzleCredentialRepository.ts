@@ -2,7 +2,7 @@ import type { DrizzleD1Database } from 'drizzle-orm/d1'
 import type * as schema from '@@/server/database/schema'
 import * as tables from '@@/server/database/schema'
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
-import type { ICredentialRepository } from '@@/server/domain/repositories/ICredentialRepository'
+import type { ICredentialRepository } from '@@/server/application/repositories'
 
 export class DrizzleCredentialRepository implements ICredentialRepository {
   private _db: DrizzleD1Database<typeof schema> | BetterSQLite3Database<typeof schema>

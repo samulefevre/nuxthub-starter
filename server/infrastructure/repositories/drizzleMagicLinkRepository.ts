@@ -4,7 +4,7 @@ import type * as schema from '@@/server/database/schema'
 import * as tables from '@@/server/database/schema'
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
 import { eq } from 'drizzle-orm'
-import type { IMagicLinkRepository } from '@@/server/domain/repositories/IMagicLinkRepository'
+import type { IMagicLinkRepository } from '@@/server/application/repositories'
 
 export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
   private _db: DrizzleD1Database<typeof schema> | BetterSQLite3Database<typeof schema>
