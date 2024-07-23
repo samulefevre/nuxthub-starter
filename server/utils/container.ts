@@ -6,7 +6,6 @@ import type { IDeleteAccountTokenRepository, IMagicLinkRepository, IUserReposito
 
 import { EmailService, ImageService } from '../infrastructure/services'
 import type { IImageService, IEmailService } from '../application/services'
-import { in } from '../../.nuxt/eslint-typegen';
 
 export interface IDependencies {
   userRepository: IUserRepository
