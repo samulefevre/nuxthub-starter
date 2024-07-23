@@ -28,6 +28,10 @@ export default defineNuxtConfig({
     emails: {
       fromEmail: 'onboarding@resend.dev',
     },
+    sentry: {
+      dsn: '',
+      environment: 'development',
+    },
   },
   eslint: {
     config: {
