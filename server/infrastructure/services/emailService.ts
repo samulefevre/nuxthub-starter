@@ -73,7 +73,11 @@ export class EmailService implements IEmailService {
       html: template,
     }
 
-    await this.resend.emails.send(options)
+    const { error } = await this.resend.emails.send(options)
+
+    if (error) {
+      throw new Error(error.message)
+    }
 
     return { ok: true }
   }
