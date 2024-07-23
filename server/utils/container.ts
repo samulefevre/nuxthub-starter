@@ -18,6 +18,10 @@ const container = createContainer<IDependencies>({
   strict: true,
 })
 
+if (!process.env.NUXT_RESEND_API_KEY) {
+  throw new Error('NUXT_RESEND_API_KEY is not defined')
+}
+
 container.register({
   userRepository: asClass(DrizzleUserRepository).singleton(),
   deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository).singleton(),
