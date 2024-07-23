@@ -44,7 +44,8 @@ export class ImageService implements IImageService {
         throw new Error('Url is required')
       }
 
-      const fileExt = url.split('.').pop()
+      // const fileExt = url.split('.').pop()
+      const fileExt = 'png'
 
       const file = new File([blob], `avatar.${fileExt}`, { type: `image/${fileExt}` })
 

@@ -42,7 +42,7 @@ export class DrizzleUserRepository implements IUserRepository {
     }
 
     const user = await useDrizzle().insert(tables.users).values({
-      name: email.split('@')[0],
+      name: email || 'ph',
       email,
     }).returning().get()
 
