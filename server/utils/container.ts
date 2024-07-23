@@ -15,34 +15,55 @@ export interface IDependencies {
   imageService: IImageService
 }
 
-let container: AwilixContainer<IDependencies> | null = null
+let container: AwilixContainer<IDependencies>
+
+function initContainer(): AwilixContainer<IDependencies> {
+  const newContainer = createContainer<IDependencies>({
+    strict: true,
+  })
+
+  const resendApiKey = process.env.NUXT_RESEND_API_KEY
+  const baseUrl = process.env.NUXT_PUBLIC_BASE_URL
+  const fromEmail = process.env.NUXT_EMAILS_FROM_EMAIL
+
+  if (!resendApiKey) {
+    console.error('NUXT_RESEND_API_KEY is not defined')
+  }
+
+  newContainer.register({
+    userRepository: asClass(DrizzleUserRepository).singleton(),
+    deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository).singleton(),
+    magicLinkRepository: asClass(DrizzleMagicLinkRepository).singleton(),
+    emailService: asClass(EmailService).inject(() => ({
+      apiKey: resendApiKey || '',
+      baseUrl: baseUrl || '',
+      fromEmail: fromEmail || '',
+    })).singleton(),
+    imageService: asClass(ImageService).singleton(),
+  })
+
+  return newContainer
+}
+
+// Initialize the container immediately
+try {
+  container = initContainer()
+}
+catch (error) {
+  console.error('Error initializing container:', error)
+  throw error
+}
 
 export function getContainer(): AwilixContainer<IDependencies> {
-  if (!container) {
-    if (!process.env.NUXT_RESEND_API_KEY) {
-      throw new Error('NUXT_RESEND_API_KEY is not defined')
-    }
-
-    container = createContainer<IDependencies>({
-      strict: true,
-    })
-
-    container.register({
-      userRepository: asClass(DrizzleUserRepository).singleton(),
-      deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository).singleton(),
-      magicLinkRepository: asClass(DrizzleMagicLinkRepository).singleton(),
-      emailService: asClass(EmailService).inject(() => ({
-        apiKey: process.env.NUXT_RESEND_API_KEY || '',
-        baseUrl: process.env.NUXT_PUBLIC_BASE_URL || '',
-        fromEmail: process.env.NUXT_EMAILS_FROM_EMAIL || '',
-      })).singleton(),
-      imageService: asClass(ImageService).singleton(),
-    })
-  }
   return container
 }
 
 export function resolve<K extends keyof IDependencies>(key: K): IDependencies[K] {
-  const container = getContainer()
-  return container.resolve(key)
+  try {
+    return container.resolve(key)
+  }
+  catch (error) {
+    console.error(`Error resolving ${key}:`, error)
+    throw error
+  }
 }
