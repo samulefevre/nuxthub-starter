@@ -13,7 +13,7 @@ interface EmailOptions {
 }
 
 export class EmailService implements IEmailService {
-  private apiKey: string
+  private resend: Resend
   private baseUrl: string
   private fromEmail: string
 
@@ -25,20 +25,13 @@ export class EmailService implements IEmailService {
     apiKey: string
     baseUrl: string
     fromEmail: string
-
   }) {
-    this.apiKey = apiKey
-    this.baseUrl = baseUrl
-    this.fromEmail = fromEmail
-  }
-
-  private async _sendEmail(options: EmailOptions) {
-    if (!this.apiKey) {
+    if (!apiKey) {
       throw new Error('NUXT_RESEND_API_KEY is not defined')
     }
-
-    const resend = new Resend(this.apiKey)
-    return await resend.emails.send(options)
+    this.resend = new Resend(apiKey)
+    this.baseUrl = baseUrl
+    this.fromEmail = fromEmail
   }
 
   async sendMagicLink({ email, token }: {
@@ -56,7 +49,7 @@ export class EmailService implements IEmailService {
       html: template,
     }
 
-    const { error } = await this._sendEmail(options)
+    const { error } = await this.resend.emails.send(options)
 
     if (error) {
       throw new Error(error.message)
@@ -80,7 +73,7 @@ export class EmailService implements IEmailService {
       html: template,
     }
 
-    await this._sendEmail(options)
+    await this.resend.emails.send(options)
 
     return { ok: true }
   }
