@@ -22,7 +22,7 @@
     "@nuxthub/core": "^0.7.1",
     "@playwright/test": "^1.45.3",
     "@types/better-sqlite3": "^7.6.11",
-    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitejs/plugin-vue": "^5.1.0",
     "@vue-email/components": "^0.0.19",
     "@vue-email/render": "^0.0.9",
     "@vueuse/core": "^10.11.0",
@@ -54,6 +54,6 @@
     "playwright-core": "^1.45.3",
     "vitest": "2.0.4",
     "vue-tsc": "^2.0.28",
-    "wrangler": "3.65.1"
+    "wrangler": "3.66.0"
   }
 }
