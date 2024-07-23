@@ -6,6 +6,7 @@ import type { IDeleteAccountTokenRepository, IMagicLinkRepository, IUserReposito
 
 import { EmailService, ImageService } from '../infrastructure/services'
 import type { IImageService, IEmailService } from '../application/services'
+import { in } from '../../.nuxt/eslint-typegen';
 
 export interface IDependencies {
   userRepository: IUserRepository
@@ -20,6 +21,7 @@ let container: AwilixContainer<IDependencies>
 function initContainer(): AwilixContainer<IDependencies> {
   const newContainer = createContainer<IDependencies>({
     strict: true,
+    injectionMode: 'CLASSIC',
   })
 
   const resendApiKey = process.env.NUXT_RESEND_API_KEY
