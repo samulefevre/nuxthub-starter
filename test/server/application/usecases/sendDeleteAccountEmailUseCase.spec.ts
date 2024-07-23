@@ -23,7 +23,7 @@ describe('deleteAccount usecases', () => {
 
   const mockEmailService: IEmailService = {
     sendMagicLink: async () => ({ ok: true }),
-    sendDeleteAccountEmail: async () => ({ ok: true }),
+    sendEmailDeleteAccount: async () => ({ ok: true }),
   }
 
   let db: BetterSQLite3Database<typeof schema>

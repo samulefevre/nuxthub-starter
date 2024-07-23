@@ -1,7 +1,7 @@
+import { updateAvatarController } from '~~/server/interface-adapters/controllers/updateAvatarController'
+
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
-
-  const { updateAvatarUseCase } = useDI(useDrizzle(), event)
 
   const form = await readFormData(event)
   const file = form.get('file') as File
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   })
 
   try {
-    const { updatedUser, blob } = await updateAvatarUseCase.execute({
+    const { updatedUser, blob } = await updateAvatarController({
       file,
       userId: user.id,
     })

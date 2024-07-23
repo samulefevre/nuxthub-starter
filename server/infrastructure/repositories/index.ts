@@ -1,13 +1,11 @@
-import { DrizzleCredentialRepository } from './drizzleCredentialRepository'
+import { ImageService } from '../services/imageService'
 import { DrizzleDeleteAccountTokenRepository } from './drizzleDeleteAccountTokenRepository'
-import { DrizzleImageRepository } from './drizzleImageRepository'
 import { DrizzleMagicLinkRepository } from './drizzleMagicLinkRepository'
 import { DrizzleUserRepository } from './drizzleUserRepository'
 
 export {
-  DrizzleCredentialRepository,
   DrizzleDeleteAccountTokenRepository,
-  DrizzleImageRepository,
+  ImageService as DrizzleImageRepository,
   DrizzleMagicLinkRepository,
   DrizzleUserRepository,
 }

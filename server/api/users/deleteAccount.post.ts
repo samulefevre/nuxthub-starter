@@ -1,8 +1,7 @@
 import { z } from 'zod'
+import { deleteAccountController } from '~~/server/interface-adapters/controllers/deleteAccountController'
 
 export default defineEventHandler(async (event) => {
-  const { deleteAccountUseCase } = useDI(useDrizzle(), event)
-
   const { user } = await requireUserSession(event)
 
   const schema = z.object({
@@ -11,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
   const { token } = await readValidatedBody(event, schema.parse)
 
-  await deleteAccountUseCase.execute({
+  await deleteAccountController({
     userId: user.id,
     token,
   })

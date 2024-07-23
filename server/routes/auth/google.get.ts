@@ -1,3 +1,5 @@
+import { signInController } from '~~/server/interface-adapters/controllers/signInController'
+
 export default oauth.googleEventHandler({
   config: {
     authorizationParams: {
@@ -5,9 +7,7 @@ export default oauth.googleEventHandler({
     },
   },
   async onSuccess(event, { user: googleUser }) {
-    const { signInUseCase } = useDI(useDrizzle(), event)
-
-    const user = await signInUseCase.execute({
+    const user = await signInController({
       email: googleUser.email,
       name: googleUser.name,
       avatarUrl: googleUser.picture,

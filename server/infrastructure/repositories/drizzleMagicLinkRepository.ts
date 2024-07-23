@@ -1,26 +1,17 @@
 import { randomUUID } from 'uncrypto'
-import type { DrizzleD1Database } from 'drizzle-orm/d1'
-import type * as schema from '@@/server/database/schema'
 import * as tables from '@@/server/database/schema'
-import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
 import { eq } from 'drizzle-orm'
 import type { IMagicLinkRepository } from '@@/server/application/repositories'
 
 export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
-  private _db: DrizzleD1Database<typeof schema> | BetterSQLite3Database<typeof schema>
-
-  constructor(db: DrizzleD1Database<typeof schema> | BetterSQLite3Database<typeof schema>) {
-    this._db = db
-  }
-
   async getMagicLinkByEmail(email: string): Promise<MagicLink | undefined> {
-    const magicLink = await this._db.select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
+    const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
 
     return magicLink
   }
 
   async getMagicLinkByToken(token: string): Promise<MagicLink | undefined> {
-    const magicLink = await this._db.select().from(tables.magicLinks).where(eq(tables.magicLinks.token, token)).get()
+    const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.token, token)).get()
 
     return magicLink
   }
@@ -30,7 +21,7 @@ export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
     const tokenTTL = 5 * 60 * 1000 // 5 min
     const tokenExpiresAt = new Date(Date.now() + tokenTTL)
 
-    const magicLink = await this._db.insert(tables.magicLinks).values({
+    const magicLink = await useDrizzle().insert(tables.magicLinks).values({
       email,
       token,
       tokenExpiresAt,
@@ -46,7 +37,7 @@ export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
   }
 
   async deleteMagicLink(email: string): Promise<MagicLink | undefined> {
-    const magicLink = await this._db.delete(tables.magicLinks).where(eq(tables.magicLinks.email, email)).returning().get()
+    const magicLink = await useDrizzle().delete(tables.magicLinks).where(eq(tables.magicLinks.email, email)).returning().get()
 
     return magicLink
   }

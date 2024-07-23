@@ -1,8 +1,7 @@
 import { z } from 'zod'
+import { loginWithMagicLinkController } from '~~/server/interface-adapters/controllers/loginWithMagicLinkController'
 
 export default defineEventHandler(async (event) => {
-  const { loginWithMagicLinkUseCase } = useDI(useDrizzle(), event)
-
   const schema = z.object({
     token: z.string(),
   })
@@ -10,7 +9,7 @@ export default defineEventHandler(async (event) => {
   const { token } = await getValidatedQuery(event, schema.parse)
 
   try {
-    const user = await loginWithMagicLinkUseCase.execute({
+    const user = await loginWithMagicLinkController({
       token,
     })
 

@@ -65,7 +65,7 @@ export class EmailService implements IEmailService {
     return { ok: true }
   }
 
-  async sendDeleteAccountEmail({ email, token }: {
+  async sendEmailDeleteAccount({ email, token }: {
     email: string
     token: string
   }) {

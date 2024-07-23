@@ -1,6 +1,6 @@
-import type { Image } from '@@/server/domain/entities/imageEntity'
+import type { Image } from '@@/server/entities/imageEntity'
 
-export interface IImageRepository {
+export interface IImageService {
   saveAvatar({
     file,
     userId,

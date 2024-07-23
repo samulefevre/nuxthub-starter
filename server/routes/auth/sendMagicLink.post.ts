@@ -1,20 +1,6 @@
-import { z } from 'zod'
+import { sendMagicLinkController } from '~~/server/interface-adapters/controllers/sendMagicLinkController'
 
 export default defineEventHandler(async (event) => {
-  const { sendMagicLinkUseCase } = useDI(useDrizzle(), event)
-
-  const schema = z.object({
-    email: z.string().email('Invalid email'),
-  })
-
-  const { email } = await readValidatedBody(event, schema.parse)
-
-  await sendMagicLinkUseCase.execute({
-    email,
-  })
-
-  return {
-    ok: true,
-    message: 'Magic link sent',
-  }
+  const body = await readBody(event)
+  return await sendMagicLinkController(body.email)
 })

@@ -1,11 +1,11 @@
+import { signInController } from '~~/server/interface-adapters/controllers/signInController'
+
 export default oauth.githubEventHandler({
   config: {
     emailRequired: true,
   },
   async onSuccess(event, { user: githubUser }) {
-    const { signInUseCase } = useDI(useDrizzle(), event)
-
-    const user = await signInUseCase.execute({
+    const user = await signInController({
       email: githubUser.email,
       name: githubUser.name,
       avatarUrl: githubUser.avatar_url,

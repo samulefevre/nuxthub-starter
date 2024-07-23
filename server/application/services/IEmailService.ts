@@ -4,7 +4,7 @@ export interface IEmailService {
     token: string
   }): Promise<{ ok: boolean } | null>
 
-  sendDeleteAccountEmail({ email, token }: {
+  sendEmailDeleteAccount({ email, token }: {
     email: string
     token: string
   }): Promise<{ ok: boolean } | null>

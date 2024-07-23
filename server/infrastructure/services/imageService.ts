@@ -1,8 +1,8 @@
 import { randomUUID } from 'uncrypto'
 import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
-import type { IImageRepository } from '../../application/repositories'
+import type { IImageService } from '@@/server/application/services'
 
-export class DrizzleImageRepository implements IImageRepository {
+export class ImageService implements IImageService {
   saveAvatar = async ({
     file,
     userId,

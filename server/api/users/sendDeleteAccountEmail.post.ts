@@ -1,12 +1,9 @@
-export default defineEventHandler(async (event) => {
-  const { sendDeleteAccountEmailUseCase } = useDI(useDrizzle(), event)
+import { sendDeleteAccountEmailController } from '~~/server/interface-adapters/controllers/sendDeleteAccountEmailController'
 
+export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)
 
-  await sendDeleteAccountEmailUseCase.execute({
-    userId: user.id,
-
-  })
+  await sendDeleteAccountEmailController(user.id)
 
   return {
     ok: true,
