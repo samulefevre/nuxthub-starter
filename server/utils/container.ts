@@ -32,15 +32,15 @@ function initContainer(): AwilixContainer<IDependencies> {
   }
 
   newContainer.register({
-    userRepository: asClass(DrizzleUserRepository).singleton(),
-    deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository).singleton(),
-    magicLinkRepository: asClass(DrizzleMagicLinkRepository).singleton(),
+    userRepository: asClass(DrizzleUserRepository),
+    deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository),
+    magicLinkRepository: asClass(DrizzleMagicLinkRepository),
     emailService: asClass(EmailService).inject(() => ({
       apiKey: resendApiKey || '',
       baseUrl: baseUrl || '',
       fromEmail: fromEmail || '',
-    })).singleton(),
-    imageService: asClass(ImageService).singleton(),
+    })),
+    imageService: asClass(ImageService),
   })
 
   return newContainer
