@@ -88,5 +88,4 @@ export default defineNuxtConfig({
     icons: ['simple-icons'],
   },
   compatibilityDate: '2024-07-02',
-  debug: true,
 })
