@@ -2,7 +2,9 @@ import * as tables from '@@/server/database/schema'
 
 import { eq } from 'drizzle-orm'
 import type { IUserRepository } from '@@/server/application/repositories'
+import { injectable } from 'inversify'
 
+@injectable()
 export class DrizzleUserRepository implements IUserRepository {
   createUser = async ({
     email,
