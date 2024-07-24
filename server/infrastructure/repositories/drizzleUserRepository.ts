@@ -54,7 +54,7 @@ export class DrizzleUserRepository implements IUserRepository {
   }
 
   getUserByEmail = async (email: string) => {
-    const user = useDrizzle().select().from(tables.users).where(eq(tables.users.email, email)).get()
+    const user = await useDrizzle().select().from(tables.users).where(eq(tables.users.email, email)).get()
 
     return user
   }
@@ -70,7 +70,7 @@ export class DrizzleUserRepository implements IUserRepository {
   }
 
   deleteUser = async ({ userId }: { userId: number }) => {
-    const user = useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
+    const user = await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
 
     return user
   }
