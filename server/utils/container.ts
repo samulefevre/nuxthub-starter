@@ -1,11 +1,11 @@
 import type { AwilixContainer } from 'awilix'
 import { createContainer, asClass } from 'awilix'
-import { DrizzleDeleteAccountTokenRepository, DrizzleMagicLinkRepository, DrizzleUserRepository } from '../infrastructure/repositories'
+import type { IImageService, IEmailService } from '@@/server/application/services'
 
-import type { IDeleteAccountTokenRepository, IMagicLinkRepository, IUserRepository } from '../application/repositories'
+import type { IDeleteAccountTokenRepository, IMagicLinkRepository, IUserRepository } from '@@/server/application/repositories'
 
-import { EmailService, ImageService } from '../infrastructure/services'
-import type { IImageService, IEmailService } from '../application/services'
+import { EmailService, ImageService } from '@@/server/infrastructure/services'
+import { DrizzleDeleteAccountTokenRepository, DrizzleMagicLinkRepository, DrizzleUserRepository } from '@@/server/infrastructure/repositories'
 
 export interface IDependencies {
   userRepository: IUserRepository
