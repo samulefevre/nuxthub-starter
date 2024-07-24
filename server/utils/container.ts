@@ -28,15 +28,15 @@ function initContainer(): AwilixContainer<IDependencies> {
   const { baseUrl } = useRuntimeConfig().public
 
   newContainer.register({
-    userRepository: asClass(DrizzleUserRepository),
-    deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository),
-    magicLinkRepository: asClass(DrizzleMagicLinkRepository),
+    userRepository: asClass(DrizzleUserRepository).singleton(),
+    deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository).singleton(),
+    magicLinkRepository: asClass(DrizzleMagicLinkRepository).singleton(),
     emailService: asClass(EmailService).inject(() => ({
       apiKey: resendApiKey,
       baseUrl,
       fromEmail,
-    })),
-    imageService: asClass(ImageService),
+    })).singleton(),
+    imageService: asClass(ImageService).singleton(),
   })
 
   return newContainer

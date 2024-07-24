@@ -13,7 +13,8 @@
     "typecheck": "nuxt typecheck",
     "db:generate": "drizzle-kit generate",
     "test": "vitest",
-    "test:ui": "vitest --ui --coverage"
+    "test:ui": "vitest --ui --coverage",
+    "worker:preview": "nuxt build && wrangler pages dev dist/"
   },
   "dependencies": {
     "@iconify-json/simple-icons": "^1.1.109",
