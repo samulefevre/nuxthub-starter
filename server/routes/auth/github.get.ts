@@ -5,6 +5,8 @@ export default oauth.githubEventHandler({
     emailRequired: true,
   },
   async onSuccess(event, { user: githubUser }) {
+    return sendRedirect(event, '/app')
+
     try {
       const user = await signInController({
         email: githubUser.email,
