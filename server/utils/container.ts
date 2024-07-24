@@ -23,22 +23,18 @@ function initContainer(): AwilixContainer<IDependencies> {
     injectionMode: 'CLASSIC',
   })
 
-  const resendApiKey = process.env.NUXT_RESEND_API_KEY
-  const baseUrl = process.env.NUXT_PUBLIC_BASE_URL
-  const fromEmail = process.env.NUXT_EMAILS_FROM_EMAIL
-
-  if (!resendApiKey) {
-    console.error('NUXT_RESEND_API_KEY is not defined')
-  }
+  const { resendApiKey } = useRuntimeConfig()
+  const { fromEmail } = useRuntimeConfig().emails
+  const { baseUrl } = useRuntimeConfig().public
 
   newContainer.register({
     userRepository: asClass(DrizzleUserRepository),
     deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository),
     magicLinkRepository: asClass(DrizzleMagicLinkRepository),
     emailService: asClass(EmailService).inject(() => ({
-      apiKey: resendApiKey || '',
-      baseUrl: baseUrl || '',
-      fromEmail: fromEmail || '',
+      apiKey: resendApiKey,
+      baseUrl,
+      fromEmail,
     })),
     imageService: asClass(ImageService),
   })
