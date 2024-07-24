@@ -9,9 +9,9 @@ export async function signInController(input: CreateUserInput): Promise<User> {
     throw new Error(error.name, { cause: error })
   }
 
-  let existingUser = await getUserByEmailUseCase(data.email)
+  const existingUser = await getUserByEmailUseCase(data.email)
 
-  if (!existingUser) {
+  /* if (!existingUser) {
     existingUser = await createUserUseCase({ email: data.email, name: data.name })
 
     if (!data.avatarUrl) {
@@ -43,7 +43,7 @@ export async function signInController(input: CreateUserInput): Promise<User> {
         throw new Error('User not found')
       }
     }
-  }
+  } */
 
   return existingUser
 }
