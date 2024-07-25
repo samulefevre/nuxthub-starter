@@ -1,25 +1,18 @@
 import { Container } from 'inversify'
 
-import { DrizzleUserRepository } from '@@/server/infrastructure/repositories'
-import type { IUserRepository } from '../application/repositories/IUserRepository'
+import type { DI_RETURN_TYPES } from './types'
+import { DI_SYMBOLS } from './types'
+import { UserModule } from './modules/userModule'
 
 const appContainer = new Container({
   defaultScope: 'Singleton',
 })
 
-appContainer.bind<IUserRepository>(Symbol.for('IUserRepository')).to(DrizzleUserRepository)
-
-export interface DI_RETURN_TYPES {
-  IUserRepository: IUserRepository
+const initializeContainer = () => {
+  appContainer.load(UserModule)
 }
 
-export const DI_SYMBOLS = {
-  IUserRepository: Symbol.for('IUserRepository'),
-}
-
-export interface DI_RETURN_TYPES {
-  IUserRepository: IUserRepository
-}
+initializeContainer()
 
 export function getInjection<K extends keyof typeof DI_SYMBOLS>(
   symbol: K,
