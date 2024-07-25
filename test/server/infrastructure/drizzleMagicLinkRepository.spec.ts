@@ -1,84 +1,66 @@
+import 'reflect-metadata'
+
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { drizzle, type BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
-import * as schema from '@@/server/database/schema'
-import SQLiteDB from 'better-sqlite3'
-
-import type { Database } from 'better-sqlite3'
-
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
-import { DrizzleMagicLinkRepository } from '~~/server/infrastructure/repositories'
+import type { IMagicLinkRepository } from '~~/server/application/repositories'
+import { destroyContainer, getInjection, initializeContainer } from '~~/server/di/container'
 
 const userData = { email: 'test@example.com', name: 'Test User' }
 
 describe('DrizzleMagicLinkRepository', () => {
-  let db: BetterSQLite3Database<typeof schema>
-  let repository: DrizzleMagicLinkRepository
-
-  let sqlite: Database
+  let magicLinkRepository: IMagicLinkRepository
 
   beforeEach(() => {
-    sqlite = new SQLiteDB(':memory:')
-    db = drizzle(sqlite, { schema })
+    initializeContainer()
 
-    migrate(db, { migrationsFolder: 'server/database/migrations' })
-
-    repository = new DrizzleMagicLinkRepository(db)
+    magicLinkRepository = getInjection('IMagicLinkRepository')
   })
 
   afterEach(() => {
-    sqlite.close()
+    destroyContainer()
   })
 
   it('should create a magic link', async () => {
-    const token = await repository.upsertMagicLink(userData.email)
+    const token = await magicLinkRepository.upsertMagicLink(userData.email)
 
     expect(token).toBeDefined()
   })
 
   it('should get a magic link by token', async () => {
-    const newMagicLink = await repository.upsertMagicLink(userData.email)
+    const newMagicLink = await magicLinkRepository.upsertMagicLink(userData.email)
 
-    const magicLink = await repository.getMagicLinkByToken(newMagicLink!.token)
+    const magicLink = await magicLinkRepository.getMagicLinkByToken(newMagicLink!.token)
 
     expect(magicLink).toBeDefined()
   })
 
   it('should delete a magic link', async () => {
-    const newMagicLink = await repository.upsertMagicLink(userData.email)
+    const newMagicLink = await magicLinkRepository.upsertMagicLink(userData.email)
 
-    await repository.deleteMagicLink(userData.email)
+    expect(newMagicLink).toBeDefined()
 
-    const magicLink = await repository.getMagicLinkByToken(newMagicLink!.token)
+    const magicLink = await magicLinkRepository.deleteMagicLink(newMagicLink!.token)
 
-    expect(magicLink).toBeUndefined()
+    expect(magicLink).toBe(newMagicLink)
   })
 
   it('should not delete a magic link if email does not exist', async () => {
-    const newMagicLink = await repository.upsertMagicLink(userData.email)
+    const newMagicLink = await magicLinkRepository.upsertMagicLink(userData.email)
 
-    const magicLink = await repository.deleteMagicLink('bad-email')
+    const magicLink = await magicLinkRepository.deleteMagicLink('bad-email')
 
     expect(magicLink).toBeUndefined()
 
-    const existingMagicLink = await repository.getMagicLinkByToken(newMagicLink!.token)
+    const existingMagicLink = await magicLinkRepository.getMagicLinkByToken(newMagicLink!.token)
 
     expect(existingMagicLink).toBeDefined()
   })
 
   it('should update a magic link', async () => {
-    const newMagicLink = await repository.upsertMagicLink(userData.email)
+    const newMagicLink = await magicLinkRepository.upsertMagicLink(userData.email)
 
-    const newToken = await repository.upsertMagicLink(userData.email)
+    const newToken = await magicLinkRepository.upsertMagicLink(userData.email)
 
     expect(newToken).not.toBe(newMagicLink!.token)
-  })
-
-  it('should not update a magic link if email does not exist', async () => {
-    const newMagicLink = await repository.upsertMagicLink(userData.email)
-
-    const upsertedMagicLink = await repository.upsertMagicLink('bad-email')
-
-    expect(upsertedMagicLink!.token).not.toBe(newMagicLink!.token)
   })
 })

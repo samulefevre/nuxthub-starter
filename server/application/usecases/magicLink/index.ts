@@ -1,5 +1,5 @@
-export { getMagicLinkByTokenUseCase } from './getMagicLinkByTokenUseCase'
+export { getMagicLinkByTokenUsecase } from './getMagicLinkByTokenUsecase'
 
-export { upsertMagicLinkUseCase } from './upsertMagicLinkUseCase'
+export { upsertMagicLinkUsecase } from './upsertMagicLinkUsecase'
 
-export { deleteMagicLinkUseCase } from './deleteMagicLinkUseCase'
+export { deleteMagicLinkUsecase } from './deleteMagicLinkUsecase'

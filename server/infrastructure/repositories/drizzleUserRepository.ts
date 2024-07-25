@@ -31,13 +31,13 @@ export class DrizzleUserRepository implements IUserRepository {
   }: {
     email: string
   }) => {
-    const name = email.split('@')[0]
+    let name = email.split('@')[0]
 
     // replace all non-alphanumeric characters with space
-    name.replace(/[^a-zA-Z0-9]/g, ' ')
+    name = name.replace(/[^a-zA-Z0-9]/g, ' ')
 
     //  uppercasing the first letter of each word
-    name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+    name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 
     const user = await useDrizzle().insert(tables.users).values({
       name,

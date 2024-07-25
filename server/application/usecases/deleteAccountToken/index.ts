@@ -1,5 +1,5 @@
-export { getDeleteAccountTokenUseCase } from './getDeleteAccountTokenUseCase'
+export { getDeleteAccountTokenUsecase } from './getDeleteAccountTokenUsecase'
 
-export { removeDeleteAccountTokenUseCase } from './removeDeleteAccountTokenUseCase'
+export { removeDeleteAccountTokenUsecase } from './removeDeleteAccountTokenUsecase'
 
-export { upsertDeleteAccountTokenUseCase } from './upsertDeleteAccountTokenUseCase'
+export { upsertDeleteAccountTokenUsecase } from './upsertDeleteAccountTokenUsecase'

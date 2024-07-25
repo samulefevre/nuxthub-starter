@@ -1,6 +1,6 @@
 import { getInjection } from '~~/server/di/container'
 
-export const deleteMagicLinkUseCase = async (
+export const deleteMagicLinkUsecase = async (
   token: string): Promise<MagicLink> => {
   const magicLinkRepository = getInjection('IMagicLinkRepository')
   const magicLink = await magicLinkRepository.deleteMagicLink(token)

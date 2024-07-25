@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import fs from 'fs'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { saveAvatarUseCase } from '~~/server/application/usecases/image/saveAvatarUseCase'
+import { saveAvatarUsecase } from '~~/server/application/usecases/image/saveAvatarUsecase'
 import { destroyContainer, initializeContainer } from '~~/server/di/container'
 
 describe('saveAvatar usecases', () => {
@@ -26,7 +26,7 @@ describe('saveAvatar usecases', () => {
   it('should update user avatar', async () => {
     const file = new File([imageBuffer], 'avatar.jpg')
 
-    const image = await saveAvatarUseCase({ file, userId: userId })
+    const image = await saveAvatarUsecase({ file, userId: userId })
 
     expect(image?.pathname).toBe(`/${userId}/avatar-fakeuuid.jpg`)
   })

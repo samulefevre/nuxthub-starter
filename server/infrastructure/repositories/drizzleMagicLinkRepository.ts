@@ -38,8 +38,8 @@ export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
     return magicLink
   }
 
-  async deleteMagicLink(email: string): Promise<MagicLink | undefined> {
-    const magicLink = await useDrizzle().delete(tables.magicLinks).where(eq(tables.magicLinks.email, email)).returning().get()
+  async deleteMagicLink(token: string): Promise<MagicLink | undefined> {
+    const magicLink = await useDrizzle().delete(tables.magicLinks).where(eq(tables.magicLinks.token, token)).returning().get()
 
     return magicLink
   }

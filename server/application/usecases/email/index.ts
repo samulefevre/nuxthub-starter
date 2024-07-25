@@ -1,3 +1,3 @@
-export { sendEmailMagicLinkUseCase } from './sendEmailMagicLinkUseCase'
+export { sendEmailMagicLinkUsecase } from './sendEmailMagicLinkUsecase'
 
-export { sendEmailDeleteAccountUseCase } from './sendEmailDeleteAccountUseCase'
+export { sendEmailDeleteAccountUsecase } from './sendEmailDeleteAccountUsecase'

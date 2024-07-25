@@ -7,10 +7,10 @@ import { ImageServiceMock } from '~~/server/infrastructure/services/mocks'
 const initializeModule = (bind: interfaces.Bind) => {
   if (process.env.NODE_ENV === 'test') {
     bind<IImageService>(DI_SYMBOLS.IImageService).to(ImageServiceMock)
+    return
   }
-  else {
-    bind<IImageService>(DI_SYMBOLS.IImageService).to(ImageService)
-  }
+
+  bind<IImageService>(DI_SYMBOLS.IImageService).to(ImageService)
 }
 
 export const ImageModule = new ContainerModule(initializeModule)

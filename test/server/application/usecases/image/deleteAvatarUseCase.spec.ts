@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { deleteAvatarUseCase } from '~~/server/application/usecases/image'
+import { deleteAvatarUsecase } from '~~/server/application/usecases/image'
 import { destroyContainer, initializeContainer } from '~~/server/di/container'
 
 describe('deleteAvatar usecases', () => {
@@ -16,7 +16,7 @@ describe('deleteAvatar usecases', () => {
 
   it('should delete user avatar', async () => {
     const avatar = 'fakeavatar'
-    const image = await deleteAvatarUseCase(avatar)
+    const image = await deleteAvatarUsecase(avatar)
 
     expect(image?.pathname).toBe(avatar)
   })

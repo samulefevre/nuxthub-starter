@@ -4,7 +4,7 @@ interface ISendMagicLink {
   email: string
 }
 
-export const upsertMagicLinkUseCase = async ({
+export const upsertMagicLinkUsecase = async ({
   email,
 }: ISendMagicLink) => {
   const magicLinkRepository = getInjection('IMagicLinkRepository')

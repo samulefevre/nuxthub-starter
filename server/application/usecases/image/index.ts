@@ -1,5 +1,5 @@
-export { getFileFromUrlUseCase } from './getFileFromUrlUseCase'
+export { getFileFromUrlUsecase } from './getFileFromUrlUsecase'
 
-export { saveAvatarUseCase } from './saveAvatarUseCase'
+export { saveAvatarUsecase } from './saveAvatarUsecase'
 
-export { deleteAvatarUseCase } from './deleteAvatarUseCase'
+export { deleteAvatarUsecase } from './deleteAvatarUsecase'

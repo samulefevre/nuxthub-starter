@@ -1,11 +1,11 @@
-export { createUserUseCase } from './createUserUseCase'
+export { createUserUsecase } from './createUserUsecase'
 
-export { getUserByEmailUseCase } from './getUserByEmailUseCase'
+export { getUserByEmailUsecase } from './getUserByEmailUsecase'
 
-export { updateUserUseCase } from './updateUserUseCase'
+export { updateUserUsecase } from './updateUserUsecase'
 
-export { createMagicUserUseCase } from './createMagicUserUseCase'
+export { createMagicUserUsecase } from './createMagicUserUsecase'
 
-export { getUserUseCase } from './getUserUseCase'
+export { getUserUsecase } from './getUserUsecase'
 
-export { deleteUserUseCase } from './deleteUserUseCase'
+export { deleteUserUsecase } from './deleteUserUsecase'
