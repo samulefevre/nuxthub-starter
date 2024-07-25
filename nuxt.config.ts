@@ -69,6 +69,7 @@ export default defineNuxtConfig({
     hooks: {
       'rollup:before'(ctx) {
         ctx.options.moduleSideEffects.push('reflect-metadata')
+        ctx.options.plugins.push('reflect-metadata')
       },
     },
   },
