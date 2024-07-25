@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { Container } from 'inversify'
 
 import { DrizzleUserRepository } from '@@/server/infrastructure/repositories'
