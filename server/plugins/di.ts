@@ -1,4 +1,4 @@
-import { getContainer } from '@@/server/di/container'
+import 'reflect-metadata'
 
 export default defineNitroPlugin((nitroApp) => {
   onHubReady(async () => {
