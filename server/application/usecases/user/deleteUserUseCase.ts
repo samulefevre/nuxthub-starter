@@ -1,3 +1,6 @@
+import { getInjection } from '~~/server/di/container'
+
 export const deleteUserUseCase = async (userId: number): Promise<User | undefined> => {
-  return await useContainer().resolve('userRepository').deleteUser({ userId })
+  const userRepository = getInjection('IUserRepository')
+  return await userRepository.deleteUser({ userId })
 }

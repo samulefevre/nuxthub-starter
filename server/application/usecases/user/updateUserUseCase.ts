@@ -1,5 +1,8 @@
+import { getInjection } from '~~/server/di/container'
+
 export const updateUserUseCase = async ({ userId, updatedUser }: { userId: number, updatedUser: Partial<User> }): Promise<User | undefined> => {
-  return await useContainer().resolve('userRepository').updateUser({
+  const userRepository = getInjection('IUserRepository')
+  return await userRepository.updateUser({
     userId,
     updatedUser,
   })

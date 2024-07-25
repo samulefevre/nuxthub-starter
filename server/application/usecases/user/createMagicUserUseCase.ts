@@ -1,3 +1,6 @@
+import { getInjection } from '~~/server/di/container'
+
 export const createMagicUserUseCase = async ({ email }: { email: string }): Promise<User> => {
-  return await useContainer().resolve('userRepository').createMagicUser({ email })
+  const userRepository = getInjection('IUserRepository')
+  return await userRepository.createMagicUser({ email })
 }

@@ -28,7 +28,6 @@
     "@vue-email/render": "^0.0.9",
     "@vueuse/core": "^10.11.0",
     "@vueuse/nuxt": "^10.11.0",
-    "awilix": "^10.0.2",
     "drizzle-orm": "^0.32.1",
     "inversify": "^6.0.2",
     "reflect-metadata": "^0.2.2",

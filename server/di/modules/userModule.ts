@@ -1,5 +1,5 @@
 import { ContainerModule, type interfaces } from 'inversify'
-import { DI_SYMBOLS } from '../types'
+import { DI_SYMBOLS } from '~~/server/di/types'
 import type { IUserRepository } from '~~/server/application/repositories'
 import { DrizzleUserRepository } from '~~/server/infrastructure/repositories'
 

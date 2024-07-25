@@ -1,3 +1,6 @@
+import { getInjection } from '~~/server/di/container'
+
 export async function sendEmailDeleteAccountUseCase({ email, token }: { email: string, token: string }): Promise<void> {
-  await useContainer().resolve('emailService').sendEmailDeleteAccount({ email, token })
+  const emailService = getInjection('IEmailService')
+  await emailService.sendEmailDeleteAccount({ email, token })
 }

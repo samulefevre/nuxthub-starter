@@ -1,7 +1,9 @@
 import { randomUUID } from 'uncrypto'
 import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
 import type { IImageService } from '@@/server/application/services'
+import { injectable } from 'inversify'
 
+@injectable()
 export class ImageService implements IImageService {
   saveAvatar = async ({
     file,

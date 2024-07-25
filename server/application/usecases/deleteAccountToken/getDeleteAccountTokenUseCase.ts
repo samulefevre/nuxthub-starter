@@ -1,3 +1,6 @@
+import { getInjection } from '~~/server/di/container'
+
 export const getDeleteAccountTokenUseCase = async ({ userId, token }: { userId: number, token: string }) => {
-  return await useContainer().resolve('deleteAccountTokenRepository').getDeleteAccountToken({ userId, token })
+  const deleteAccountTokenRepository = getInjection('IDeleteAccountTokenRepository')
+  return await deleteAccountTokenRepository.getDeleteAccountToken({ userId, token })
 }

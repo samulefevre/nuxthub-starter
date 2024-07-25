@@ -2,7 +2,9 @@ import { randomUUID } from 'uncrypto'
 import * as tables from '@@/server/database/schema'
 import { eq } from 'drizzle-orm'
 import type { IMagicLinkRepository } from '@@/server/application/repositories'
+import { injectable } from 'inversify'
 
+@injectable()
 export class DrizzleMagicLinkRepository implements IMagicLinkRepository {
   async getMagicLinkByEmail(email: string): Promise<MagicLink | undefined> {
     const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()

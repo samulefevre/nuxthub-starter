@@ -2,8 +2,10 @@ import { render } from '@vue-email/render'
 import { Resend } from 'resend'
 
 import type { IEmailService } from '@@/server/application/services/IEmailService'
+import { inject, injectable } from 'inversify'
 import magicLink from '@/components/emails/magicLink.vue'
 import deleteAccount from '@/components/emails/deleteAccount.vue'
+import { DI_SYMBOLS } from '~~/server/di/types'
 
 interface EmailOptions {
   from: string
@@ -12,23 +14,29 @@ interface EmailOptions {
   html: string
 }
 
+@injectable()
 export class EmailService implements IEmailService {
   private resend: Resend
   private baseUrl: string
   private fromEmail: string
 
-  constructor({
-    apiKey,
-    baseUrl,
-    fromEmail,
-  }: {
-    apiKey: string
-    baseUrl: string
-    fromEmail: string
-  }) {
+  public constructor(
+    @inject(DI_SYMBOLS.EmailApiKey) apiKey: string,
+    @inject(DI_SYMBOLS.BaseUrl) baseUrl: string,
+    @inject(DI_SYMBOLS.FromEmail) fromEmail: string,
+  ) {
     if (!apiKey) {
       throw new Error('NUXT_RESEND_API_KEY is not defined')
     }
+
+    if (!baseUrl) {
+      throw new Error('NUXT_PUBLIC_BASE_URL is not defined')
+    }
+
+    if (!fromEmail) {
+      throw new Error('NUXT_EMAILS_FROM_EMAIL is not defined')
+    }
+
     this.resend = new Resend(apiKey)
     this.baseUrl = baseUrl
     this.fromEmail = fromEmail
