@@ -1,6 +1,6 @@
-import type { IUserRepository } from '../../repositories'
+import { getInjection } from '@@/server/di/container'
 
 export const getUserByEmailUseCase = async (email: string) => {
-  const userRepository = getInjection<IUserRepository>(Symbol.for('DrizzleUserRepository'))
+  const userRepository = getInjection('IUserRepository')
   return await userRepository.getUserByEmail(email)
 }

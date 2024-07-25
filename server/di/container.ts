@@ -1,48 +1,31 @@
-// not used in this project
+import 'reflect-metadata'
+import { Container } from 'inversify'
 
-import type { AwilixContainer } from 'awilix'
-import { createContainer, asClass } from 'awilix'
-import { DrizzleDeleteAccountTokenRepository, DrizzleMagicLinkRepository, DrizzleUserRepository } from '@@/server/infrastructure/repositories'
+import { DrizzleUserRepository } from '@@/server/infrastructure/repositories'
+import type { IUserRepository } from '../application/repositories/IUserRepository'
 
-import type { IDeleteAccountTokenRepository, IMagicLinkRepository, IUserRepository } from '@@/server/application/repositories'
+const appContainer = new Container({
+  defaultScope: 'Singleton',
+})
 
-import { EmailService, ImageService } from '@@/server/infrastructure/services'
-import type { IImageService, IEmailService } from '@@/server/application/services'
+appContainer.bind<IUserRepository>(Symbol.for('IUserRepository')).to(DrizzleUserRepository)
 
-export interface IDependencies {
-  userRepository: IUserRepository
-  deleteAccountTokenRepository: IDeleteAccountTokenRepository
-  magicLinkRepository: IMagicLinkRepository
-  emailService: IEmailService
-  imageService: IImageService
+export interface DI_RETURN_TYPES {
+  IUserRepository: IUserRepository
 }
 
-let container: AwilixContainer<IDependencies>
-
-export const getContainer = () => {
-  if (!container) {
-    console.log('DI: Creating container')
-    container = createContainer<IDependencies>({
-      strict: true,
-      injectionMode: 'PROXY',
-    })
-
-    const { resendApiKey } = useRuntimeConfig()
-    const { fromEmail } = useRuntimeConfig().emails
-    const { baseUrl } = useRuntimeConfig().public
-
-    container.register({
-      userRepository: asClass(DrizzleUserRepository),
-      deleteAccountTokenRepository: asClass(DrizzleDeleteAccountTokenRepository),
-      magicLinkRepository: asClass(DrizzleMagicLinkRepository),
-      emailService: asClass(EmailService).inject(() => ({
-        apiKey: resendApiKey,
-        baseUrl,
-        fromEmail,
-      })),
-      imageService: asClass(ImageService),
-    })
-  }
-
-  return container
+export const DI_SYMBOLS = {
+  IUserRepository: Symbol.for('IUserRepository'),
 }
+
+export interface DI_RETURN_TYPES {
+  IUserRepository: IUserRepository
+}
+
+export function getInjection<K extends keyof typeof DI_SYMBOLS>(
+  symbol: K,
+): DI_RETURN_TYPES[K] {
+  return appContainer.get(DI_SYMBOLS[symbol])
+}
+
+export { appContainer }
