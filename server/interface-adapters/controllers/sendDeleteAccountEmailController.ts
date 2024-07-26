@@ -1,9 +1,9 @@
 import { upsertDeleteAccountTokenUsecase } from '~~/server/application/usecases/deleteAccountToken'
-import { sendEmailDeleteAccountUseCase } from '~~/server/application/usecases/email'
-import { getUserUseCase } from '~~/server/application/usecases/user'
+import { sendEmailDeleteAccountUsecase } from '~~/server/application/usecases/email'
+import { getUserUsecase } from '~~/server/application/usecases/user'
 
 export const sendDeleteAccountEmailController = async (userId: number) => {
-  const user = await getUserUseCase(userId)
+  const user = await getUserUsecase(userId)
 
   if (!user) {
     throw new Error('User not found')
@@ -15,7 +15,7 @@ export const sendDeleteAccountEmailController = async (userId: number) => {
     throw new Error('Delete account token not created')
   }
 
-  return await sendEmailDeleteAccountUseCase({
+  return await sendEmailDeleteAccountUsecase({
     email: user.email,
     token: deleteAccountToken.token,
   })

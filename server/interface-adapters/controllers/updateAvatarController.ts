@@ -1,5 +1,5 @@
-import { deleteAvatarUseCase, saveAvatarUseCase } from '~~/server/application/usecases/image'
-import { updateUserUseCase } from '~~/server/application/usecases/user'
+import { deleteAvatarUsecase, saveAvatarUsecase } from '~~/server/application/usecases/image'
+import { updateUserUsecase } from '~~/server/application/usecases/user'
 
 interface IUpdateAvatar {
   file: File
@@ -9,10 +9,10 @@ interface IUpdateAvatar {
 
 export async function updateAvatarController({ file, userId, currentAvatar }: IUpdateAvatar) {
   if (currentAvatar) {
-    await deleteAvatarUseCase(currentAvatar)
+    await deleteAvatarUsecase(currentAvatar)
   }
 
-  const blob = await saveAvatarUseCase({
+  const blob = await saveAvatarUsecase({
     file,
     userId,
   })
@@ -21,7 +21,7 @@ export async function updateAvatarController({ file, userId, currentAvatar }: IU
     throw new Error('Failed to upload file')
   }
 
-  const updatedUser = await updateUserUseCase({
+  const updatedUser = await updateUserUsecase({
     userId,
     updatedUser: {
       avatar: blob.pathname,

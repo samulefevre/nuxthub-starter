@@ -1,6 +1,6 @@
 import { getDeleteAccountTokenUsecase, removeDeleteAccountTokenUsecase } from '~~/server/application/usecases/deleteAccountToken'
-import { deleteAvatarUseCase } from '~~/server/application/usecases/image'
-import { deleteUserUseCase, getUserUseCase } from '~~/server/application/usecases/user'
+import { deleteAvatarUsecase } from '~~/server/application/usecases/image'
+import { deleteUserUsecase, getUserUsecase } from '~~/server/application/usecases/user'
 
 interface IDeleteAccount {
   userId: number
@@ -20,19 +20,19 @@ export async function deleteAccountController({ userId,
     throw new Error('Token expired')
   }
 
-  const currentUser = await getUserUseCase(userId)
+  const currentUser = await getUserUsecase(userId)
 
   if (!currentUser) {
     throw new Error('User not found')
   }
 
   if (currentUser.avatar) {
-    await deleteAvatarUseCase(userId.toString())
+    await deleteAvatarUsecase(userId.toString())
   }
 
   await removeDeleteAccountTokenUsecase({ userId, token })
 
-  const deletedUser = await deleteUserUseCase(userId)
+  const deletedUser = await deleteUserUsecase(userId)
 
   return deletedUser
 }

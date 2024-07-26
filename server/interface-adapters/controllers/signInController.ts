@@ -1,5 +1,5 @@
-import { getFileFromUrlUseCase, saveAvatarUseCase } from '~~/server/application/usecases/image'
-import { createUserUseCase, getUserByEmailUseCase, updateUserUseCase } from '~~/server/application/usecases/user'
+import { getFileFromUrlUsecase, saveAvatarUsecase } from '~~/server/application/usecases/image'
+import { createUserUsecase, getUserByEmailUsecase, updateUserUsecase } from '~~/server/application/usecases/user'
 import { createUserSchema, type CreateUserInput } from '~~/server/entities/models/user'
 
 export async function signInController(input: CreateUserInput): Promise<User> {
@@ -9,31 +9,31 @@ export async function signInController(input: CreateUserInput): Promise<User> {
     throw new Error(error.name, { cause: error })
   }
 
-  const existingUser = await getUserByEmailUseCase(data.email)
+  let existingUser = await getUserByEmailUsecase(data.email)
 
-  /* if (!existingUser) {
-    existingUser = await createUserUseCase({ email: data.email, name: data.name })
+  if (!existingUser) {
+    existingUser = await createUserUsecase({ email: data.email, name: data.name })
 
     if (!data.avatarUrl) {
-      return existingUser
+      return existingUser!
     }
 
-    const file = await getFileFromUrlUseCase(data.avatarUrl)
+    const file = await getFileFromUrlUsecase(data.avatarUrl)
 
     if (file) {
-      const blob = await saveAvatarUseCase({
+      const blob = await saveAvatarUsecase({
         file,
-        userId: existingUser.id,
+        userId: existingUser!.id,
       })
 
       if (!blob) {
-        return existingUser
+        return existingUser!
       }
 
       const avatar = blob.pathname
 
-      existingUser = await updateUserUseCase({
-        userId: existingUser.id,
+      existingUser = await updateUserUsecase({
+        userId: existingUser!.id,
         updatedUser: {
           avatar,
         },
@@ -43,7 +43,7 @@ export async function signInController(input: CreateUserInput): Promise<User> {
         throw new Error('User not found')
       }
     }
-  } */
+  }
 
-  return existingUser
+  return existingUser!
 }

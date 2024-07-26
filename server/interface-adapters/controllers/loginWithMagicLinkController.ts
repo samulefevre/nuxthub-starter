@@ -1,30 +1,30 @@
-import { deleteMagicLinkUseCase, getMagicLinkByTokenUseCase } from '~~/server/application/usecases/magicLink'
-import { createMagicUserUseCase, getUserByEmailUseCase } from '~~/server/application/usecases/user'
+import { deleteMagicLinkUsecase, getMagicLinkByTokenUsecase } from '~~/server/application/usecases/magicLink'
+import { createMagicUserUsecase, getUserByEmailUsecase } from '~~/server/application/usecases/user'
 
 export async function loginWithMagicLinkController(input: { token: string }): Promise<User> {
-  const existingMagicLink = await getMagicLinkByTokenUseCase(input.token)
+  const existingMagicLink = await getMagicLinkByTokenUsecase(input.token)
 
   if (!existingMagicLink) {
     throw new Error('Magic link not found')
   }
 
   if (existingMagicLink.tokenExpiresAt < new Date()) {
-    await deleteMagicLinkUseCase(input.token)
+    await deleteMagicLinkUsecase(input.token)
     throw new Error('Magic link expired')
   }
 
-  const user = await getUserByEmailUseCase(existingMagicLink.email)
+  const user = await getUserByEmailUsecase(existingMagicLink.email)
 
   if (user) {
-    await deleteMagicLinkUseCase(input.token)
+    await deleteMagicLinkUsecase(input.token)
     return user
   }
   else {
-    const newUser = await createMagicUserUseCase({
+    const newUser = await createMagicUserUsecase({
       email: existingMagicLink.email,
     })
 
-    await deleteMagicLinkUseCase(input.token)
+    await deleteMagicLinkUsecase(input.token)
 
     return newUser
   }

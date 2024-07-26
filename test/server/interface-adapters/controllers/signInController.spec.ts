@@ -1,0 +1,24 @@
+import 'reflect-metadata'
+
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+
+import { signInController } from '@@/server/interface-adapters/controllers'
+import { initializeContainer, destroyContainer } from '~~/server/di/container'
+
+describe('signInController', () => {
+  const userData = { email: 'test@example.com', name: 'Test User' }
+
+  beforeEach(() => {
+    initializeContainer()
+  })
+
+  afterEach(() => {
+    destroyContainer()
+  })
+
+  it('should signIn', async () => {
+    const signedUser = await signInController({ email: userData.email, name: userData.name })
+
+    expect(signedUser).toBeDefined()
+  })
+})
