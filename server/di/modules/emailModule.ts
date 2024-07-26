@@ -1,15 +1,9 @@
 import { ContainerModule, type interfaces } from 'inversify'
-import type { NitroRuntimeConfig } from 'nitropack'
+import { getConfig } from '../container'
 import { DI_SYMBOLS } from '~~/server/di/types'
 import type { IEmailService } from '~~/server/application/services'
 import { EmailService } from '~~/server/infrastructure/services'
 import { EmailServiceMock } from '~~/server/infrastructure/services/mocks'
-
-let config: NitroRuntimeConfig
-
-export const setConfig = (nitroConfig: NitroRuntimeConfig) => {
-  config = nitroConfig
-}
 
 const initializeModule = (bind: interfaces.Bind) => {
   if (process.env.NODE_ENV === 'test') {
@@ -19,7 +13,7 @@ const initializeModule = (bind: interfaces.Bind) => {
     bind<IEmailService>(DI_SYMBOLS.IEmailService).to(EmailService)
   }
 
-  const { resendApiKey, public: { baseUrl }, emails: { fromEmail } } = config
+  const { resendApiKey, public: { baseUrl }, emails: { fromEmail } } = getConfig()
 
   bind<string>(DI_SYMBOLS.EmailApiKey).toConstantValue(resendApiKey)
   bind<string>(DI_SYMBOLS.BaseUrl).toConstantValue(baseUrl)
