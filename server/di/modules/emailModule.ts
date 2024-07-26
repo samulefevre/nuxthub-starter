@@ -12,9 +12,11 @@ const initializeModule = (bind: interfaces.Bind) => {
     bind<IEmailService>(DI_SYMBOLS.IEmailService).to(EmailService)
   }
 
-  bind<string>(DI_SYMBOLS.EmailApiKey).toConstantValue(process.env.NUXT_RESEND_API_KEY || '')
-  bind<string>(DI_SYMBOLS.BaseUrl).toConstantValue(process.env.NUXT_PUBLIC_BASE_URL || '')
-  bind<string>(DI_SYMBOLS.FromEmail).toConstantValue(process.env.NUXT_EMAILS_FROM_EMAIL || '')
+  const { resendApiKey, public: { baseUrl }, emails: { fromEmail } } = useRuntimeConfig()
+
+  bind<string>(DI_SYMBOLS.EmailApiKey).toConstantValue(resendApiKey)
+  bind<string>(DI_SYMBOLS.BaseUrl).toConstantValue(baseUrl)
+  bind<string>(DI_SYMBOLS.FromEmail).toConstantValue(fromEmail)
 }
 
 export const EmailModule = new ContainerModule(initializeModule)

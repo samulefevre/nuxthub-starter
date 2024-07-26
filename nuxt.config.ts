@@ -99,8 +99,5 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     locales: ['en', 'fr'],
   },
-  ui: {
-    icons: ['simple-icons'],
-  },
   compatibilityDate: '2024-07-02',
 })
