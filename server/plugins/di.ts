@@ -3,13 +3,15 @@ import { initializeContainer } from '@@/server/di/container'
 
 import { consola } from 'consola'
 
-export default defineNitroPlugin(() => {
+export default defineNitroPlugin((nitro) => {
   onHubReady(async () => {
     consola.info('Hub is ready')
     consola.info('Import reflect-metadata')
 
-    const config = useRuntimeConfig()
-
-    initializeContainer(config)
+    nitro.hooks.hookOnce('beforeResponse', async (event) => {
+      consola.info('Initializing container')
+      const config = useRuntimeConfig(event)
+      initializeContainer(config)
+    })
   })
 })
