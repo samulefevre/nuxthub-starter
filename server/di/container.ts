@@ -13,8 +13,15 @@ let config: NitroRuntimeConfig
 
 export const getConfig = () => config
 
-export const initializeContainer = (nitroConfig: NitroRuntimeConfig) => {
-  config = nitroConfig
+export const initializeContainer = (nitroConfig?: NitroRuntimeConfig) => {
+  if (nitroConfig) {
+    // have to use this for production for cloudflare workers to get environment variables
+    config = nitroConfig
+  }
+  else {
+    // have to use this for tests
+    config = useRuntimeConfig()
+  }
 
   appContainer.load(UserModule)
   appContainer.load(DeleteAccountTokenModule)
