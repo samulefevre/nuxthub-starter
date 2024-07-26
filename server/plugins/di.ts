@@ -7,6 +7,9 @@ export default defineNitroPlugin(() => {
   onHubReady(async () => {
     consola.info('Hub is ready')
     consola.info('Import reflect-metadata')
-    initializeContainer()
+
+    const config = useRuntimeConfig()
+
+    initializeContainer(config)
   })
 })
