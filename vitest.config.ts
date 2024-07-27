@@ -6,11 +6,11 @@ export default defineVitestConfig({
   // any custom Vitest config you require
   test: {
     environment: 'nuxt',
-    root: './test/unit',
+    // root: './test/unit',
     // exclude end-to-end tests and node_modules
     // exclude: ['node_modules'],
-    exclude: [...configDefaults.exclude, 'test/e2e'],
-    ...defineConfig,
+    // exclude: [...configDefaults.exclude, 'test/e2e'],
+    // ...defineConfig,
   },
   esbuild: {
     tsconfigRaw: {

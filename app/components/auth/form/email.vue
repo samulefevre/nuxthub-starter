@@ -61,7 +61,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           label="Email"
           name="email"
         >
-          <UInput v-model="state.email" />
+          <UInput
+            v-model="state.email"
+            type="email"
+          />
         </UFormGroup>
 
         <UButton
