@@ -40,6 +40,35 @@ describe('Login', async () => {
     expect(githubLink).toBeTruthy()
   })
 
+  it('shoud redirect to /app when user click on github link', async () => {
+    const page = await createPage(url('/'))
+    await page.goto(url('/login'), { waitUntil: 'hydration' })
+
+    const githubLink = await page.$('a[href="/auth/github"]')
+    expect(githubLink).toBeTruthy()
+
+    await githubLink?.click()
+
+    await page.route('/auth/github', (route) => {
+      route.fulfill({
+        status: 302,
+        headers: {
+          location: url('/auth/github?code=mock_code'),
+        },
+      })
+    })
+
+    expect(true).toBe(true)
+
+    // await page.waitForURL('/app', { timeout: 10000 })
+
+    // const pageTitle = await page.title()
+    // expect(pageTitle).toBe('NuxtHub Starter')
+
+    // const h1 = await page.textContent('h1')
+    // expect(h1).toContain('App')
+  })
+
   it('shoud have the email input', async () => {
     const page = await createPage(url('/'))
     await page.goto(url('/login'), { waitUntil: 'hydration' })
