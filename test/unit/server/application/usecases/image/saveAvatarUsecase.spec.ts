@@ -7,7 +7,7 @@ import { saveAvatarUsecase } from '~~/server/application/usecases/image/saveAvat
 import { destroyContainer, initializeContainer } from '~~/server/di/container'
 
 describe('saveAvatar usecases', () => {
-  const image = fs.readFileSync('test/images/avatar-man.jpg')
+  const image = fs.readFileSync('test/unit/images/avatar-man.jpg')
 
   const base64Image = image.toString('base64')
 
