@@ -5,7 +5,7 @@ import type { IDeleteAccountTokenRepository } from '@@/server/application/reposi
 import { injectable } from 'inversify'
 
 @injectable()
-export class DrizzleDeleteAccountTokenRepository implements IDeleteAccountTokenRepository {
+export class DeleteAccountTokenRepository implements IDeleteAccountTokenRepository {
   upsertDeleteAccountToken = async ({
     userId,
   }: {

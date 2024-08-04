@@ -1,7 +1,7 @@
 import { ContainerModule, type interfaces } from 'inversify'
 import { DI_SYMBOLS } from '~~/server/di/types'
 import type { IMagicLinkRepository } from '~~/server/application/repositories'
-import { DrizzleMagicLinkRepository } from '~~/server/infrastructure/repositories'
+import { MagicLinkRepository } from '~~/server/infrastructure/repositories'
 import { MagicLinkRepositoryMock } from '~~/server/infrastructure/repositories/mocks'
 
 const initializeModule = (bind: interfaces.Bind) => {
@@ -9,7 +9,7 @@ const initializeModule = (bind: interfaces.Bind) => {
     bind<IMagicLinkRepository>(DI_SYMBOLS.IMagicLinkRepository).to(MagicLinkRepositoryMock)
     return
   }
-  bind<IMagicLinkRepository>(DI_SYMBOLS.IMagicLinkRepository).to(DrizzleMagicLinkRepository)
+  bind<IMagicLinkRepository>(DI_SYMBOLS.IMagicLinkRepository).to(MagicLinkRepository)
 }
 
 export const MagicLinkModule = new ContainerModule(initializeModule)

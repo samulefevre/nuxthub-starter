@@ -5,7 +5,7 @@ import type { IUserRepository } from '@@/server/application/repositories'
 import { injectable } from 'inversify'
 
 @injectable()
-export class DrizzleUserRepository implements IUserRepository {
+export class UserRepository implements IUserRepository {
   createUser = async ({
     email,
     name,

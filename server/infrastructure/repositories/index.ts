@@ -1,9 +1,9 @@
-import { DrizzleDeleteAccountTokenRepository } from './drizzleDeleteAccountTokenRepository'
-import { DrizzleMagicLinkRepository } from './drizzleMagicLinkRepository'
-import { DrizzleUserRepository } from './drizzleUserRepository'
+import { DeleteAccountTokenRepository } from './deleteAccountTokenRepository'
+import { MagicLinkRepository } from './magicLinkRepository'
+import { UserRepository } from './userRepository'
 
 export {
-  DrizzleDeleteAccountTokenRepository,
-  DrizzleMagicLinkRepository,
-  DrizzleUserRepository,
+  DeleteAccountTokenRepository,
+  MagicLinkRepository,
+  UserRepository,
 }

@@ -7,7 +7,7 @@ import { destroyContainer, getInjection, initializeContainer } from '~~/server/d
 
 const userData = { email: 'test@example.com', name: 'Test User' }
 
-describe('DrizzleUserRepository', () => {
+describe('UserRepository', () => {
   let userRepository: IUserRepository
 
   beforeEach(() => {

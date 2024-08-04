@@ -5,7 +5,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import type { IDeleteAccountTokenRepository } from '~~/server/application/repositories'
 import { destroyContainer, getInjection, initializeContainer } from '~~/server/di/container'
 
-describe('DrizzleDeleteAccountRepository', () => {
+describe('DeleteAccountRepository', () => {
   let deleteAccountTokenRepository: IDeleteAccountTokenRepository
 
   beforeEach(() => {

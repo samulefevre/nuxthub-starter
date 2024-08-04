@@ -1,9 +1,9 @@
-import { ICredentialRepository } from './ICredentialRepository'
-import { IDeleteAccountTokenRepository } from './IDeleteAccountTokenRepository'
-import { IMagicLinkRepository } from './IMagicLinkRepository'
-import { IUserRepository } from './IUserRepository'
+import type { ICredentialRepository } from './ICredentialRepository'
+import type { IDeleteAccountTokenRepository } from './IDeleteAccountTokenRepository'
+import type { IMagicLinkRepository } from './IMagicLinkRepository'
+import type { IUserRepository } from './IUserRepository'
 
-export {
+export type {
   ICredentialRepository,
   IDeleteAccountTokenRepository,
   IMagicLinkRepository,
