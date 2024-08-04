@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import type { IImageService } from '~~/server/application/services'
-import type { Image } from '~~/server/entities/imageEntity'
+import type { Image } from '~~/server/entities/models/image'
 
 @injectable()
 export class ImageServiceMock implements IImageService {

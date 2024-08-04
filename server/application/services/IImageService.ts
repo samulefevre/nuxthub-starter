@@ -1,4 +1,4 @@
-import type { Image } from '@@/server/entities/imageEntity'
+import type { Image } from '@@/server/entities/models/image'
 
 export interface IImageService {
   saveAvatar({
