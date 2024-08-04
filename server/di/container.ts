@@ -1,6 +1,5 @@
 import { Container } from 'inversify'
 
-import type { NitroRuntimeConfig } from 'nitropack'
 import type { DI_RETURN_TYPES } from './types'
 import { DI_SYMBOLS } from './types'
 import { UserModule, DeleteAccountTokenModule, MagicLinkModule, EmailModule, ImageModule } from './modules'
@@ -9,18 +8,36 @@ const appContainer = new Container({
   defaultScope: 'Singleton',
 })
 
-let config: NitroRuntimeConfig
+interface Config {
+  resendApiKey: string
+  public: {
+    baseUrl: string
+  }
+  emails: {
+    fromEmail: string
+  }
+}
 
-export const getConfig = () => config
+let envConfig: Config
 
-export const initializeContainer = (nitroConfig?: NitroRuntimeConfig) => {
-  if (nitroConfig) {
+export const getConfig = () => envConfig
+
+export const initializeContainer = (config?: Config) => {
+  if (config) {
     // have to use this for production for cloudflare workers to get environment variables
-    config = nitroConfig
+    envConfig = config
   }
   else {
     // have to use this for tests
-    config = useRuntimeConfig()
+    config = {
+      resendApiKey: process.env.NUXT_RESEND_API_KEY ?? '',
+      public: {
+        baseUrl: process.env.NUXT_PUBLIC_BASE_URL ?? '',
+      },
+      emails: {
+        fromEmail: process.env.NUXT_EMAILS_FROM_EMAIL ?? '',
+      },
+    }
   }
 
   appContainer.load(UserModule)

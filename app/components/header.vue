@@ -2,6 +2,7 @@
 import type { HeaderLink } from '@nuxt/ui-pro/types'
 
 const { loggedIn } = useUserSession()
+const localePath = useLocalePath()
 
 const links: HeaderLink[] = [
   { label: 'Home', to: '/' },

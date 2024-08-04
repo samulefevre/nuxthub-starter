@@ -1,3 +1,3 @@
-export { IEmailService } from '@@/server/application/services/IEmailService'
+export type { IEmailService } from '@@/server/application/services/IEmailService'
 
-export { IImageService } from '@@/server/application/services/IImageService'
+export type { IImageService } from '@@/server/application/services/IImageService'

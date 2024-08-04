@@ -1,7 +1,7 @@
 import { deleteMagicLinkUsecase, getMagicLinkByTokenUsecase } from '~~/server/application/usecases/magicLink'
 import { createMagicUserUsecase, getUserByEmailUsecase } from '~~/server/application/usecases/user'
 
-export async function loginWithMagicLinkController(input: { token: string }): Promise<User> {
+export async function loginWithMagicLinkController(input: { token: string }): Promise<User | undefined> {
   const existingMagicLink = await getMagicLinkByTokenUsecase(input.token)
 
   if (!existingMagicLink) {

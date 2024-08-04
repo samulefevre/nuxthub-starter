@@ -21,7 +21,7 @@ export class UserRepositoryMock implements IUserRepository {
   }
 
   createMagicUser({ email }: { email: string }): Promise<User> {
-    let name = email.split('@')[0]
+    let name = email.split('@')[0] ?? ''
 
     // replace all non-alphanumeric characters with space
     name = name.replace(/[^a-zA-Z0-9]/g, ' ')
