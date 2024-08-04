@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { sendMagicLinkController } from '@@/server/interface-adapters/controllers'
+import { sendMagicLinkController } from '@@/server/interface-adapters/controllers/magicLink/sendMagicLinkController'
 import { initializeContainer, destroyContainer } from '~~/server/di/container'
 import { createUserUsecase } from '~~/server/application/usecases/user'
 

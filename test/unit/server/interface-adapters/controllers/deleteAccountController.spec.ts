@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { deleteAccountController } from '@@/server/interface-adapters/controllers'
+import { deleteAccountController } from '@@/server/interface-adapters/controllers/user/deleteAccountController'
 import { initializeContainer, destroyContainer } from '~~/server/di/container'
 import { createUserUsecase } from '~~/server/application/usecases/user'
 import { upsertDeleteAccountTokenUsecase } from '~~/server/application/usecases/deleteAccountToken'

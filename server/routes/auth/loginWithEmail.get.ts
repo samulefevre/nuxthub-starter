@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { loginWithMagicLinkController } from '~~/server/interface-adapters/controllers/loginWithMagicLinkController'
+import { loginWithMagicLinkController } from '~~/server/interface-adapters/controllers/auth/loginWithMagicLinkController'
 
 export default defineEventHandler(async (event) => {
   const schema = z.object({

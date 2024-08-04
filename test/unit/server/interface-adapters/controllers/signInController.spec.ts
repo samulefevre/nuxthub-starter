@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { signInController } from '@@/server/interface-adapters/controllers'
+import { signInController } from '@@/server/interface-adapters/controllers/auth/signInController'
 import { initializeContainer, destroyContainer } from '~~/server/di/container'
 
 describe('signInController', () => {

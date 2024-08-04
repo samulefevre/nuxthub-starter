@@ -1,4 +1,4 @@
-import { sendMagicLinkController } from '~~/server/interface-adapters/controllers/sendMagicLinkController'
+import { sendMagicLinkController } from '~~/server/interface-adapters/controllers/magicLink/sendMagicLinkController'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)

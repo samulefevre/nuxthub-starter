@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { loginWithMagicLinkController } from '@@/server/interface-adapters/controllers'
+import { loginWithMagicLinkController } from '@@/server/interface-adapters/controllers/auth/loginWithMagicLinkController'
 import { initializeContainer, destroyContainer } from '~~/server/di/container'
 import { createUserUsecase } from '~~/server/application/usecases/user'
 import { upsertMagicLinkUsecase } from '~~/server/application/usecases/magicLink'

@@ -1,4 +1,4 @@
-import { sendDeleteAccountEmailController } from '~~/server/interface-adapters/controllers/sendDeleteAccountEmailController'
+import { sendDeleteAccountEmailController } from '~~/server/interface-adapters/controllers/email/sendDeleteAccountEmailController'
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)

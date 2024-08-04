@@ -1,4 +1,4 @@
-import { signInController } from '~~/server/interface-adapters/controllers/signInController'
+import { signInController } from '~~/server/interface-adapters/controllers/auth/signInController'
 
 export default oauthGoogleEventHandler({
   config: {

@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { updateAvatarController } from '@@/server/interface-adapters/controllers/updateAvatarController'
+import { updateAvatarController } from '@@/server/interface-adapters/controllers/image/updateAvatarController'
 import { initializeContainer, destroyContainer } from '~~/server/di/container'
 import { createUserUsecase } from '~~/server/application/usecases/user'
 
