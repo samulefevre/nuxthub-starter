@@ -1,5 +1,6 @@
 import { injectable } from 'inversify'
 import type { IMagicLinkRepository } from '~~/server/application/repositories'
+import type { MagicLink } from '~~/server/entities/models/magicLink'
 
 @injectable()
 export class MagicLinkRepositoryMock implements IMagicLinkRepository {

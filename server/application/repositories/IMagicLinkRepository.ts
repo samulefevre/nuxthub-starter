@@ -1,3 +1,5 @@
+import type { MagicLink } from '~~/server/entities/models/magicLink'
+
 export interface IMagicLinkRepository {
   getMagicLinkByEmail(email: string): Promise<MagicLink | undefined>
   getMagicLinkByToken(token: string): Promise<MagicLink | undefined>

@@ -1,8 +1,8 @@
 import { randomUUID } from 'uncrypto'
-import * as tables from '@@/server/database/schema'
 import { eq } from 'drizzle-orm'
 import type { IMagicLinkRepository } from '@@/server/application/repositories'
 import { injectable } from 'inversify'
+import type { MagicLink } from '~~/server/entities/models/magicLink'
 
 @injectable()
 export class MagicLinkRepository implements IMagicLinkRepository {

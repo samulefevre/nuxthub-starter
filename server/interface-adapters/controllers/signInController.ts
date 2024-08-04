@@ -1,8 +1,10 @@
 import { getFileFromUrlUsecase, saveAvatarUsecase } from '~~/server/application/usecases/image'
 import { createUserUsecase, getUserByEmailUsecase, updateUserUsecase } from '~~/server/application/usecases/user'
-import { createUserSchema, type CreateUserInput } from '~~/server/entities/models/user'
+import type { User, CreateUserInput } from '~~/server/entities/models/user'
 
-export async function signInController(input: CreateUserInput): Promise<User> {
+import { createUserSchema } from '~~/server/entities/models/user'
+
+export async function signInController(input: CreateUserInput): Promise< User> {
   const { data, error } = createUserSchema.safeParse(input)
 
   if (error) {

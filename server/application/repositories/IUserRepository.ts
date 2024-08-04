@@ -1,3 +1,5 @@
+import type { User } from '~~/server/entities/models/user'
+
 export interface IUserRepository {
   createUser({ email, name }: { email: string, name: string }): Promise<User | undefined>
   createMagicUser({ email }: { email: string }): Promise<User | undefined>

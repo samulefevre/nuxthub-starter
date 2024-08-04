@@ -1,3 +1,5 @@
+import type { DeleteAccountToken } from '~~/server/entities/models/deleteAccountToken'
+
 export interface IDeleteAccountTokenRepository {
   upsertDeleteAccountToken({
     userId,

@@ -1,8 +1,7 @@
-import * as tables from '@@/server/database/schema'
-
 import { eq } from 'drizzle-orm'
 import type { IUserRepository } from '@@/server/application/repositories'
 import { injectable } from 'inversify'
+import type { User } from '~~/server/entities/models/user'
 
 @injectable()
 export class UserRepository implements IUserRepository {

@@ -1,5 +1,4 @@
 import { randomUUID } from 'uncrypto'
-import * as tables from '@@/server/database/schema'
 import { eq, and } from 'drizzle-orm'
 import type { IDeleteAccountTokenRepository } from '@@/server/application/repositories'
 import { injectable } from 'inversify'

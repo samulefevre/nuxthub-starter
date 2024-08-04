@@ -1,4 +1,7 @@
 import { z } from 'zod'
+import type { schema } from '~~/server/utils/drizzle'
+
+export type User = typeof schema.users.$inferSelect
 
 export const createUserSchema = z.object({
   email: z.string().email('Invalid email'),

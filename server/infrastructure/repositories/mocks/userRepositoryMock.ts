@@ -1,5 +1,6 @@
 import { injectable } from 'inversify'
 import type { IUserRepository } from '~~/server/application/repositories'
+import type { User } from '~~/server/entities/models/user'
 
 @injectable()
 export class UserRepositoryMock implements IUserRepository {

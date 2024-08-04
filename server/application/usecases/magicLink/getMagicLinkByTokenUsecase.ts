@@ -1,4 +1,5 @@
 import { getInjection } from '~~/server/di/container'
+import type { MagicLink } from '~~/server/entities/models/magicLink'
 
 export const getMagicLinkByTokenUsecase = async (
   token: string): Promise<MagicLink | undefined> => {
