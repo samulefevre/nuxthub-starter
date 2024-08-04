@@ -29,7 +29,7 @@ export const initializeContainer = (config?: Config) => {
   }
   else {
     // have to use this for tests
-    config = {
+    envConfig = {
       resendApiKey: process.env.NUXT_RESEND_API_KEY ?? '',
       public: {
         baseUrl: process.env.NUXT_PUBLIC_BASE_URL ?? '',
