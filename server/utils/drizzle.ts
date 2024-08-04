@@ -11,6 +11,5 @@ export function useDrizzle() {
 }
 
 export type User = typeof schema.users.$inferSelect
-export type Credential = typeof schema.credentials.$inferSelect
 export type MagicLink = typeof schema.magicLinks.$inferSelect
 export type DeleteAccountToken = typeof schema.deleteAccountTokens.$inferSelect
