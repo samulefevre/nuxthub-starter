@@ -9,8 +9,11 @@ A template to skip boring setup
 - I18n
 - @nuxt/ui
 - nuxt-auth-utils
+- Clean Architecture
+- Login (OAuth Providers, MagicLink)
+- Settings (avatar and account deletion)
 
-## Steps
+## Setup
 
 - create Google credentials
 - install dependancies
