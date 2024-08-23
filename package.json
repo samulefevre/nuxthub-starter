@@ -51,7 +51,7 @@
     "drizzle-kit": "^0.24.1",
     "happy-dom": "^15.0.0",
     "nuxi": "^3.12.0",
-    "nuxt": "^3.12.4",
+    "nuxt": "^3.13.0",
     "nuxt-auth-utils": "^0.3.4",
     "playwright-core": "^1.46.1",
     "vitest": "2.0.5",
