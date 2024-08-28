@@ -11,7 +11,6 @@ const { chooseFile } = useSettings()
       </h3>
     </template>
     <div class="flex flex-row gap-4 items-center">
-      {{ user }}
       <UAvatar
         :src="user.avatarUrl ? `/images/${user.avatarUrl}` : undefined"
         :alt="user.name"
