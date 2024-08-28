@@ -11,7 +11,7 @@ export class UserRepository implements IUserRepository {
   }: {
     email: string
     name: string
-  }) => {
+  }): Promise<User> => {
     const user = await useDrizzle().insert(tables.users).values({
       name,
       email,
@@ -29,7 +29,7 @@ export class UserRepository implements IUserRepository {
     email,
   }: {
     email: string
-  }) => {
+  }): Promise<User> => {
     let name = email.split('@')[0] ?? ''
 
     // replace all non-alphanumeric characters with space
