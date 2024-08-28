@@ -4,7 +4,7 @@ const { chooseFile } = useSettings()
 </script>
 
 <template>
-  <UCard>
+  <UCard v-if="user">
     <template #header>
       <h3 class="font-bold text-lg">
         Avatar
@@ -12,8 +12,8 @@ const { chooseFile } = useSettings()
     </template>
     <div class="flex flex-row gap-4 items-center">
       <UAvatar
-        :src="`/images/${user?.avatarUrl}` ?? undefined"
-        :alt="user?.name"
+        :src="user.avatarUrl ? `/images/${user.avatarUrl}` : undefined"
+        :alt="user.name"
         size="xl"
       />
       <UButton

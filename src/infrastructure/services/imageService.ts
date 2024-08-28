@@ -12,7 +12,7 @@ export class ImageService implements IImageService {
     file: File
     userId: number
   }) => {
-    const fileName = `avatar-${randomUUID()}`
+    const fileName = `avatar-${randomUUID()}.png`
     const blob = await hubBlob().put(fileName, file, {
       addRandomSuffix: false,
       prefix: `${userId}`,
@@ -49,6 +49,7 @@ export class ImageService implements IImageService {
       return file
     }
     catch (error) {
+      console.error(error)
       return undefined
     }
   }

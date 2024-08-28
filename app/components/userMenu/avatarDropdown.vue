@@ -40,13 +40,14 @@ const items: DropdownItem[][] = [
 
 <template>
   <UDropdown
+    v-if="user"
     :items="items"
     :ui="{ item: { disabled: 'cursor-text select-text' } }"
     :popper="{ placement: 'bottom-start' }"
   >
     <UAvatar
-      :src="`/images/${user?.avatarUrl}` ?? undefined"
-      :alt="user?.name"
+      :src="user.avatarUrl ? `/images/${user.avatarUrl}` : undefined"
+      :alt="user.name"
     />
 
     <template #account="{ item }">

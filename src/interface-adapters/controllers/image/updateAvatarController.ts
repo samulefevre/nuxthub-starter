@@ -1,39 +1,53 @@
+import { startSpan } from '@sentry/nuxt'
 import { deleteAvatarUsecase, saveAvatarUsecase } from '~~/src/application/usecases/image'
-import { updateUserUsecase } from '~~/src/application/usecases/user'
+import { getUserUsecase, updateUserUsecase } from '~~/src/application/usecases/user'
 
 interface IUpdateAvatar {
   file: File
   userId: number
-  currentAvatar?: string
 }
 
-export async function updateAvatarController({ file, userId, currentAvatar }: IUpdateAvatar) {
-  if (currentAvatar) {
-    await deleteAvatarUsecase(currentAvatar)
-  }
-
-  const blob = await saveAvatarUsecase({
-    file,
-    userId,
-  })
-
-  if (!blob) {
-    throw new Error('Failed to upload file')
-  }
-
-  const updatedUser = await updateUserUsecase({
-    userId,
-    updatedUser: {
-      avatar: blob.pathname,
+export async function updateAvatarController({ file, userId }: IUpdateAvatar) {
+  return await startSpan(
+    {
+      name: 'updateAvatar Controller',
     },
-  })
+    async () => {
+      console.log('updateAvatar Controller')
 
-  if (!updatedUser) {
-    throw new Error('User not updated')
-  }
+      const user = await getUserUsecase(userId)
 
-  return {
-    updatedUser,
-    blob,
-  }
+      if (!user) {
+        throw new Error('User not found')
+      }
+
+      if (user.avatar) {
+        await deleteAvatarUsecase(user.avatar)
+      }
+
+      const blob = await saveAvatarUsecase({
+        file,
+        userId,
+      })
+
+      if (!blob) {
+        throw new Error('Failed to upload file')
+      }
+
+      const updatedUser = await updateUserUsecase({
+        userId,
+        updatedUser: {
+          avatar: blob.pathname,
+        },
+      })
+
+      if (!updatedUser) {
+        throw new Error('User not updated')
+      }
+
+      return {
+        updatedUser,
+        blob,
+      }
+    })
 }
