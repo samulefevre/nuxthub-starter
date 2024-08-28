@@ -1,22 +1,28 @@
 import { startSpan } from '@sentry/nuxt'
 import { deleteAvatarUsecase, saveAvatarUsecase } from '~~/src/application/usecases/image'
-import { updateUserUsecase } from '~~/src/application/usecases/user'
+import { getUserUsecase, updateUserUsecase } from '~~/src/application/usecases/user'
 
 interface IUpdateAvatar {
   file: File
   userId: number
-  currentAvatar?: string
 }
 
-export async function updateAvatarController({ file, userId, currentAvatar }: IUpdateAvatar) {
+export async function updateAvatarController({ file, userId }: IUpdateAvatar) {
   return await startSpan(
     {
       name: 'updateAvatar Controller',
     },
     async () => {
       console.log('updateAvatar Controller')
-      if (currentAvatar) {
-        await deleteAvatarUsecase(currentAvatar)
+
+      const user = await getUserUsecase(userId)
+
+      if (!user) {
+        throw new Error('User not found')
+      }
+
+      if (user.avatar) {
+        await deleteAvatarUsecase(user.avatar)
       }
 
       const blob = await saveAvatarUsecase({
