@@ -1,4 +1,4 @@
-import { updateAvatarController } from '~~/server/interface-adapters/controllers/image/updateAvatarController'
+import { updateAvatarController } from '~~/src/interface-adapters/controllers/image/updateAvatarController'
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)

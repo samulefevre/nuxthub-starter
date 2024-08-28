@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { deleteAccountController } from '~~/server/interface-adapters/controllers/user/deleteAccountController'
+import { deleteAccountController } from '~~/src/interface-adapters/controllers/user/deleteAccountController'
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event)

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { loginWithMagicLinkController } from '~~/server/interface-adapters/controllers/auth/loginWithMagicLinkController'
+import { loginWithMagicLinkController } from '~~/src/interface-adapters/controllers/auth/loginWithMagicLinkController'
 
 export default defineEventHandler(async (event) => {
   const schema = z.object({
@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
     return sendRedirect(event, '/app')
   }
   catch (error) {
+    console.error(error)
     return sendRedirect(event, '/auth/magicLinkExpired')
   }
 })

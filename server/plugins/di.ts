@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { initializeContainer } from '@@/server/di/container'
+import { initializeContainer } from '@@/di/container'
 
 import { consola } from 'consola'
 

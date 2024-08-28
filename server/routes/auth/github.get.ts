@@ -1,4 +1,4 @@
-import { signInController } from '~~/server/interface-adapters/controllers/auth/signInController'
+import { signInController } from '~~/src/interface-adapters/controllers/auth/signInController'
 
 export default oauthGitHubEventHandler({
   config: {
