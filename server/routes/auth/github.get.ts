@@ -26,7 +26,7 @@ export default oauthGitHubEventHandler({
       return sendRedirect(event, '/app')
     }
     catch (error) {
-      event.context.$sentry.captureException(error)
+      console.error(error)
       throw createError({
         message: 'An error occurred while signing in',
         statusCode: 500,

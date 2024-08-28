@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   // Nuxt Modules
   // https://nuxt.com/modules
   modules: [
+    '@sentry/nuxt/module',
     '@nuxt/test-utils/module',
     '@vueuse/nuxt',
     '@nuxthub/core',
@@ -23,14 +24,14 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl: 'http://localhost:3000',
+      sentry: {
+        dsn: '',
+        environment: 'development',
+      },
     },
     resendApiKey: '',
     emails: {
       fromEmail: 'onboarding@resend.dev',
-    },
-    sentry: {
-      dsn: '',
-      environment: 'development',
     },
   },
   eslint: {
@@ -98,6 +99,13 @@ export default defineNuxtConfig({
   content: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
+  },
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: process.env.NUXT_SENTRY_ORG,
+      project: process.env.NUXT_SENTRY_PROJECT,
+      authToken: process.env.NUXT_SENTRY_AUTH_TOKEN,
+    },
   },
   compatibilityDate: '2024-07-02',
 })
