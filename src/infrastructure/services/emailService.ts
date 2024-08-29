@@ -7,6 +7,7 @@ import { startSpan, captureException } from '@sentry/nuxt'
 import magicLink from '@/components/emails/magicLink.vue'
 import deleteAccount from '@/components/emails/deleteAccount.vue'
 import { DI_SYMBOLS } from '~~/di/types'
+import { UnexpectedError } from '~~/src/entities/errors/common'
 
 interface EmailOptions {
   from: string
@@ -75,7 +76,7 @@ export class EmailService implements IEmailService {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -113,7 +114,7 @@ export class EmailService implements IEmailService {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )

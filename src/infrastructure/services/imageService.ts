@@ -3,6 +3,7 @@ import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
 import type { IImageService } from '@@/src/application/services'
 import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
+import { UnexpectedError } from '~~/src/entities/errors/common'
 
 @injectable()
 export class ImageService implements IImageService {
@@ -29,7 +30,7 @@ export class ImageService implements IImageService {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -47,7 +48,7 @@ export class ImageService implements IImageService {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )

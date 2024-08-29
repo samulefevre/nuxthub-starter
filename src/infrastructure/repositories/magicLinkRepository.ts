@@ -4,6 +4,7 @@ import type { IMagicLinkRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
 import type { MagicLink } from '~~/src/entities/models/magicLink'
+import { UnexpectedError } from '~~/src/entities/errors/common'
 
 @injectable()
 export class MagicLinkRepository implements IMagicLinkRepository {
@@ -20,7 +21,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -39,7 +40,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -72,7 +73,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -91,7 +92,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )

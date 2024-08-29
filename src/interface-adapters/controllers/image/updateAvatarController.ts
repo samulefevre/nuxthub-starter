@@ -41,10 +41,6 @@ export async function updateAvatarController({ file, userId }: IUpdateAvatar) {
         },
       })
 
-      if (!updatedUser) {
-        throw new Error('User not updated')
-      }
-
       return {
         updatedUser,
         blob,

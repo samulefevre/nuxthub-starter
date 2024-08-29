@@ -3,6 +3,7 @@ import { eq, and } from 'drizzle-orm'
 import type { IDeleteAccountTokenRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
+import { UnexpectedError } from '~~/src/entities/errors/common'
 
 @injectable()
 export class DeleteAccountTokenRepository implements IDeleteAccountTokenRepository {
@@ -37,7 +38,7 @@ export class DeleteAccountTokenRepository implements IDeleteAccountTokenReposito
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -60,7 +61,7 @@ export class DeleteAccountTokenRepository implements IDeleteAccountTokenReposito
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -83,7 +84,7 @@ export class DeleteAccountTokenRepository implements IDeleteAccountTokenReposito
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )

@@ -3,6 +3,7 @@ import type { IUserRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
 import type { User } from '~~/src/entities/models/user'
+import { UnexpectedError } from '~~/src/entities/errors/common'
 
 @injectable()
 export class UserRepository implements IUserRepository {
@@ -33,7 +34,7 @@ export class UserRepository implements IUserRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -71,7 +72,7 @@ export class UserRepository implements IUserRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -88,7 +89,7 @@ export class UserRepository implements IUserRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -107,7 +108,7 @@ export class UserRepository implements IUserRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -126,11 +127,13 @@ export class UserRepository implements IUserRepository {
       },
       async () => {
         try {
-          return await useDrizzle().update(tables.users).set(updatedUser).where(eq(tables.users.id, userId)).returning().get()
+          const user = await useDrizzle().update(tables.users).set(updatedUser).where(eq(tables.users.id, userId)).returning().get()
+
+          return user
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
@@ -149,7 +152,7 @@ export class UserRepository implements IUserRepository {
         }
         catch (error) {
           captureException(error)
-          throw error
+          throw new UnexpectedError()
         }
       },
     )
