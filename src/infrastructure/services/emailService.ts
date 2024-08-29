@@ -3,6 +3,7 @@ import { Resend } from 'resend'
 
 import type { IEmailService } from '@@/src/application/services/IEmailService'
 import { inject, injectable } from 'inversify'
+import { startSpan, captureException } from '@sentry/nuxt'
 import magicLink from '@/components/emails/magicLink.vue'
 import deleteAccount from '@/components/emails/deleteAccount.vue'
 import { DI_SYMBOLS } from '~~/di/types'
@@ -46,47 +47,75 @@ export class EmailService implements IEmailService {
     email: string
     token: string
   }) {
-    const template = await render(magicLink, {
-      url: `${this.baseUrl}/auth/loginWithEmail?token=${token}`,
-    })
+    return await startSpan(
+      {
+        name: 'EmailService > sendMagicLink',
+      },
+      async () => {
+        try {
+          const template = await render(magicLink, {
+            url: `${this.baseUrl}/auth/loginWithEmail?token=${token}`,
+          })
 
-    const options: EmailOptions = {
-      from: this.fromEmail,
-      to: email,
-      subject: 'Login with email',
-      html: template,
-    }
+          const options: EmailOptions = {
+            from: this.fromEmail,
+            to: email,
+            subject: 'Login with email',
+            html: template,
+          }
 
-    const { error } = await this.resend.emails.send(options)
+          const { error } = await this.resend.emails.send(options)
 
-    if (error) {
-      throw new Error(error.message)
-    }
+          if (error) {
+            captureException(error)
+            throw new Error(error.message)
+          }
 
-    return { ok: true }
+          return { ok: true }
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   async sendEmailDeleteAccount({ email, token }: {
     email: string
     token: string
   }) {
-    const template = await render(deleteAccount, {
-      url: `${this.baseUrl}/deleteAccount?token=${token}`,
-    })
+    return await startSpan(
+      {
+        name: 'EmailService > sendEmailDeleteAccount',
+      },
+      async () => {
+        try {
+          const template = await render(deleteAccount, {
+            url: `${this.baseUrl}/deleteAccount?token=${token}`,
+          })
 
-    const options: EmailOptions = {
-      from: this.fromEmail,
-      to: email,
-      subject: 'Delete account',
-      html: template,
-    }
+          const options: EmailOptions = {
+            from: this.fromEmail,
+            to: email,
+            subject: 'Delete account',
+            html: template,
+          }
 
-    const { error } = await this.resend.emails.send(options)
+          const { error } = await this.resend.emails.send(options)
 
-    if (error) {
-      throw new Error(error.message)
-    }
+          if (error) {
+            captureException(error)
+            throw new Error(error.message)
+          }
 
-    return { ok: true }
+          return { ok: true }
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 }

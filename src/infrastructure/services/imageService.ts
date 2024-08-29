@@ -2,6 +2,7 @@ import { randomUUID } from 'uncrypto'
 import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
 import type { IImageService } from '@@/src/application/services'
 import { injectable } from 'inversify'
+import { startSpan, captureException } from '@sentry/nuxt'
 
 @injectable()
 export class ImageService implements IImageService {
@@ -12,45 +13,78 @@ export class ImageService implements IImageService {
     file: File
     userId: number
   }) => {
-    const fileName = `avatar-${randomUUID()}.png`
-    const blob = await hubBlob().put(fileName, file, {
-      addRandomSuffix: false,
-      prefix: `${userId}`,
-    })
+    return await startSpan(
+      {
+        name: 'ImageService > saveAvatar',
+      },
+      async () => {
+        try {
+          const fileName = `avatar-${randomUUID()}.png`
+          const blob = await hubBlob().put(fileName, file, {
+            addRandomSuffix: false,
+            prefix: `${userId}`,
+          })
 
-    return blob
+          return blob
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   deleteAvatar = async (pathname: string) => {
-    await hubBlob().delete(pathname)
-    return { pathname }
+    return await startSpan(
+      {
+        name: 'ImageService > deleteAvatar',
+      },
+      async () => {
+        try {
+          await hubBlob().delete(pathname)
+          return { pathname }
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   getFileFromUrl = async (url: string) => {
-    try {
-      const res = await $fetch.raw(url, { responseType: 'arrayBuffer' })
+    return await startSpan(
+      {
+        name: 'ImageService > getFileFromUrl',
+      },
+      async () => {
+        try {
+          const res = await fetch(url)
 
-      const contentType = res.headers.get('Content-Type')
+          const contentType = res.headers.get('Content-Type')
 
-      if (!contentType || !contentType.startsWith('image/')) {
-        return undefined
-      }
+          if (!contentType || !contentType.startsWith('image/')) {
+            return undefined
+          }
 
-      if (!res) {
-        return undefined
-      }
+          if (!res) {
+            return undefined
+          }
 
-      const blob = res._data as ArrayBuffer
+          const blob = await res.arrayBuffer()
 
-      const fileExt = url.split('.').pop()
+          const fileExt = url.split('.').pop()
 
-      const file = new File([blob], `avatar.${fileExt}`, { type: `image/${fileExt}` })
+          const file = new File([blob], `avatar.${fileExt}`, { type: `image/${fileExt}` })
 
-      return file
-    }
-    catch (error) {
-      console.error(error)
-      return undefined
-    }
+          return file
+        }
+        catch (error) {
+          captureException(error)
+          return undefined
+        }
+      },
+    )
   }
 }

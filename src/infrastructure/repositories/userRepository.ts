@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm'
 import type { IUserRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
+import { startSpan, captureException } from '@sentry/nuxt'
 import type { User } from '~~/src/entities/models/user'
 
 @injectable()
@@ -12,17 +13,30 @@ export class UserRepository implements IUserRepository {
     email: string
     name: string
   }): Promise<User> => {
-    const user = await useDrizzle().insert(tables.users).values({
-      name,
-      email,
-    }).onConflictDoUpdate({
-      target: tables.users.email,
-      set: {
-        lastLogin: new Date(),
+    return await startSpan(
+      {
+        name: 'UserRepository > createUser',
       },
-    }).returning().get()
+      async () => {
+        try {
+          const user = await useDrizzle().insert(tables.users).values({
+            name,
+            email,
+          }).onConflictDoUpdate({
+            target: tables.users.email,
+            set: {
+              lastLogin: new Date(),
+            },
+          }).returning().get()
 
-    return user
+          return user
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   createMagicUser = async ({
@@ -30,34 +44,73 @@ export class UserRepository implements IUserRepository {
   }: {
     email: string
   }): Promise<User> => {
-    let name = email.split('@')[0] ?? ''
+    return await startSpan(
+      {
+        name: 'UserRepository > createMagicUser',
+      },
+      async () => {
+        let name = email.split('@')[0] ?? ''
 
-    // replace all non-alphanumeric characters with space
-    name = name.replace(/[^a-zA-Z0-9]/g, ' ')
+        // replace all non-alphanumeric characters with space
+        name = name.replace(/[^a-zA-Z0-9]/g, ' ')
 
-    //  uppercasing the first letter of each word
-    name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+        //  uppercasing the first letter of each word
+        name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 
-    const user = await useDrizzle().insert(tables.users).values({
-      name,
-      email,
-    }).returning().get()
+        try {
+          const user = await useDrizzle().insert(tables.users).values({
+            name,
+            email,
+          }).returning().get()
 
-    if (!user) {
-      throw new Error('Failed to create magic user')
-    }
+          if (!user) {
+            throw new Error('Failed to create magic user')
+          }
 
-    return user
+          return user
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   getUser = async (userId: number) => {
-    return await useDrizzle().select().from(tables.users).where(eq(tables.users.id, userId)).get()
+    return await startSpan(
+      {
+        name: 'UserRepository > getUser',
+      },
+      async () => {
+        try {
+          return await useDrizzle().select().from(tables.users).where(eq(tables.users.id, userId)).get()
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   getUserByEmail = async (email: string) => {
-    const user = await useDrizzle().select().from(tables.users).where(eq(tables.users.email, email)).get()
+    return await startSpan(
+      {
+        name: 'UserRepository > getUserByEmail',
+      },
+      async () => {
+        try {
+          const user = await useDrizzle().select().from(tables.users).where(eq(tables.users.email, email)).get()
 
-    return user
+          return user
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   updateUser = async ({
@@ -66,13 +119,39 @@ export class UserRepository implements IUserRepository {
   }: {
     userId: number
     updatedUser: Partial<User>
-  }) => {
-    return await useDrizzle().update(tables.users).set(updatedUser).where(eq(tables.users.id, userId)).returning().get()
+  }): Promise<User> => {
+    return await startSpan(
+      {
+        name: 'UserRepository > updateUser',
+      },
+      async () => {
+        try {
+          return await useDrizzle().update(tables.users).set(updatedUser).where(eq(tables.users.id, userId)).returning().get()
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   deleteUser = async ({ userId }: { userId: number }) => {
-    const user = await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
+    return await startSpan(
+      {
+        name: 'UserRepository > deleteUser',
+      },
+      async () => {
+        try {
+          const user = await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
 
-    return user
+          return user
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 }

@@ -8,6 +8,6 @@ export interface IUserRepository {
   updateUser({ userId, updatedUser }: {
     userId: number
     updatedUser: Partial<User | undefined>
-  }): Promise<User | undefined>
+  }): Promise<User>
   deleteUser({ userId }: { userId: number }): Promise<User | undefined>
 }

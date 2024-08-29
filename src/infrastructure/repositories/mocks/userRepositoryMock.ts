@@ -1,5 +1,6 @@
 import { injectable } from 'inversify'
 import type { IUserRepository } from '~~/src/application/repositories'
+import { DatabaseOperationError } from '~~/src/entities/errors/common'
 import type { User } from '~~/src/entities/models/user'
 
 @injectable()
@@ -41,11 +42,15 @@ export class UserRepositoryMock implements IUserRepository {
     return Promise.resolve(this.users.find(user => user.email === email))
   }
 
-  updateUser({ userId, updatedUser }: { userId: number, updatedUser: Partial<User> }): Promise<User | undefined> {
+  updateUser({ userId, updatedUser }: { userId: number, updatedUser: Partial<User> }): Promise<User> {
     const user = this.users.find(user => user.id === userId)
-    if (user) {
-      Object.assign(user, updatedUser)
+
+    if (!user) {
+      throw new DatabaseOperationError('User not found')
     }
+
+    Object.assign(user, updatedUser)
+
     return Promise.resolve(user)
   }
 

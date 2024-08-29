@@ -1,4 +1,5 @@
 import { Container } from 'inversify'
+import { startSpan } from '@sentry/nuxt'
 
 import type { DI_RETURN_TYPES } from './types'
 import { DI_SYMBOLS } from './types'
@@ -48,13 +49,24 @@ export const initializeContainer = (config?: Config) => {
 }
 
 export const destroyContainer = () => {
-  appContainer.unbindAll()
+  appContainer.unload(UserModule)
+  appContainer.unload(DeleteAccountTokenModule)
+  appContainer.unload(MagicLinkModule)
+  appContainer.unload(EmailModule)
+  appContainer.unload(ImageModule)
 }
 
 export function getInjection<K extends keyof typeof DI_SYMBOLS>(
   symbol: K,
 ): DI_RETURN_TYPES[K] {
-  return appContainer.get(DI_SYMBOLS[symbol])
+  return startSpan(
+    {
+      name: '(di) getInjection',
+      op: 'function',
+      attributes: { symbol: symbol.toString() },
+    },
+    () => appContainer.get(DI_SYMBOLS[symbol]),
+  )
 }
 
 export { appContainer }

@@ -2,20 +2,47 @@ import { randomUUID } from 'uncrypto'
 import { eq } from 'drizzle-orm'
 import type { IMagicLinkRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
+import { startSpan, captureException } from '@sentry/nuxt'
 import type { MagicLink } from '~~/src/entities/models/magicLink'
 
 @injectable()
 export class MagicLinkRepository implements IMagicLinkRepository {
   async getMagicLinkByEmail(email: string): Promise<MagicLink | undefined> {
-    const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
+    return await startSpan(
+      {
+        name: 'MagicLinkRepository > getMagicLinkByEmail',
+      },
+      async () => {
+        try {
+          const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
 
-    return magicLink
+          return magicLink
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   async getMagicLinkByToken(token: string): Promise<MagicLink | undefined> {
-    const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.token, token)).get()
+    return await startSpan(
+      {
+        name: 'MagicLinkRepository > getMagicLinkByToken',
+      },
+      async () => {
+        try {
+          const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.token, token)).get()
 
-    return magicLink
+          return magicLink
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   async upsertMagicLink(email: string): Promise<MagicLink | undefined> {
@@ -23,24 +50,50 @@ export class MagicLinkRepository implements IMagicLinkRepository {
     const tokenTTL = 5 * 60 * 1000 // 5 min
     const tokenExpiresAt = new Date(Date.now() + tokenTTL)
 
-    const magicLink = await useDrizzle().insert(tables.magicLinks).values({
-      email,
-      token,
-      tokenExpiresAt,
-    }).onConflictDoUpdate({
-      target: tables.magicLinks.email,
-      set: {
-        token,
-        tokenExpiresAt,
+    return await startSpan(
+      {
+        name: 'MagicLinkRepository > upsertMagicLink',
       },
-    }).returning().get()
+      async () => {
+        try {
+          const magicLink = await useDrizzle().insert(tables.magicLinks).values({
+            email,
+            token,
+            tokenExpiresAt,
+          }).onConflictDoUpdate({
+            target: tables.magicLinks.email,
+            set: {
+              token,
+              tokenExpiresAt,
+            },
+          }).returning().get()
 
-    return magicLink
+          return magicLink
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 
   async deleteMagicLink(token: string): Promise<MagicLink | undefined> {
-    const magicLink = await useDrizzle().delete(tables.magicLinks).where(eq(tables.magicLinks.token, token)).returning().get()
+    return await startSpan(
+      {
+        name: 'MagicLinkRepository > deleteMagicLink',
+      },
+      async () => {
+        try {
+          const magicLink = await useDrizzle().delete(tables.magicLinks).where(eq(tables.magicLinks.token, token)).returning().get()
 
-    return magicLink
+          return magicLink
+        }
+        catch (error) {
+          captureException(error)
+          throw error
+        }
+      },
+    )
   }
 }
