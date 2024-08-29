@@ -4,7 +4,7 @@ import type { IMagicLinkRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
 import type { MagicLink } from '~~/src/entities/models/magicLink'
-import { UnexpectedError } from '~~/src/entities/errors/common'
+import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
 @injectable()
 export class MagicLinkRepository implements IMagicLinkRepository {
@@ -87,6 +87,10 @@ export class MagicLinkRepository implements IMagicLinkRepository {
       async () => {
         try {
           const magicLink = await useDrizzle().delete(tables.magicLinks).where(eq(tables.magicLinks.token, token)).returning().get()
+
+          if (!magicLink) {
+            throw new DatabaseOperationError('Failed to delete magic link')
+          }
 
           return magicLink
         }

@@ -3,7 +3,7 @@ import type { IUserRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
 import type { User } from '~~/src/entities/models/user'
-import { UnexpectedError } from '~~/src/entities/errors/common'
+import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
 @injectable()
 export class UserRepository implements IUserRepository {
@@ -147,6 +147,10 @@ export class UserRepository implements IUserRepository {
       async () => {
         try {
           const user = await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
+
+          if (!user) {
+            throw new DatabaseOperationError('Failed to delete user')
+          }
 
           return user
         }

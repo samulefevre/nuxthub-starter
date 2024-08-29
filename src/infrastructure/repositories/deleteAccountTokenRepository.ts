@@ -3,7 +3,7 @@ import { eq, and } from 'drizzle-orm'
 import type { IDeleteAccountTokenRepository } from '@@/src/application/repositories'
 import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
-import { UnexpectedError } from '~~/src/entities/errors/common'
+import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
 @injectable()
 export class DeleteAccountTokenRepository implements IDeleteAccountTokenRepository {
@@ -79,6 +79,10 @@ export class DeleteAccountTokenRepository implements IDeleteAccountTokenReposito
               eq(tables.deleteAccountTokens.token, token),
               eq(tables.deleteAccountTokens.userId, userId),
             )).returning().get()
+
+          if (!deleteAccountToken) {
+            throw new DatabaseOperationError('DeleteAccountToken not found')
+          }
 
           return deleteAccountToken
         }

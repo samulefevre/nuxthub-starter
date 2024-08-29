@@ -26,7 +26,6 @@ describe('updateAvatarController', () => {
     const avatar = await updateAvatarController({
       file: new File([blob], 'avatar.png', { type: 'image/png' }),
       userId: user!.id,
-      currentAvatar: 'current-avatar',
     })
 
     expect(avatar).toBeDefined()
