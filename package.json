@@ -18,12 +18,12 @@
     "worker:preview": "nuxt build && wrangler pages dev dist/"
   },
   "dependencies": {
-    "@iconify-json/simple-icons": "^1.2.1",
+    "@iconify-json/simple-icons": "^1.2.2",
     "@nuxt/eslint": "^0.5.6",
-    "@nuxt/ui-pro": "^1.4.1",
-    "@nuxthub/core": "^0.7.9",
+    "@nuxt/ui-pro": "^1.4.2",
+    "@nuxthub/core": "^0.7.12",
     "@playwright/test": "^1.47.0",
-    "@sentry/nuxt": "^8.28.0",
+    "@sentry/nuxt": "^8.30.0",
     "@types/better-sqlite3": "^7.6.11",
     "@vitejs/plugin-vue": "^5.1.3",
     "@vue-email/components": "^0.0.19",
@@ -35,8 +35,8 @@
     "reflect-metadata": "^0.2.2",
     "resend": "^4.0.0",
     "uncrypto": "^0.1.3",
-    "vue": "^3.5.3",
-    "vue-router": "^4.4.3",
+    "vue": "^3.5.4",
+    "vue-router": "^4.4.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -48,15 +48,15 @@
     "@vitest/coverage-v8": "^2.0.5",
     "@vitest/ui": "^2.0.5",
     "@vue/test-utils": "^2.4.6",
-    "better-sqlite3": "^11.2.1",
+    "better-sqlite3": "^11.3.0",
     "drizzle-kit": "^0.24.2",
     "happy-dom": "^15.7.3",
     "nuxi": "^3.13.1",
     "nuxt": "^3.13.1",
-    "nuxt-auth-utils": "^0.3.6",
+    "nuxt-auth-utils": "^0.3.7",
     "playwright-core": "^1.47.0",
     "vitest": "2.0.5",
     "vue-tsc": "^2.1.6",
-    "wrangler": "3.75.0"
+    "wrangler": "3.76.0"
   }
 }
