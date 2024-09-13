@@ -1,14 +1,11 @@
 <script setup lang="ts">
+import type { User } from '#auth-utils'
 import type { DropdownItem } from '#ui/types'
 
-const { user, clear } = useUserSession()
-
-if (!user.value) {
-  throw createError({
-    message: 'User not found',
-    statusCode: 404,
-  })
-}
+const { user, clear } = defineProps<{
+  user: User
+  clear: () => Promise<void>
+}>()
 
 const logout = async () => {
   await clear()
@@ -18,7 +15,7 @@ const logout = async () => {
 const items: DropdownItem[][] = [
   [
     {
-      label: user.value.email,
+      label: user.email,
       slot: 'account',
       disabled: true,
     },
@@ -40,7 +37,6 @@ const items: DropdownItem[][] = [
 
 <template>
   <UDropdown
-    v-if="user"
     :items="items"
     :ui="{ item: { disabled: 'cursor-text select-text' } }"
     :popper="{ placement: 'bottom-start' }"

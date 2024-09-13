@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { HeaderLink } from '@nuxt/ui-pro/types'
 
-const { loggedIn } = useUserSession()
-
 const links: HeaderLink[] = [
   { label: 'App', to: '/app' },
 ]
@@ -14,16 +12,21 @@ const links: HeaderLink[] = [
     :links
   >
     <template #right>
-      <template v-if="loggedIn">
-        <UserMenuAvatarDropdown />
-      </template>
-      <template v-else>
-        <UButton
-          to="/login"
-          label="Login"
-          variant="soft"
-        />
-      </template>
+      <AuthState v-slot="{ loggedIn, clear, user }">
+        <template v-if="loggedIn">
+          <UserMenuAvatarDropdown
+            :user="user!"
+            :clear="clear"
+          />
+        </template>
+        <template v-else>
+          <UButton
+            to="/login"
+            label="Login"
+            variant="soft"
+          />
+        </template>
+      </AuthState>
     </template>
   </UHeader>
 </template>
