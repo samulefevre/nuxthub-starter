@@ -3,7 +3,7 @@ import { startSpan } from '@sentry/nuxt'
 
 import type { DI_RETURN_TYPES } from './types'
 import { DI_SYMBOLS } from './types'
-import { UserModule, DeleteAccountTokenModule, MagicLinkModule, EmailModule, ImageModule } from './modules'
+import { DeleteAccountTokenModule, MagicLinkModule, EmailModule, ImageModule } from './modules'
 
 const appContainer = new Container({
   defaultScope: 'Singleton',
@@ -41,7 +41,7 @@ export const initializeContainer = (config?: Config) => {
     }
   }
 
-  appContainer.load(UserModule)
+  // appContainer.load(UserModule)
   appContainer.load(DeleteAccountTokenModule)
   appContainer.load(MagicLinkModule)
   appContainer.load(EmailModule)
@@ -49,7 +49,7 @@ export const initializeContainer = (config?: Config) => {
 }
 
 export const destroyContainer = () => {
-  appContainer.unload(UserModule)
+  // appContainer.unload(UserModule)
   appContainer.unload(DeleteAccountTokenModule)
   appContainer.unload(MagicLinkModule)
   appContainer.unload(EmailModule)

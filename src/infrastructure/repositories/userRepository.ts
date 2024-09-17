@@ -1,11 +1,10 @@
 import { eq } from 'drizzle-orm'
 import type { IUserRepository } from '@@/src/application/repositories'
-import { injectable } from 'inversify'
+
 import { startSpan, captureException } from '@sentry/nuxt'
 import type { User } from '~~/src/entities/models/user'
 import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
-@injectable()
 export class UserRepository implements IUserRepository {
   createUser = async ({
     email,
