@@ -1,4 +1,4 @@
-import { getInjection } from '~~/di/container'
+import { getInjection } from '~~/di/ioc'
 import type { MagicLink } from '~~/src/entities/models/magicLink'
 
 export const deleteMagicLinkUsecase = async (

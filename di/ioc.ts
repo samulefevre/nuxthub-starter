@@ -1,18 +1,37 @@
 import { startSpan } from '@sentry/nuxt'
 // @ts-expect-error awilix is not typed for browser
 import { asClass, createContainer } from 'awilix/lib/awilix.browser.js'
+
 import type { DI_RETURN_TYPES, DI_SYMBOLS } from './types'
-import { UserRepository } from '~~/src/infrastructure/repositories'
+
+import {
+  UserRepository,
+  MagicLinkRepository,
+  DeleteAccountTokenRepository,
+} from '~~/src/infrastructure/repositories'
+
+import {
+  EmailService,
+  ImageService,
+} from '~~/src/infrastructure/services'
+
+const config = useRuntimeConfig()
 
 const container = createContainer()
 
 container.register({
-  // Registering a class
+  // Repositories
   IUserRepository: asClass(UserRepository),
-  // Registering a function
-  // userService: asFunction(UserService),
-  // Registering a value
-  // dbConnection: asValue(dbConnection),
+  IMagicLinkRepository: asClass(MagicLinkRepository),
+  IDeleteAccountTokenRepository: asClass(DeleteAccountTokenRepository),
+
+  // Services
+  IEmailService: asClass(EmailService).inject(() => ({
+    apiKey: config.resendApiKey,
+    baseUrl: config.public.baseUrl,
+    fromEmail: config.emails.fromEmail,
+  })),
+  IImageService: asClass(ImageService),
 })
 
 export function getInjection<K extends keyof typeof DI_SYMBOLS>(

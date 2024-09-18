@@ -1,11 +1,9 @@
 import { randomUUID } from 'uncrypto'
 import { eq, and } from 'drizzle-orm'
 import type { IDeleteAccountTokenRepository } from '@@/src/application/repositories'
-import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
 import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
-@injectable()
 export class DeleteAccountTokenRepository implements IDeleteAccountTokenRepository {
   upsertDeleteAccountToken = async ({
     userId,

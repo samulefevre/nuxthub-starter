@@ -1,17 +1,17 @@
-import 'reflect-metadata'
-import { initializeContainer } from '@@/di/container'
+// import 'reflect-metadata'
+// import { initializeContainer } from '@@/di/container'
 
 import { consola } from 'consola'
 
 export default defineNitroPlugin((nitro) => {
   onHubReady(async () => {
     consola.info('Hub is ready')
-    consola.info('Import reflect-metadata')
+    // consola.info('Import reflect-metadata')
 
     nitro.hooks.hookOnce('beforeResponse', async (event) => {
       consola.info('Initializing container')
       const config = useRuntimeConfig(event)
-      initializeContainer({
+      /* initializeContainer({
         resendApiKey: config.resendApiKey,
         public: {
           baseUrl: config.public.baseUrl,
@@ -19,7 +19,7 @@ export default defineNitroPlugin((nitro) => {
         emails: {
           fromEmail: config.emails.fromEmail,
         },
-      })
+      }) */
     })
   })
 })
