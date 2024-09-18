@@ -1,8 +1,6 @@
-import { injectable } from 'inversify'
 import type { IDeleteAccountTokenRepository } from '~~/src/application/repositories'
 import type { DeleteAccountToken } from '~~/src/entities/models/deleteAccountToken'
 
-@injectable()
 export class DeleteAccountTokenRepositoryMock implements IDeleteAccountTokenRepository {
   private deleteAccountTokens: DeleteAccountToken[] = []
 

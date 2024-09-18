@@ -1,13 +1,11 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { getFileFromUrlUsecase } from '~~/src/application/usecases/image'
-import { destroyContainer, initializeContainer } from '~~/di/container'
+import { destroyContainer, initializeContainerForTests } from '~~/di/ioc'
 
 describe('getFileFromUrlUseCase usecases', () => {
   beforeEach(async () => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {

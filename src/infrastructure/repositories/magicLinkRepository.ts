@@ -77,7 +77,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
     )
   }
 
-  async deleteMagicLink(token: string): Promise<MagicLink | undefined> {
+  async deleteMagicLink(token: string): Promise<MagicLink> {
     return await startSpan(
       {
         name: 'MagicLinkRepository > deleteMagicLink',

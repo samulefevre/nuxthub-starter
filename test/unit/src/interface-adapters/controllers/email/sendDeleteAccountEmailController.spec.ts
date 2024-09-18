@@ -1,16 +1,14 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { sendDeleteAccountEmailController } from '@@/src/interface-adapters/controllers/email/sendDeleteAccountEmailController'
-import { initializeContainer, destroyContainer } from '~~/di/container'
+import { initializeContainerForTests, destroyContainer } from '~~/di/ioc'
 import { createUserUsecase } from '~~/src/application/usecases/user'
 
 describe('sendDeleteAccountEmailController', () => {
   const userData = { email: 'test@example.com', name: 'Test User' }
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {

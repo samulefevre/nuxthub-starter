@@ -1,15 +1,13 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { signInController } from '@@/src/interface-adapters/controllers/auth/signInController'
-import { initializeContainer, destroyContainer } from '~~/di/container'
+import { initializeContainerForTests, destroyContainer } from '~~/di/ioc'
 
 describe('signInController', () => {
   const userData = { email: 'test@example.com', name: 'Test User' }
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {

@@ -1,16 +1,14 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { updateAvatarController } from '@@/src/interface-adapters/controllers/image/updateAvatarController'
-import { initializeContainer, destroyContainer } from '~~/di/container'
+import { initializeContainerForTests, destroyContainer } from '~~/di/ioc'
 import { createUserUsecase } from '~~/src/application/usecases/user'
 
 describe('updateAvatarController', () => {
   const userData = { email: 'test@example.com', name: 'Test User' }
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {

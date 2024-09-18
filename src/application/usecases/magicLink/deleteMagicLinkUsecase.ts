@@ -6,9 +6,5 @@ export const deleteMagicLinkUsecase = async (
   const magicLinkRepository = getInjection('IMagicLinkRepository')
   const magicLink = await magicLinkRepository.deleteMagicLink(token)
 
-  if (!magicLink) {
-    throw new Error('Failed to delete magic link')
-  }
-
   return magicLink
 }

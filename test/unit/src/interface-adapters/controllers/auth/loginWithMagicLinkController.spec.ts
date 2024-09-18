@@ -1,9 +1,7 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { loginWithMagicLinkController } from '@@/src/interface-adapters/controllers/auth/loginWithMagicLinkController'
-import { initializeContainer, destroyContainer } from '~~/di/container'
+import { initializeContainerForTests, destroyContainer } from '~~/di/ioc'
 import { createUserUsecase } from '~~/src/application/usecases/user'
 import { upsertMagicLinkUsecase } from '~~/src/application/usecases/magicLink'
 
@@ -11,7 +9,7 @@ describe('loginWithMagicLinkController', () => {
   const userData = { email: 'test@example.com', name: 'Test User' }
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {

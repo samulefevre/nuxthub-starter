@@ -1,15 +1,13 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { createUserUsecase } from '@@/src/application/usecases/user'
-import { initializeContainer, destroyContainer } from '~~/di/container'
+import { initializeContainerForTests, destroyContainer } from '~~/di/ioc'
 
 describe('createUserUsecase', () => {
   const userData = { email: 'test@example.com', name: 'Test User' }
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {
