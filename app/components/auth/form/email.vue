@@ -27,6 +27,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     emailSend.value = true
     state.email = undefined
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   catch (error) {
     toast.add({
       title: 'Failed to send email',
