@@ -1,5 +1,4 @@
-// import 'reflect-metadata'
-// import { initializeContainer } from '@@/di/container'
+import { initializeContainer } from '@@/di/ioc'
 
 import { consola } from 'consola'
 
@@ -11,7 +10,7 @@ export default defineNitroPlugin((nitro) => {
     nitro.hooks.hookOnce('beforeResponse', async (event) => {
       consola.info('Initializing container')
       const config = useRuntimeConfig(event)
-      /* initializeContainer({
+      initializeContainer({
         resendApiKey: config.resendApiKey,
         public: {
           baseUrl: config.public.baseUrl,
@@ -19,7 +18,7 @@ export default defineNitroPlugin((nitro) => {
         emails: {
           fromEmail: config.emails.fromEmail,
         },
-      }) */
+      })
     })
   })
 })
