@@ -1,4 +1,4 @@
-import { getInjection } from '~~/di/container'
+import { getInjection } from '~~/di/ioc'
 
 export async function sendEmailDeleteAccountUsecase({ email, token }: { email: string, token: string }): Promise<{ ok: true }> {
   const emailService = getInjection('IEmailService')

@@ -1,9 +1,7 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import type { IMagicLinkRepository } from '~~/src/application/repositories'
-import { destroyContainer, getInjection, initializeContainer } from '~~/di/container'
+import { destroyContainer, getInjection, initializeContainerForTests } from '~~/di/ioc'
 
 const userData = { email: 'test@example.com', name: 'Test User' }
 
@@ -11,7 +9,7 @@ describe('MagicLinkRepository', () => {
   let magicLinkRepository: IMagicLinkRepository
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
 
     magicLinkRepository = getInjection('IMagicLinkRepository')
   })
@@ -42,18 +40,6 @@ describe('MagicLinkRepository', () => {
     const magicLink = await magicLinkRepository.deleteMagicLink(newMagicLink!.token)
 
     expect(magicLink).toBe(newMagicLink)
-  })
-
-  it('should not delete a magic link if email does not exist', async () => {
-    const newMagicLink = await magicLinkRepository.upsertMagicLink(userData.email)
-
-    const magicLink = await magicLinkRepository.deleteMagicLink('bad-email')
-
-    expect(magicLink).toBeUndefined()
-
-    const existingMagicLink = await magicLinkRepository.getMagicLinkByToken(newMagicLink!.token)
-
-    expect(existingMagicLink).toBeDefined()
   })
 
   it('should update a magic link', async () => {

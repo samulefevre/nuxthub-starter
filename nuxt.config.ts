@@ -58,21 +58,6 @@ export default defineNuxtConfig({
       // @ts-expect-error - Vite config
       plugins: [vue()],
     },
-    esbuild: {
-      options: {
-        tsconfigRaw: {
-          compilerOptions: {
-            experimentalDecorators: true,
-          },
-        },
-      },
-    },
-    hooks: {
-      'rollup:before'(ctx) {
-        ctx.options.moduleSideEffects.push('reflect-metadata')
-        ctx.options.plugins.push('reflect-metadata')
-      },
-    },
   },
   routeRules: {
     '/app/**': {

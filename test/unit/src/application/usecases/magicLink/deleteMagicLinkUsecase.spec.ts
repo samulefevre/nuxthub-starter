@@ -1,15 +1,13 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { upsertMagicLinkUsecase, deleteMagicLinkUsecase } from '@@/src/application/usecases/magicLink'
-import { initializeContainer, destroyContainer } from '~~/di/container'
+import { initializeContainerForTests, destroyContainer } from '~~/di/ioc'
 
 describe('deleteMagicLinkUsecase', () => {
   const userData = { email: 'test@example.com', name: 'Test User' }
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {
@@ -21,11 +19,13 @@ describe('deleteMagicLinkUsecase', () => {
       email: userData.email,
     })
 
-    console.log('newMagicLinkToken', newMagicLink.token)
+    console.log('newMagicLinkToken1', newMagicLink.token)
 
     expect(newMagicLink).toBeDefined()
 
     const magicLink = await deleteMagicLinkUsecase(newMagicLink.token)
+
+    console.log('MagicLink111', newMagicLink)
 
     expect(magicLink).toBeDefined()
     expect(magicLink?.email).toBe(userData.email)

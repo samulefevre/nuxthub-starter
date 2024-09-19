@@ -1,9 +1,7 @@
-import { injectable } from 'inversify'
 import type { IUserRepository } from '~~/src/application/repositories'
 import { DatabaseOperationError } from '~~/src/entities/errors/common'
 import type { User } from '~~/src/entities/models/user'
 
-@injectable()
 export class UserRepositoryMock implements IUserRepository {
   private users: User[] = []
 

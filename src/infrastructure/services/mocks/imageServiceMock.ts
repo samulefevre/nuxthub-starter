@@ -1,8 +1,6 @@
-import { injectable } from 'inversify'
 import type { IImageService } from '~~/src/application/services'
 import type { Image } from '~~/src/entities/models/image'
 
-@injectable()
 export class ImageServiceMock implements IImageService {
   saveAvatar({ file, userId }: { file: File, userId: number }): Promise<Image> {
     const newFileName = `avatar-fakeuuid`

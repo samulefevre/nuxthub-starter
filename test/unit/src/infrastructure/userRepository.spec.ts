@@ -1,9 +1,7 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import type { IUserRepository } from '~~/src/application/repositories'
 
-import { destroyContainer, getInjection, initializeContainer } from '~~/di/container'
+import { destroyContainer, getInjection, initializeContainerForTests } from '~~/di/ioc'
 
 const userData = { email: 'test@example.com', name: 'Test User' }
 
@@ -11,7 +9,7 @@ describe('UserRepository', () => {
   let userRepository: IUserRepository
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
 
     userRepository = getInjection('IUserRepository')
   })

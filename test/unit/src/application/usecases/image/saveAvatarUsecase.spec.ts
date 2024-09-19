@@ -1,10 +1,8 @@
-import 'reflect-metadata'
-
 import fs from 'fs'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import { saveAvatarUsecase } from '~~/src/application/usecases/image/saveAvatarUsecase'
-import { destroyContainer, initializeContainer } from '~~/di/container'
+import { destroyContainer, initializeContainerForTests } from '~~/di/ioc'
 
 describe('saveAvatar usecases', () => {
   const image = fs.readFileSync('test/unit/images/avatar-man.jpg')
@@ -16,7 +14,7 @@ describe('saveAvatar usecases', () => {
   const userId = 1
 
   beforeEach(async () => {
-    initializeContainer()
+    initializeContainerForTests()
   })
 
   afterEach(() => {

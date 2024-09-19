@@ -1,4 +1,4 @@
-import { getInjection } from '~~/di/container'
+import { getInjection } from '~~/di/ioc'
 import type { User } from '~~/src/entities/models/user'
 
 export const createUserUsecase = async ({ email, name }: { email: string, name: string }): Promise<User> => {

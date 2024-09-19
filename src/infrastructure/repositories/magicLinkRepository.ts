@@ -1,12 +1,10 @@
 import { randomUUID } from 'uncrypto'
 import { eq } from 'drizzle-orm'
 import type { IMagicLinkRepository } from '@@/src/application/repositories'
-import { injectable } from 'inversify'
 import { startSpan, captureException } from '@sentry/nuxt'
 import type { MagicLink } from '~~/src/entities/models/magicLink'
 import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
-@injectable()
 export class MagicLinkRepository implements IMagicLinkRepository {
   async getMagicLinkByEmail(email: string): Promise<MagicLink | undefined> {
     return await startSpan(
@@ -79,7 +77,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
     )
   }
 
-  async deleteMagicLink(token: string): Promise<MagicLink | undefined> {
+  async deleteMagicLink(token: string): Promise<MagicLink> {
     return await startSpan(
       {
         name: 'MagicLinkRepository > deleteMagicLink',

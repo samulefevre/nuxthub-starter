@@ -1,4 +1,4 @@
-import { getInjection } from '~~/di/container'
+import { getInjection } from '~~/di/ioc'
 import type { Image } from '~~/src/entities/models/image'
 
 export const saveAvatarUsecase = async ({ file, userId }: { file: File, userId: number }): Promise<Image | undefined> => {

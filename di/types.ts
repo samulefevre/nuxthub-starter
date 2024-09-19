@@ -7,9 +7,9 @@ export interface DI_RETURN_TYPES {
   IMagicLinkRepository: IMagicLinkRepository
   IImageService: IImageService
   IEmailService: IEmailService
-  EmailApiKey: string
-  BaseUrl: string
-  FromEmail: string
+  // EmailApiKey: string
+  // BaseUrl: string
+  // FromEmail: string
 }
 
 export const DI_SYMBOLS = {
@@ -18,7 +18,7 @@ export const DI_SYMBOLS = {
   IMagicLinkRepository: Symbol.for('IMagicLinkRepository'),
   IImageService: Symbol.for('IImageService'),
   IEmailService: Symbol.for('IEmailService'),
-  EmailApiKey: Symbol.for('EmailApiKey'),
-  BaseUrl: Symbol.for('BaseUrl'),
-  FromEmail: Symbol.for('FromEmail'),
+  // EmailApiKey: Symbol.for('EmailApiKey'),
+  // BaseUrl: Symbol.for('BaseUrl'),
+  // FromEmail: Symbol.for('FromEmail'),
 }

@@ -1,15 +1,13 @@
-import 'reflect-metadata'
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 import type { IDeleteAccountTokenRepository } from '~~/src/application/repositories'
-import { destroyContainer, getInjection, initializeContainer } from '~~/di/container'
+import { destroyContainer, getInjection, initializeContainerForTests } from '~~/di/ioc'
 
 describe('DeleteAccountRepository', () => {
   let deleteAccountTokenRepository: IDeleteAccountTokenRepository
 
   beforeEach(() => {
-    initializeContainer()
+    initializeContainerForTests()
 
     deleteAccountTokenRepository = getInjection('IDeleteAccountTokenRepository')
   })
