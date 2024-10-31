@@ -85,6 +85,7 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     locales: ['en', 'fr'],
   },
+  sourcemap: { client: true },
   sentry: {
     sourceMapsUploadOptions: {
       org: process.env.NUXT_SENTRY_ORG,

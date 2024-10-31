@@ -22,7 +22,7 @@
     "@nuxt/ui-pro": "^1.4.4",
     "@nuxthub/core": "^0.8.4",
     "@playwright/test": "^1.48.2",
-    "@sentry/nuxt": "^8.35.0",
+    "@sentry/nuxt": "^8.36.0",
     "@types/better-sqlite3": "^7.6.11",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue-email/components": "^0.0.19",
