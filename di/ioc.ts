@@ -1,6 +1,6 @@
 import { startSpan } from '@sentry/nuxt'
-// @ts-expect-error awilix is not typed for browser
-import { asClass, createContainer } from 'awilix/lib/awilix.browser.js'
+
+import { asClass, createContainer } from 'awilix/browser'
 
 import type { DI_RETURN_TYPES, DI_SYMBOLS } from './types'
 

@@ -1,4 +1,7 @@
-import * as Sentry from "@sentry/nuxt";
+import * as Sentry from '@sentry/nuxt'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 Sentry.init({
   dsn: process.env.NUXT_PUBLIC_SENTRY_DSN,
@@ -6,4 +9,4 @@ Sentry.init({
   debug: true,
   tracesSampleRate: 1,
   environment: process.env.NODE_ENV,
-});
+})

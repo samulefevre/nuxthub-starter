@@ -1,6 +1,6 @@
 import { signInController } from '~~/src/interface-adapters/controllers/auth/signInController'
 
-export default oauthGitHubEventHandler({
+export default defineOAuthGitHubEventHandler({
   config: {
     emailRequired: true,
   },

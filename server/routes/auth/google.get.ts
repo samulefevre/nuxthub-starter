@@ -1,6 +1,6 @@
 import { signInController } from '~~/src/interface-adapters/controllers/auth/signInController'
 
-export default oauthGoogleEventHandler({
+export default defineOAuthGoogleEventHandler({
   config: {
     authorizationParams: {
       access_type: 'offline',
