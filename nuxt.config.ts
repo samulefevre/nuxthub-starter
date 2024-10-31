@@ -92,5 +92,5 @@ export default defineNuxtConfig({
       authToken: process.env.NUXT_SENTRY_AUTH_TOKEN,
     },
   },
-  compatibilityDate: '2024-10-31',
+  compatibilityDate: '2024-09-02',
 })
