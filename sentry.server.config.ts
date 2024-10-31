@@ -5,8 +5,8 @@ dotenv.config()
 
 Sentry.init({
   dsn: process.env.NUXT_PUBLIC_SENTRY_DSN,
-  enabled: true,
-  debug: true,
+  // enabled: process.env.NODE_ENV !== 'test',
+  debug: false,
   tracesSampleRate: 1,
   environment: process.env.NODE_ENV,
 })
