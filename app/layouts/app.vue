@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <UApp>
     <AppHeader />
     <UContainer>
       <UMain class="my-6">
@@ -7,5 +7,5 @@
       </UMain>
     </UContainer>
     <Footer />
-  </div>
+  </UApp>
 </template>
