@@ -58,7 +58,7 @@ const items: DropdownMenuItem[][] = [
         <p>
           Signed in as
         </p>
-        <p class="truncate font-medium text-gray-900 dark:text-white">
+        <p class="truncate font-medium text-neutral-900 dark:text-white">
           {{ item.label }}
         </p>
       </div>
@@ -70,7 +70,7 @@ const items: DropdownMenuItem[][] = [
       <UIcon
         v-if="item.icon"
         :name="item.icon"
-        class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
+        class="flex-shrink-0 h-4 w-4 text-neutral-400 dark:text-neutral-500 ms-auto"
       />
     </template>
   </UDropdownMenu>

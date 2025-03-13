@@ -20,7 +20,7 @@ const deleteAccount = async ({ token }: { token: string }) => {
           Delete Account
         </h3>
       </template>
-      <p class="text-sm text-gray-400">
+      <p class="text-sm text-neutral-400">
         Click the button below to delete your account.
       </p>
       <template #footer>

@@ -10,7 +10,7 @@ const { sendDeleteAccountEmail } = useSettings()
       </h3>
     </template>
     <div class="flex flex-row gap-4 items-center">
-      <p class="text-sm text-gray-400">
+      <p class="text-sm text-neutral-400">
         An email will be sent to you to confirm the deletion of your account.
       </p>
       <UButton
