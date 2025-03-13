@@ -21,7 +21,7 @@ export const useUsersApi = () => {
 
   const sendDeleteAccountEmail = async () => {
     try {
-      return await $fetch(`/api/users/sendDeleteAccountEmail`, {
+      await $fetch(`/api/users/sendDeleteAccountEmail`, {
         method: 'POST',
       })
     }
