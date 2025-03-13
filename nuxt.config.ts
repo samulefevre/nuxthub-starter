@@ -41,7 +41,7 @@ export default defineNuxtConfig({
       appMiddleware: ['auth'],
     },
   },
-  sourcemap: { client: true },
+  sourcemap: { client: 'hidden' },
   // Nuxt 4 directory structure and features
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
   future: { compatibilityVersion: 4 },
@@ -94,5 +94,6 @@ export default defineNuxtConfig({
       project: process.env.NUXT_SENTRY_PROJECT,
       authToken: process.env.NUXT_SENTRY_AUTH_TOKEN,
     },
+
   },
 })
