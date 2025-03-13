@@ -2,11 +2,6 @@ import vue from '@vitejs/plugin-vue'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  extends: ['@nuxt/ui-pro'],
-  // Nuxt 4 directory structure and features
-  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: { compatibilityVersion: 4 },
   // Nuxt Modules
   // https://nuxt.com/modules
   modules: [
@@ -15,12 +10,19 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxthub/core',
     '@nuxt/content',
-    '@nuxt/ui',
+    '@nuxt/ui-pro',
     '@nuxt/eslint',
     'nuxt-auth-utils',
     '@nuxt/image',
     '@nuxtjs/i18n',
   ],
+  devtools: { enabled: true },
+  css: ['~/assets/css/main.css'],
+  content: {
+    // defaultLocale: 'en',
+
+    // locales: ['en', 'fr'],
+  },
   runtimeConfig: {
     public: {
       baseUrl: 'http://localhost:3000',
@@ -34,21 +36,16 @@ export default defineNuxtConfig({
       fromEmail: 'onboarding@resend.dev',
     },
   },
-  eslint: {
-    config: {
-      stylistic: {
-        indent: 2,
-        quotes: 'single',
-        semi: false,
-      },
+  routeRules: {
+    '/app/**': {
+      appMiddleware: ['auth'],
     },
   },
-  hub: {
-    database: true,
-    kv: true,
-    blob: true,
-    cache: true,
-  },
+  sourcemap: { client: true },
+  // Nuxt 4 directory structure and features
+  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
+  future: { compatibilityVersion: 4 },
+  compatibilityDate: '2024-09-02',
   nitro: {
     experimental: {
       // Enable Server API documentation within NuxtHub
@@ -59,9 +56,19 @@ export default defineNuxtConfig({
       plugins: [vue()],
     },
   },
-  routeRules: {
-    '/app/**': {
-      appMiddleware: ['auth'],
+  hub: {
+    database: true,
+    kv: true,
+    blob: true,
+    cache: true,
+  },
+  eslint: {
+    config: {
+      stylistic: {
+        indent: 2,
+        quotes: 'single',
+        semi: false,
+      },
     },
   },
   i18n: {
@@ -81,11 +88,6 @@ export default defineNuxtConfig({
     // vueI18n: './i18n.config.ts',
     strategy: 'prefix_and_default',
   },
-  content: {
-    defaultLocale: 'en',
-    locales: ['en', 'fr'],
-  },
-  sourcemap: { client: true },
   sentry: {
     sourceMapsUploadOptions: {
       org: process.env.NUXT_SENTRY_ORG,
@@ -93,5 +95,4 @@ export default defineNuxtConfig({
       authToken: process.env.NUXT_SENTRY_AUTH_TOKEN,
     },
   },
-  compatibilityDate: '2024-09-02',
 })
