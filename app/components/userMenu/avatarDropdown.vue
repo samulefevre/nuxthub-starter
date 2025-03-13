@@ -46,7 +46,8 @@ const items: DropdownMenuItem[][] = [
   >
     <UButton variant="link">
       <UAvatar
-        :src="user.avatarUrl ? `/images/${user.avatarUrl}` : undefined"
+        provider="nuxthub"
+        :src="user.avatarUrl ? user.avatarUrl : undefined"
         :alt="user.name"
         label="Open"
       />

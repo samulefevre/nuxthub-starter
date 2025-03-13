@@ -22,7 +22,6 @@ const { locale } = useI18n()
         <slot />
       </UMain>
     </UContainer>
-    {{ locale }}
     <Footer />
   </UApp>
 </template>

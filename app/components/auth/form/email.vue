@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
-import type { FormSubmitEvent } from '#ui/types'
+import type { FormSubmitEvent } from '@nuxt/ui'
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -13,9 +13,8 @@ const isSubmitting = ref(false)
 
 const toast = useToast()
 
-const state = reactive({
+const state = reactive<Partial<Schema>>({
   email: undefined,
-  password: undefined,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -31,7 +30,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   catch (error) {
     toast.add({
       title: 'Failed to send email',
-      color: 'red',
+      color: 'error',
     })
   }
   finally {
@@ -58,7 +57,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         class="space-y-4"
         @submit="onSubmit"
       >
-        <UFormGroup
+        <UFormField
           label="Email"
           name="email"
         >
@@ -66,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             v-model="state.email"
             type="email"
           />
-        </UFormGroup>
+        </UFormField>
 
         <UButton
           type="submit"

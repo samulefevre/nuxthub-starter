@@ -26,6 +26,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl: 'http://localhost:3000',
+      siteUrl: 'http://localhost:3000',
       sentry: {
         dsn: '',
         environment: 'development',
@@ -88,6 +89,18 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     // vueI18n: './i18n.config.ts',
     strategy: 'prefix_except_default',
+  },
+  image: {
+    providers: {
+      myProvider: {
+        name: 'nuxthub', // optional value to overrider provider name
+        provider: '~/providers/nuxthub.ts', // Path to custom provider
+        options: {
+          // ... provider options
+          baseURL: process.env.NUXT_PUBLIC_SITE_URL,
+        },
+      },
+    },
   },
   sentry: {
     sourceMapsUploadOptions: {
