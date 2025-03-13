@@ -4,16 +4,16 @@ const { confirmDeleteAccount } = useSettings()
 const route = useRoute()
 const token = route.query.token as string
 
-const modal = useModal()
+const emit = defineEmits<{ close: [boolean] }>()
 
 const deleteAccount = async ({ token }: { token: string }) => {
   await confirmDeleteAccount({ token })
-  modal.close()
+  emit('close', true)
 }
 </script>
 
 <template>
-  <UModal>
+  <UModal :close="{ onClick: () => emit('close', false) }">
     <UCard>
       <template #header>
         <h3 class="font-bold text-lg">
@@ -27,7 +27,7 @@ const deleteAccount = async ({ token }: { token: string }) => {
         <UButton
           label="Delete Account"
           variant="soft"
-          color="red"
+          color="warning"
           @click="deleteAccount({ token })"
         />
       </template>

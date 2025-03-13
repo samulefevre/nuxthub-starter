@@ -16,7 +16,7 @@ const { sendDeleteAccountEmail } = useSettings()
       <UButton
         label="Delete Account"
         variant="soft"
-        color="red"
+        color="error"
         @click="sendDeleteAccountEmail"
       />
     </div>

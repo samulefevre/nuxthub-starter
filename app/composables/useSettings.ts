@@ -27,7 +27,7 @@ export function useSettings() {
     catch (error) {
       toast.add({
         title: (error as Error).message,
-        color: 'red',
+        color: 'error',
       })
     }
 
@@ -45,7 +45,7 @@ export function useSettings() {
     catch (error) {
       toast.add({
         title: (error as Error).message,
-        color: 'red',
+        color: 'error',
       })
     }
   }
@@ -64,7 +64,7 @@ export function useSettings() {
     catch (error) {
       toast.add({
         title: (error as Error).message,
-        color: 'red',
+        color: 'error',
       })
     }
   }

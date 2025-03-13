@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { HeaderLink } from '@nuxt/ui-pro/types'
+import type { NavigationMenuItem } from '#ui/types'
 
 const localePath = useLocalePath()
 
-const links: HeaderLink[] = [
+const links: NavigationMenuItem[] = [
   { label: 'Home', to: '/' },
 ]
 </script>
@@ -21,7 +21,7 @@ const links: HeaderLink[] = [
               <UButton
                 label="App"
                 :to="localePath('/app')"
-                color="black"
+                color="primary"
                 icon="i-heroicons-arrow-right-20-solid"
                 trailing
               />

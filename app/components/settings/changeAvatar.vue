@@ -19,7 +19,7 @@ const { chooseFile } = useSettings()
       <UButton
         label="Change avatar"
         variant="soft"
-        @click="chooseFile"
+        @click="() => chooseFile()"
       />
     </div>
   </UCard>

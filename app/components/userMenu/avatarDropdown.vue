@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import type { User } from '#auth-utils'
-import type { DropdownItem } from '#ui/types'
+import type { DropdownMenuItem } from '#ui/types'
 
 const { user, clear } = defineProps<{
   user: User
   clear: () => Promise<void>
 }>()
 
+const open = ref(false)
+
 const logout = async () => {
   await clear()
   await navigateTo('/')
 }
 
-const items: DropdownItem[][] = [
+const items: DropdownMenuItem[][] = [
   [
     {
       label: user.email,
@@ -29,22 +31,26 @@ const items: DropdownItem[][] = [
     {
       label: 'Sign out',
       icon: 'i-heroicons-arrow-left-on-rectangle',
-      click: async () => await logout(),
+      onSelect: async () => await logout(),
     },
   ],
 ]
 </script>
 
 <template>
-  <UDropdown
+  <UDropdownMenu
+    v-model:open="open"
+    arrow
     :items="items"
-    :ui="{ item: { disabled: 'cursor-text select-text' } }"
     :popper="{ placement: 'bottom-start' }"
   >
-    <UAvatar
-      :src="user.avatarUrl ? `/images/${user.avatarUrl}` : undefined"
-      :alt="user.name"
-    />
+    <UButton variant="link">
+      <UAvatar
+        :src="user.avatarUrl ? `/images/${user.avatarUrl}` : undefined"
+        :alt="user.name"
+        label="Open"
+      />
+    </UButton>
 
     <template #account="{ item }">
       <div class="text-left">
@@ -61,9 +67,10 @@ const items: DropdownItem[][] = [
       <span class="truncate">{{ item.label }}</span>
 
       <UIcon
+        v-if="item.icon"
         :name="item.icon"
         class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
       />
     </template>
-  </UDropdown>
+  </UDropdownMenu>
 </template>

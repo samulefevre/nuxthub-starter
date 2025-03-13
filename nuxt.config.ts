@@ -75,17 +75,19 @@ export default defineNuxtConfig({
     locales: [
       {
         code: 'en',
+        name: 'English',
         language: 'en-US',
         file: 'en.yml',
       }, {
         code: 'fr',
+        name: 'Français',
         language: 'fr-FR',
         file: 'fr.yml',
       },
     ],
     defaultLocale: 'en',
     // vueI18n: './i18n.config.ts',
-    strategy: 'prefix_and_default',
+    strategy: 'prefix_except_default',
   },
   sentry: {
     sourceMapsUploadOptions: {
