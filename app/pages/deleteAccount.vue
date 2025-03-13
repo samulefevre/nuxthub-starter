@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { AccountModalsConfirmDeleteAccount } from '#components'
 
-const modal = useModal()
+const overlay = useOverlay()
+
+const modal = overlay.create(AccountModalsConfirmDeleteAccount)
 
 const openModal = () => {
-  modal.open(AccountModalsConfirmDeleteAccount)
+  modal.open()
 }
 </script>
 

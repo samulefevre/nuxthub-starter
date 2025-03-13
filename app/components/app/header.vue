@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { HeaderLink } from '@nuxt/ui-pro/types'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
-const links: HeaderLink[] = [
+const links: NavigationMenuItem[] = [
   { label: 'App', to: '/app' },
 ]
 </script>

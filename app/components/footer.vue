@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FooterLink } from '@nuxt/ui-pro/types'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
 const links = [{
   label: 'Nuxt UI',
@@ -10,7 +10,7 @@ const links = [{
 }, {
   label: 'Nuxt Studio',
   to: 'https://nuxt.studio',
-}] satisfies FooterLink[]
+}] satisfies NavigationMenuItem[]
 </script>
 
 <template>
