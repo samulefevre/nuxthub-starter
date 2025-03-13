@@ -49,7 +49,7 @@ export default defineNuxtConfig({
   nitro: {
     experimental: {
       // Enable Server API documentation within NuxtHub
-      openAPI: true,
+      // openAPI: true,
     },
     rollupConfig: {
       // @ts-expect-error - Vite config
@@ -83,7 +83,6 @@ export default defineNuxtConfig({
         file: 'fr.yml',
       },
     ],
-    langDir: 'i18n/',
     defaultLocale: 'en',
     // vueI18n: './i18n.config.ts',
     strategy: 'prefix_and_default',
