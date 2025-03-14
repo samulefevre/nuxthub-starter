@@ -19,11 +19,11 @@ A template to skip boring setup
 - install dependancies
 
 ```bash
-bun install
+pnpm install
 ```
 
 - start dev server
 
 ```bash
-bun run dev
+pnpm run dev
 ```
