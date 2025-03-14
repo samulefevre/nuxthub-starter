@@ -48,8 +48,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0(magicast@0.3.5)(nuxt@3.16.0(@parcel/watcher@2.5.1)(@types/node@22.13.10)(better-sqlite3@11.9.0)(db0@0.3.1(better-sqlite3@11.9.0)(drizzle-orm@0.40.0(@cloudflare/workers-types@4.20250313.0)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(better-sqlite3@11.9.0)(gel@2.0.1)))(drizzle-orm@0.40.0(@cloudflare/workers-types@4.20250313.0)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(better-sqlite3@11.9.0)(gel@2.0.1))(eslint@9.22.0(jiti@2.4.2))(ioredis@5.6.0)(lightningcss@1.29.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.35.0)(terser@5.39.0)(typescript@5.8.2)(vite@6.2.2(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.2))(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))
       awilix:
-        specifier: ^12.0.4
-        version: 12.0.4
+        specifier: ^12.0.5
+        version: 12.0.5
       drizzle-orm:
         specifier: ^0.40.0
         version: 0.40.0(@cloudflare/workers-types@4.20250313.0)(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.12)(@types/pg@8.6.1)(better-sqlite3@11.9.0)(gel@2.0.1)
@@ -3100,8 +3100,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
 
-  awilix@12.0.4:
-    resolution: {integrity: sha512-P6bd20vqMiUyjgBAVl+4WixM/MR9O9zsTzd9vS5lTd1eLpFEn6Re4+GeeYzDDE8U1DXL8cO/nTOHofKDEJUfAQ==}
+  awilix@12.0.5:
+    resolution: {integrity: sha512-Qf/V/hRo6DK0FoBKJ9QiObasRxHAhcNi0mV6kW2JMawxS3zq6Un+VsZmVAZDUfvB+MjTEiJ2tUJUl4cr0JiUAw==}
     engines: {node: '>=16.3.0'}
 
   b4a@1.6.7:
@@ -4000,8 +4000,8 @@ packages:
     resolution: {integrity: sha512-pUNxi75F8MJ/GdeKtVLSbYg4ZI34J6C0C7sbL4YOp2exGwen7ZsuBqKzUhXd0qMQ362yET3z+uPwKeg/0C2XCQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-typegen@2.0.0:
-    resolution: {integrity: sha512-70TEVfim9XxuVWQ104cv4x9d3XJt/t7i0u8/m+/6B/Kc21fnznLjF63M/L4/1VtquCoAUw9+N97VzbENuLlexw==}
+  eslint-typegen@2.1.0:
+    resolution: {integrity: sha512-tY9TTx07InS+mQ/+zYnCMHkdsS00GPaQy84PwHiQd2XWwXIptRExKcz1kI8eG1CGg1sBs9mONwSfbGMbvI4fNA==}
     peerDependencies:
       eslint: ^9.0.0
 
@@ -8313,7 +8313,7 @@ snapshots:
       chokidar: 4.0.3
       eslint: 9.22.0(jiti@2.4.2)
       eslint-flat-config-utils: 2.0.1
-      eslint-typegen: 2.0.0(eslint@9.22.0(jiti@2.4.2))
+      eslint-typegen: 2.1.0(eslint@9.22.0(jiti@2.4.2))
       find-up: 7.0.0
       get-port-please: 3.1.2
       mlly: 1.7.4
@@ -10629,7 +10629,7 @@ snapshots:
       postcss: 8.5.3
       postcss-value-parser: 4.2.0
 
-  awilix@12.0.4:
+  awilix@12.0.5:
     dependencies:
       camel-case: 4.1.2
       fast-glob: 3.3.3
@@ -11538,11 +11538,11 @@ snapshots:
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
-  eslint-typegen@2.0.0(eslint@9.22.0(jiti@2.4.2)):
+  eslint-typegen@2.1.0(eslint@9.22.0(jiti@2.4.2)):
     dependencies:
       eslint: 9.22.0(jiti@2.4.2)
       json-schema-to-typescript-lite: 14.1.0
-      ohash: 1.1.6
+      ohash: 2.0.11
 
   eslint-visitor-keys@3.4.3: {}
 
