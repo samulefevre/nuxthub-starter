@@ -3,15 +3,15 @@ import type { NavigationMenuItem } from '#ui/types'
 
 const localePath = useLocalePath()
 
-const links: NavigationMenuItem[] = [
+const links: Ref<NavigationMenuItem[]> = computed(() => [
   { label: 'Home', to: '/' },
-]
+])
 </script>
 
 <template>
   <UHeader
     title="NuxtHub Starter"
-    :links
+    :links="links"
   >
     <template #right>
       <AuthState v-slot="{ loggedIn, clear, user }">

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-const links: NavigationMenuItem[] = [
+const links: Ref<NavigationMenuItem[]> = computed(() => [
   { label: 'App', to: '/app' },
-]
+])
 </script>
 
 <template>
