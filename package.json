@@ -25,7 +25,7 @@
     "@sentry/nuxt": "^9.9.0",
     "@types/better-sqlite3": "^7.6.12",
     "@vercel/nft": "^0.29.2",
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^6.0.3",
     "@vue-email/components": "^0.0.21",
     "@vue-email/render": "^0.0.9",
     "@vueuse/core": "^13.0.0",
