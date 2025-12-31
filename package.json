@@ -57,7 +57,7 @@
     "nuxt-auth-utils": "^0.5.17",
     "playwright-core": "^1.51.1",
     "vitest": "3.0.9",
-    "vue-tsc": "^2.2.8",
+    "vue-tsc": "^3.2.1",
     "wrangler": "4.4.0"
   },
   "packageManager": "pnpm@10.6.5",
