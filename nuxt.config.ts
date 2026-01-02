@@ -18,11 +18,6 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
-  content: {
-    // defaultLocale: 'en',
-
-    // locales: ['en', 'fr'],
-  },
   runtimeConfig: {
     public: {
       baseUrl: 'http://localhost:3000',
@@ -43,10 +38,6 @@ export default defineNuxtConfig({
     },
   },
   sourcemap: { client: 'hidden' },
-  // Nuxt 4 directory structure and features
-  // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: { compatibilityVersion: 4 },
-  compatibilityDate: '2024-09-02',
   nitro: {
     experimental: {
       // Enable Server API documentation within NuxtHub
@@ -54,11 +45,6 @@ export default defineNuxtConfig({
     },
     rollupConfig: {
       plugins: [vue()],
-    },
-    preset: 'cloudflare_module',
-    cloudflare: {
-      deployConfig: true,
-      nodeCompat: true,
     },
   },
   hub: {
@@ -96,9 +82,7 @@ export default defineNuxtConfig({
   image: {
     provider: process.env.NODE_ENV === 'production' ? 'cloudflare' : 'ipx',
     cloudflare: {
-      baseURL: process.env.NODE_ENV === 'production'
-        ? 'https://your-domain.com/images'
-        : 'http://localhost:3000/images',
+      baseURL: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
     },
   },
   sentry: {
