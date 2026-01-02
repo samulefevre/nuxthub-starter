@@ -1,10 +1,10 @@
 import { z } from 'zod'
-import type { schema } from '~~/server/utils/drizzle'
+import type { schema } from 'hub:db'
 
 export type MagicLink = typeof schema.magicLinks.$inferSelect
 
 export const upsertMagicLinkSchema = z.object({
-  email: z.string().email('Invalid email'),
+  email: z.email('Invalid email'),
 })
 
 export type UpsertMagicLinkInput = z.infer<typeof upsertMagicLinkSchema>

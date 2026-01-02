@@ -11,6 +11,10 @@
     "nuxt": {
       "type": "http",
       "url": "https://nuxt.com/mcp"
+    },
+    "Sentry": {
+      "url": "https://mcp.sentry.dev/mcp/samuel-lefevre/nuxthub-starter",
+      "type": "http"
     }
   },
   "inputs": []

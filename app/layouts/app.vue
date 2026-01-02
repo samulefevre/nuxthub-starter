@@ -1,21 +1,12 @@
 <script setup lang="ts">
-import { en, fr } from '@nuxt/ui/locale'
-
-const locales = {
-  en,
-  fr,
-}
-
 useSeoMeta({
   title: 'NuxtHub Starter',
   description: 'A Nuxt template to build your next project quickly.',
 })
-
-const { locale } = useI18n()
 </script>
 
 <template>
-  <UApp :locale="locales[locale]">
+  <UApp>
     <AppHeader />
     <UContainer>
       <UMain class="my-6">

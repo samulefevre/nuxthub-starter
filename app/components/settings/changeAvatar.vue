@@ -1,6 +1,13 @@
 <script setup lang="ts">
 const { user } = useUserSession()
 const { chooseFile } = useSettings()
+
+const config = useRuntimeConfig()
+const baseUrl = config.public.baseUrl
+
+const avatarPath = computed(() => {
+  return user.value?.avatarUrl ? `${baseUrl}/images/${user.value.avatarUrl}` : undefined
+})
 </script>
 
 <template>
@@ -12,8 +19,7 @@ const { chooseFile } = useSettings()
     </template>
     <div class="flex flex-row gap-4 items-center">
       <UAvatar
-        provider="nuxthub"
-        :src="user.avatarUrl ? user.avatarUrl : undefined"
+        :src="avatarPath"
         :alt="user.name"
         size="xl"
       />

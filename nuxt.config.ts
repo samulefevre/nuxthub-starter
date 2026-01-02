@@ -94,15 +94,22 @@ export default defineNuxtConfig({
     strategy: 'prefix_except_default',
   },
   image: {
-    provider: 'cloudflare',
-    cloudflare: { baseURL: '/images' },
+    provider: process.env.NODE_ENV === 'production' ? 'cloudflare' : 'ipx',
+    cloudflare: {
+      baseURL: process.env.NODE_ENV === 'production'
+        ? 'https://your-domain.com/images'
+        : 'http://localhost:3000/images',
+    },
   },
   sentry: {
+    enabled: process.env.NODE_ENV === 'production',
     sourceMapsUploadOptions: {
       org: process.env.NUXT_SENTRY_ORG,
       project: process.env.NUXT_SENTRY_PROJECT,
       authToken: process.env.NUXT_SENTRY_AUTH_TOKEN,
     },
 
+    org: 'samuel-lefevre',
+    project: 'nuxthub-starter',
   },
 })

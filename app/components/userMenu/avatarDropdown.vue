@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { User } from '#auth-utils'
-import type { DropdownMenuItem } from '#ui/types'
+import type { DropdownMenuItem } from '@nuxt/ui'
 
 const { user, clear } = defineProps<{
   user: User
@@ -14,11 +14,11 @@ const logout = async () => {
   await navigateTo('/')
 }
 
-const items: DropdownMenuItem[][] = [
+const items = [
   [
     {
       label: user.email,
-      slot: 'account',
+      slot: 'account' as const,
       disabled: true,
     },
   ], [
@@ -34,7 +34,14 @@ const items: DropdownMenuItem[][] = [
       onSelect: async () => await logout(),
     },
   ],
-]
+] satisfies DropdownMenuItem[][]
+
+const config = useRuntimeConfig()
+const baseUrl = config.public.baseUrl
+
+const avatarPath = computed(() => {
+  return user.avatarUrl ? `${baseUrl}/images/${user.avatarUrl}` : undefined
+})
 </script>
 
 <template>
@@ -46,10 +53,8 @@ const items: DropdownMenuItem[][] = [
   >
     <UButton variant="link">
       <UAvatar
-        provider="nuxthub"
-        :src="user.avatarUrl ? user.avatarUrl : undefined"
+        :src="avatarPath"
         :alt="user.name"
-        label="Open"
       />
     </UButton>
 
@@ -68,9 +73,9 @@ const items: DropdownMenuItem[][] = [
       <span class="truncate">{{ item.label }}</span>
 
       <UIcon
-        v-if="item.icon"
+        v-if="'icon' in item && item.icon"
         :name="item.icon"
-        class="flex-shrink-0 h-4 w-4 text-neutral-400 dark:text-neutral-500 ms-auto"
+        class="shrink-0 h-4 w-4 text-neutral-400 dark:text-neutral-500 ms-auto"
       />
     </template>
   </UDropdownMenu>

@@ -5,7 +5,7 @@ import type { User, CreateUserInput } from '~~/src/entities/models/user'
 
 import { createUserSchema } from '~~/src/entities/models/user'
 
-export async function signInController(input: CreateUserInput): Promise< User> {
+export async function signInController(input: CreateUserInput): Promise<User> {
   return await startSpan(
     {
       name: 'signIn Controller',

@@ -7,5 +7,5 @@ export default eventHandler(async (event) => {
 
   const { pathname } = await getValidatedRouterParams(event, schema.parse)
 
-  return hubBlob().serve(event, pathname)
+  return blob.serve(event, pathname)
 })

@@ -6,6 +6,13 @@ export default defineOAuthGitHubEventHandler({
   },
   async onSuccess(event, { user: githubUser }) {
     try {
+      if (!githubUser.email) {
+        throw createError({
+          message: 'Email is required but not provided by GitHub',
+          statusCode: 400,
+        })
+      }
+
       const user = await signInController({
         email: githubUser.email,
         name: githubUser.name,
