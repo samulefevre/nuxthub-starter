@@ -55,11 +55,11 @@ export default defineNuxtConfig({
     rollupConfig: {
       plugins: [vue()],
     },
-    /* preset: 'cloudflare_module',
+    preset: 'cloudflare_module',
     cloudflare: {
       deployConfig: true,
       nodeCompat: true,
-    }, */
+    },
   },
   hub: {
     db: 'sqlite',
