@@ -38,6 +38,7 @@ export default defineNuxtConfig({
     },
   },
   sourcemap: { client: 'hidden' },
+  compatibilityDate: '2026-01-03',
   nitro: {
     experimental: {
       // Enable Server API documentation within NuxtHub
