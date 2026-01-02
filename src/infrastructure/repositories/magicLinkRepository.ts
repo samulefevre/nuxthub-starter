@@ -5,6 +5,8 @@ import { startSpan, captureException } from '@sentry/nuxt'
 import type { MagicLink } from '~~/src/entities/models/magicLink'
 import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
+import { db, schema } from 'hub:db'
+
 export class MagicLinkRepository implements IMagicLinkRepository {
   async getMagicLinkByEmail(email: string): Promise<MagicLink | undefined> {
     return await startSpan(
@@ -13,7 +15,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
       },
       async () => {
         try {
-          const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.email, email)).get()
+          const magicLink = await db.select().from(schema.magicLinks).where(eq(schema.magicLinks.email, email)).get()
 
           return magicLink
         }
@@ -32,7 +34,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
       },
       async () => {
         try {
-          const magicLink = await useDrizzle().select().from(tables.magicLinks).where(eq(tables.magicLinks.token, token)).get()
+          const magicLink = await db.select().from(schema.magicLinks).where(eq(schema.magicLinks.token, token)).get()
 
           return magicLink
         }
@@ -55,12 +57,12 @@ export class MagicLinkRepository implements IMagicLinkRepository {
       },
       async () => {
         try {
-          const magicLink = await useDrizzle().insert(tables.magicLinks).values({
+          const magicLink = await db.insert(schema.magicLinks).values({
             email,
             token,
             tokenExpiresAt,
           }).onConflictDoUpdate({
-            target: tables.magicLinks.email,
+            target: schema.magicLinks.email,
             set: {
               token,
               tokenExpiresAt,
@@ -84,7 +86,7 @@ export class MagicLinkRepository implements IMagicLinkRepository {
       },
       async () => {
         try {
-          const magicLink = await useDrizzle().delete(tables.magicLinks).where(eq(tables.magicLinks.token, token)).returning().get()
+          const magicLink = await db.delete(schema.magicLinks).where(eq(schema.magicLinks.token, token)).returning().get()
 
           if (!magicLink) {
             throw new DatabaseOperationError('Failed to delete magic link')

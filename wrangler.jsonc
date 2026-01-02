@@ -1,0 +1,61 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nuxthub-starter",
+  "main": "./.output/server/index.mjs",
+  "compatibility_date": "2026-01-02",
+  "assets": {
+    "directory": "./.output/public/",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "r2_buckets": [
+    {
+      "binding": "BLOB",
+      "bucket_name": "nuxthub-starter"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "c06f0c4b1e484097a7629b5f02b3d56c"
+    },
+    {
+      "binding": "KV",
+      "id": "c9b4f2f9f87e4a46b46ccd23a261f8fa"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_id": "7899ae15-03b4-421b-83f2-1e0baa6f9c45"
+    }
+  ],
+  "env": {
+    "preview": {
+      "r2_buckets": [
+        {
+          "binding": "BLOB",
+          "bucket_name": "nuxthub-starter-preview"
+        }
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "CACHE",
+          "id": "80ea6a0160b441e784aa0f1692b56c7d"
+        },
+        {
+          "binding": "KV",
+          "id": "65c0e981fbab412599a4c40279a96946"
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_id": "5a453097-bb08-440d-96f6-cfa9e2cfd9fd"
+        }
+      ]
+    }
+  }
+}

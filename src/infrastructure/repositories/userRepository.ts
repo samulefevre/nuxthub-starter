@@ -5,6 +5,8 @@ import { startSpan, captureException } from '@sentry/nuxt'
 import type { User } from '~~/src/entities/models/user'
 import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
+import { db, schema } from 'hub:db'
+
 export class UserRepository implements IUserRepository {
   createUser = async ({
     email,
@@ -19,11 +21,11 @@ export class UserRepository implements IUserRepository {
       },
       async () => {
         try {
-          const user = await useDrizzle().insert(tables.users).values({
+          const user = await db.insert(schema.users).values({
             name,
             email,
           }).onConflictDoUpdate({
-            target: tables.users.email,
+            target: schema.users.email,
             set: {
               lastLogin: new Date(),
             },
@@ -58,7 +60,7 @@ export class UserRepository implements IUserRepository {
         name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 
         try {
-          const user = await useDrizzle().insert(tables.users).values({
+          const user = await db.insert(schema.users).values({
             name,
             email,
           }).returning().get()
@@ -84,7 +86,7 @@ export class UserRepository implements IUserRepository {
       },
       async () => {
         try {
-          return await useDrizzle().select().from(tables.users).where(eq(tables.users.id, userId)).get()
+          return await db.select().from(schema.users).where(eq(schema.users.id, userId)).get()
         }
         catch (error) {
           captureException(error)
@@ -101,7 +103,7 @@ export class UserRepository implements IUserRepository {
       },
       async () => {
         try {
-          const user = await useDrizzle().select().from(tables.users).where(eq(tables.users.email, email)).get()
+          const user = await db.select().from(schema.users).where(eq(schema.users.email, email)).get()
 
           return user
         }
@@ -126,7 +128,7 @@ export class UserRepository implements IUserRepository {
       },
       async () => {
         try {
-          const user = await useDrizzle().update(tables.users).set(updatedUser).where(eq(tables.users.id, userId)).returning().get()
+          const user = await db.update(schema.users).set(updatedUser).where(eq(schema.users.id, userId)).returning().get()
 
           return user
         }
@@ -145,7 +147,7 @@ export class UserRepository implements IUserRepository {
       },
       async () => {
         try {
-          const user = await useDrizzle().delete(tables.users).where(eq(tables.users.id, userId)).returning().get()
+          const user = await db.delete(schema.users).where(eq(schema.users.id, userId)).returning().get()
 
           if (!user) {
             throw new DatabaseOperationError('Failed to delete user')

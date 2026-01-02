@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxthub/core',
     '@nuxt/content',
-    '@nuxt/ui-pro',
+    '@nuxt/ui',
     '@nuxt/eslint',
     'nuxt-auth-utils',
     '@nuxt/image',
@@ -53,12 +53,16 @@ export default defineNuxtConfig({
       // openAPI: true,
     },
     rollupConfig: {
-      // @ts-expect-error - Vite config
       plugins: [vue()],
     },
+    /* preset: 'cloudflare_module',
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+    }, */
   },
   hub: {
-    database: true,
+    db: 'sqlite',
     kv: true,
     blob: true,
     cache: true,
@@ -87,20 +91,11 @@ export default defineNuxtConfig({
       },
     ],
     defaultLocale: 'en',
-    // vueI18n: './i18n.config.ts',
     strategy: 'prefix_except_default',
   },
   image: {
-    providers: {
-      myProvider: {
-        name: 'nuxthub', // optional value to overrider provider name
-        provider: '~/providers/nuxthub.ts', // Path to custom provider
-        options: {
-          // ... provider options
-          baseURL: process.env.NUXT_PUBLIC_SITE_URL,
-        },
-      },
-    },
+    provider: 'cloudflare',
+    cloudflare: { baseURL: '/images' },
   },
   sentry: {
     sourceMapsUploadOptions: {

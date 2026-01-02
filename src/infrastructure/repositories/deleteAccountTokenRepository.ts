@@ -4,6 +4,8 @@ import type { IDeleteAccountTokenRepository } from '@@/src/application/repositor
 import { startSpan, captureException } from '@sentry/nuxt'
 import { DatabaseOperationError, UnexpectedError } from '~~/src/entities/errors/common'
 
+import { db, schema } from 'hub:db'
+
 export class DeleteAccountTokenRepository implements IDeleteAccountTokenRepository {
   upsertDeleteAccountToken = async ({
     userId,
@@ -20,12 +22,12 @@ export class DeleteAccountTokenRepository implements IDeleteAccountTokenReposito
       },
       async () => {
         try {
-          const deleteAccount = await useDrizzle().insert(tables.deleteAccountTokens).values({
+          const deleteAccount = await db.insert(schema.deleteAccountTokens).values({
             userId,
             token,
             tokenExpiresAt,
           }).onConflictDoUpdate({
-            target: tables.deleteAccountTokens.userId,
+            target: schema.deleteAccountTokens.userId,
             set: {
               token,
               tokenExpiresAt,
@@ -49,10 +51,10 @@ export class DeleteAccountTokenRepository implements IDeleteAccountTokenReposito
       },
       async () => {
         try {
-          const deleteAccountToken = await useDrizzle().select().from(tables.deleteAccountTokens).where(
+          const deleteAccountToken = await db.select().from(schema.deleteAccountTokens).where(
             and(
-              eq(tables.deleteAccountTokens.token, token),
-              eq(tables.deleteAccountTokens.userId, userId),
+              eq(schema.deleteAccountTokens.token, token),
+              eq(schema.deleteAccountTokens.userId, userId),
             )).get()
 
           return deleteAccountToken
@@ -72,10 +74,10 @@ export class DeleteAccountTokenRepository implements IDeleteAccountTokenReposito
       },
       async () => {
         try {
-          const deleteAccountToken = await useDrizzle().delete(tables.deleteAccountTokens).where(
+          const deleteAccountToken = await db.delete(schema.deleteAccountTokens).where(
             and(
-              eq(tables.deleteAccountTokens.token, token),
-              eq(tables.deleteAccountTokens.userId, userId),
+              eq(schema.deleteAccountTokens.token, token),
+              eq(schema.deleteAccountTokens.userId, userId),
             )).returning().get()
 
           if (!deleteAccountToken) {

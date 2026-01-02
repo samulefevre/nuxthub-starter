@@ -1,5 +1,5 @@
 import { randomUUID } from 'uncrypto'
-import { hubBlob } from '@nuxthub/core/dist/runtime/blob/server/utils/blob'
+import { blob } from 'hub:blob'
 import type { IImageService } from '@@/src/application/services'
 
 import { startSpan, captureException } from '@sentry/nuxt'
@@ -20,12 +20,12 @@ export class ImageService implements IImageService {
       async () => {
         try {
           const fileName = `avatar-${randomUUID()}.png`
-          const blob = await hubBlob().put(fileName, file, {
+          const savedFile = await blob.put(fileName, file, {
             addRandomSuffix: false,
             prefix: `${userId}`,
           })
 
-          return blob
+          return savedFile
         }
         catch (error) {
           captureException(error)
@@ -42,7 +42,7 @@ export class ImageService implements IImageService {
       },
       async () => {
         try {
-          await hubBlob().delete(pathname)
+          await blob.delete(pathname)
           return { pathname }
         }
         catch (error) {
