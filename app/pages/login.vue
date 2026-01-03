@@ -7,7 +7,7 @@
     <div class="flex flex-col gap-6">
       <AuthFormGoogle />
       <AuthFormGithub />
-      <UDivider label="Or" />
+      <USeparator label="Or" />
       <AuthFormEmail />
     </div>
   </div>

@@ -1,18 +1,28 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '#ui/types'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
 const localePath = useLocalePath()
 
-const links: Ref<NavigationMenuItem[]> = computed(() => [
-  { label: 'Home', to: '/' },
+const route = useRoute()
+
+const items = computed<NavigationMenuItem[]>(() => [
+  {
+    label: 'Home',
+    to: '/',
+  },
+  {
+    label: 'Login',
+    to: '/login',
+    active: route.path.startsWith('/login'),
+  },
 ])
 </script>
 
 <template>
   <UHeader
     title="NuxtHub Starter"
-    :links="links"
   >
+    <UNavigationMenu :items="items" />
     <template #right>
       <AuthState v-slot="{ loggedIn, clear, user }">
         <template v-if="loggedIn">
@@ -40,6 +50,14 @@ const links: Ref<NavigationMenuItem[]> = computed(() => [
           />
         </template>
       </AuthState>
+    </template>
+
+    <template #body>
+      <UNavigationMenu
+        :items="items"
+        orientation="vertical"
+        class="-mx-2.5"
+      />
     </template>
   </UHeader>
 </template>
