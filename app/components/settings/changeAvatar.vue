@@ -17,6 +17,7 @@ const avatarPath = computed(() => {
         Avatar
       </h3>
     </template>
+    {{ avatarPath }}
     <div class="flex flex-row gap-4 items-center">
       <UAvatar
         :src="avatarPath"
