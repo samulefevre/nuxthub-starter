@@ -93,7 +93,6 @@ export default defineNuxtConfig({
       project: process.env.NUXT_SENTRY_PROJECT,
       authToken: process.env.NUXT_SENTRY_AUTH_TOKEN,
     },
-
     org: 'samuel-lefevre',
     project: 'nuxthub-starter',
   },
