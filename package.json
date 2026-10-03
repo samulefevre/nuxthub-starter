@@ -24,7 +24,7 @@
     "@playwright/test": "^1.57.0",
     "@react-email/render": "^2.0.1",
     "@sentry/nuxt": "^10.32.1",
-    "@types/better-sqlite3": "^7.6.13",
+    "@types/better-sqlite3": "^9.6.0",
     "@vercel/nft": "^1.1.1",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vue-email/components": "^0.0.21",
